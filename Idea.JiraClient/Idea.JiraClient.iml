@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../build.idea/Idea.JiraClient" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Application" />
+    <orderEntry type="module" module-name="ConnectorSupport" />
+    <orderEntry type="module" module-name="CoreComponents" />
+    <orderEntry type="module" module-name="Engine" />
+    <orderEntry type="module" module-name="ExternalApi" />
+    <orderEntry type="module" module-name="ExternalApiService" />
+    <orderEntry type="module" module-name="Launcher" />
+    <orderEntry type="module" module-name="Launcher.JiraClient" />
+    <orderEntry type="module" module-name="Resources.Common" />
+    <orderEntry type="module" module-name="Resources.JiraClient" />
+    <orderEntry type="module" module-name="Services" />
+    <orderEntry type="module" module-name="Utils" />
+    <orderEntry type="library" name="SwingExplorer" level="project" />
+    <orderEntry type="module" module-name="JiraProvider3" />
+  </component>
+</module>

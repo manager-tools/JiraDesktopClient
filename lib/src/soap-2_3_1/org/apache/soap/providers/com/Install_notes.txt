@@ -1,0 +1,42 @@
+From: Rick Rineholt [rineholt@us.ibm.com]
+Sent: Tuesday, March 13, 2001 3:50 PM
+To: jsnell@lemoorenet.com
+Cc: John Feller
+Subject: COM Pluggable provider
+
+1. The zip you sent me contains all of the necessary files including the
+modified Build.xml needed to conditionally compile the COM provider?
+Yes.  Though it now may need to be merged now.
+
+2. There are full instructions on how to build and use the COM Provider?
+I didn't provide specific build instructions.  Having said that its very
+simple:
+   Set up like your would to build the rest of SOAP.
+   Issues vcvars32.bat. Provided by MS as part of MS VS 6.0 (required)
+   Append to your "include" envirnonment var. the name of the directory in
+   your jdk that contains "jni.h"
+   Append to your "lib" environment var. the name of the directory in your
+   jdk that contains "jvm.lib"
+   Issue ant compile com
+If you don't issue the com target it all compiles as before. Nothing in
+SOAP depends on this so as long as the BUILD.xml is  merged in ok nothing
+else should break.
+In samples\com\readme.htm is detailed information about runtime and using.
+
+Very important point:  The build for the sample code is done with a GUI I
+always checked in the dlls since I have never did a build from
+a command line for VB code,  most people don't, I strongly recommend
+checking these in (-kb) because some people may want to run the demo but
+not
+do a build.  The source is ALL there.  If you have VB installed and double
+click on the *.vbp files it will launch VB to edit and buld them.  This is
+explained in the docs. Once again doing this will have no affect on any
+other part of SOAP.
+
+3. All of the code has been thoroughly tested?
+Yes.  But there is always the unexpected.
+
+Rick Rineholt
+"The truth is out there...  All you need is a better search engine!"
+
+rineholt@us.ibm.com

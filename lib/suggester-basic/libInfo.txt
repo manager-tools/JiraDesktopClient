@@ -1,0 +1,15 @@
+The library has been downloaded from http://www.softcorporation.com/products/suggester/
+
+Code is open source, the licence file downloaded.
+Dictionaries are open source and distributable too (as stated on the web page). But some dictionaries come with special licence.
+
+Files:
+
+libInfo.txt			This file
+dictionaries\			all downloaded dictionaries (including not redistributable for commercial purposes, see licences)
+LICENSE.TXT			Suggester license
+Open Source Java Suggester.html	Saved web page http://www.softcorporation.com/products/suggester/ (on 17 Feb 2014)
+spellCheck.config		Default Suggester configuration file, bundled with the library
+src.zip				Library source code downloaded from http://www.softcorporation.com/products/suggester/source/
+suggester-1.1.2.jar		Library as binary files.
+

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.almworks.explorer.MockViewer">
+  <grid id="c974c" binding="myWholePanel" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="47" y="36" width="454" height="305"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="ae6bc" class="javax.swing.JTextField">
+        <constraints>
+          <xy x="84" y="1" width="150" height="21"/>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <name value="ID"/>
+          <text value="ID"/>
+        </properties>
+      </component>
+      <component id="45255" class="javax.swing.JTextField">
+        <constraints>
+          <xy x="54" y="170" width="400" height="21"/>
+          <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <name value="Summary"/>
+          <text value="Summary"/>
+        </properties>
+      </component>
+      <component id="789a2" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="173" width="44" height="14"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Summary"/>
+        </properties>
+      </component>
+      <component id="48cff" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="4" width="11" height="14"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="ID"/>
+        </properties>
+      </component>
+      <component id="5791c" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="32" width="31" height="14"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Status"/>
+        </properties>
+      </component>
+      <component id="84b5d" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="244" y="32" width="50" height="14"/>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Resolution"/>
+        </properties>
+      </component>
+      <component id="ea35b" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="244" y="4" width="37" height="14"/>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Product"/>
+        </properties>
+      </component>
+      <scrollpane id="31d8">
+        <constraints>
+          <xy x="0" y="221" width="454" height="84"/>
+          <grid row="6" column="0" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3">
+            <preferred-size width="-1" height="150"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="68d09" class="javax.swing.JTextArea">
+            <constraints/>
+            <properties>
+              <lineWrap value="true"/>
+              <name value="Description"/>
+              <text value="Description"/>
+              <wrapStyleWord value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <scrollpane id="23a5a">
+        <constraints>
+          <xy x="0" y="81" width="454" height="84"/>
+          <grid row="3" column="0" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="c580b" class="javax.swing.JList">
+            <constraints/>
+            <properties>
+              <name value="CC"/>
+              <opaque value="true"/>
+              <selectionMode value="0"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="4e658" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="59" width="14" height="14"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="CC"/>
+        </properties>
+      </component>
+      <component id="22c7f" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="199" width="53" height="14"/>
+          <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Description"/>
+        </properties>
+      </component>
+      <component id="a2fb1" class="javax.swing.JComboBox">
+        <constraints>
+          <xy x="304" y="28" width="150" height="23"/>
+          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <name value="Resolution"/>
+        </properties>
+      </component>
+      <component id="4cbc6" class="javax.swing.JComboBox">
+        <constraints>
+          <xy x="84" y="28" width="150" height="23"/>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1"/>
+        </constraints>
+        <properties>
+          <name value="Status"/>
+        </properties>
+      </component>
+      <component id="1abb7" class="javax.swing.JComboBox">
+        <constraints>
+          <xy x="304" y="0" width="150" height="23"/>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <name value="Product"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

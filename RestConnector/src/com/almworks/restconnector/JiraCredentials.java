@@ -1,0 +1,102 @@
+package com.almworks.restconnector;
+
+import com.almworks.api.connector.ConnectorException;
+import org.jetbrains.annotations.NotNull;
+
+public interface JiraCredentials {
+  /**
+   * @return expected server username of the user associated with this credentials.
+   *    Returns "" (empty string) if username is not known or anonymous (no JIRA user is associated)
+   * @see #isAnonymous()
+   */
+  @NotNull
+  String getUsername();
+
+  /**
+   * @return true if expected anonymous JIRA connection.
+   * @see #getUsername()
+   */
+  boolean isAnonymous();
+
+  /**
+   * This method is called on every new session when it is just instantiated.
+   * Implementation must ensure that session is properly authenticated
+   * @param session new session
+   */
+  void initNewSession(RestSession session) throws ConnectorException;
+
+  /**
+   * Checks that the session is now logged in and if it seems to be not logged in do log in.<br>
+   * This method can be used even in case authentication data is not known (single sing-on is used) and session creator does not know the actual username.<br>
+   * This method is intended to be used by code that does work via {@link RestSession}
+   * @param fastCheck if true the implementation MAY bypass server access, if it is sure about logged in state, to save network traffic.
+   *                  if false implementation MUST accesses server to ensure.
+   * @throws ConnectorException if network problem or failed to login
+   */
+  void ensureLoggedIn(RestSession restSession, boolean fastCheck) throws ConnectorException;
+
+  /**
+   * Check if response comes from JIRA server.<br>
+   * SSO credentials may assume redirection to some other site or other signs that the session has expired.
+   * @param session current session
+   * @param job current job
+   * @param response job's response
+   * @return true if response seems comes from JIRA (even the session may expired)
+   *         false if response is surely not from JIRA server
+   */
+  @NotNull
+  ResponseCheck checkResponse(RestSession session, RestSession.Job job, @NotNull RestResponse response);
+
+  /**
+   * Request server for username
+   * @param session to access the server
+   * @return updated credentials of the same type
+   */
+  JiraCredentials createUpdated(RestSession session) throws ConnectorException;
+
+  class ResponseCheck {
+    private final String mySureFailed;
+    private final String mySureSuccess;
+    private final String myComment;
+
+    public ResponseCheck(String sureFailed, String sureSuccess, String comment) {
+      mySureFailed = sureFailed;
+      mySureSuccess = sureSuccess;
+      myComment = comment;
+    }
+
+    public static ResponseCheck fail(String message) {
+      return new ResponseCheck(message, null, null);
+    }
+
+    public static ResponseCheck success(String message) {
+      return new ResponseCheck(null, message, null);
+    }
+
+    public static ResponseCheck unsure(String comment) {
+      return new ResponseCheck(null, null, comment);
+    }
+
+    public ResponseCheck assumeSuccess(String message) {
+      return new ResponseCheck(null, message, myComment);
+    }
+
+    public boolean isFailed() {
+      return mySureFailed != null;
+    }
+
+    public boolean isSuccess() {
+      return mySureSuccess != null;
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder builder = new StringBuilder();
+      if (mySureSuccess != null) builder.append("SUCCESS: ").append(mySureSuccess);
+      else if (mySureFailed != null) builder.append("FAILED: ").append(mySureFailed);
+      else builder.append("UNSURE.");
+      if (myComment != null) builder.append(" ").append("Comment: ").append(myComment);
+      return builder.toString();
+    }
+  }
+}

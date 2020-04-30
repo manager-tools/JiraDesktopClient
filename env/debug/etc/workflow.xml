@@ -1,0 +1,169 @@
+<workflow>
+  <condition>
+    <name>Open</name>
+    <filter>status in (UNCONFIRMED NEW ASSIGNED REOPENED)</filter>
+  </condition>
+
+  <condition>
+    <name>Closed</name>
+    <filter>status in (RESOLVED VERIFIED CLOSED)</filter>
+  </condition>
+
+  <action>
+    <name>Resolve as &amp;Fixed</name>
+    <condition>Open</condition>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>RESOLVED</value>
+      </attribute>
+      <attribute>
+        <name>resolution</name>
+        <value>FIXED</value>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Resolve As</name>
+    <condition>Open</condition>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>RESOLVED</value>
+      </attribute>
+      <attribute>
+        <name>resolution</name>
+        <askReference>$(bz.field.Resolution!mnemonic=r):</askReference>
+        <exclude>N/A</exclude>
+        <exclude>DUPLICATE</exclude>
+        <exclude>MOVED</exclude>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Resolve as Duplicate</name>
+    <condition>Open</condition>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>RESOLVED</value>
+      </attribute>
+      <attribute>
+        <name>resolution</name>
+        <value>DUPLICATE</value>
+      </attribute>
+      <attribute>
+        <name>duplicate_of</name>
+        <askString>$(bz.field.DuplicateOf!mnemonic=d):</askString>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Reassign</name>
+    <filter>status in (UNCONFIRMED NEW REOPENED ASSIGNED RESOLVED VERIFIED)</filter>
+    <set>
+      <attribute>
+        <name>assigned_to</name>
+        <askEditableReference>$(bz.field.AssignedTo!mnemonic=s):</askEditableReference>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Confirm</name>
+    <filter>status in (UNCONFIRMED)</filter>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>NEW</value>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Accept</name>
+    <filter>status in (UNCONFIRMED NEW REOPENED)</filter>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>ASSIGNED</value>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Reopen</name>
+    <condition>Closed</condition>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>REOPENED</value>
+      </attribute>
+      <attribute>
+        <name>resolution</name>
+        <value>N/A</value>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Mark as Verified</name>
+    <filter>status in (RESOLVED)</filter>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>VERIFIED</value>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+
+  <action>
+    <name>Mark as Closed</name>
+    <filter>status in (RESOLVED VERIFIED)</filter>
+    <set>
+      <attribute>
+        <name>status</name>
+        <value>CLOSED</value>
+      </attribute>
+      <attribute>
+        <name>comments</name>
+        <askAddTextElement>$(bz.form.label.comment!mnemonic=o):</askAddTextElement>
+      </attribute>
+    </set>
+  </action>
+</workflow>

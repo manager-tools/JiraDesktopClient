@@ -1,0 +1,242 @@
+<!--
+Tag field:
+    type: type of field
+        enum:       single enum.
+        labels:     editable multi-value enum, allow create new enum-value, downloaded/upload as space-separated list
+        multiEnum:  multi-value enum
+        cascade:    editable cascading select
+        text:       raw text field
+        decimal:    number value
+        date:       date value
+        unsupported:unsupported value - do not create any meta info, do not try to show the field values to a user
+
+    static: Applicable to enums. If present defines value type. If absent means custom enum type.
+        project: Project
+        version: Versions (filtered by issue project field)
+        user:    Users
+        group:   User group
+
+    prefix: attribute prefix
+        Default values for enum,multiEnum:
+            custom:                 (singleEnum multiEnum)(RO)?
+            static project:         (singleProject multiProject)(RO?)
+            static version:         (singleVersion multiVersion)(RO?)
+            static user:            (singleUser multiUser)(RO?)
+            static group:           (singleGroup multiGroup)(RO?)
+        Default values for labels:  multiLabels
+        Default values for labels:  multiLabels
+        Default values for scalars: singleCascade
+            text:           readonlyText editableText
+            decimal:        readonlyDecimal editableDecimal
+            date:           (readonlyDay readonlyDateTime) (readonlyDay editableDay)
+
+
+    remoteSearch: Applicable to enums. Use when CustomField.ENUM_SEARCH_TYPE is missing
+        single: force single value search
+        multi: force multi value search
+
+    rendererSeparator: applicable to multiEnum type. Separator to renderer value. Default value is ", ".
+
+    inlineView: applicable to multiEnum type. false (default). Show values in single line on issue viewer.
+
+    noneName: Applicable to enums. "None" (default). Name for nothing-selected constraint.
+
+    lexicalColumnOrder: Applicable to multiEnum. true (default). When true column comparator is lexicographical
+
+    kind: Applicable to text. shortText (default).
+        shortText:  view as single line text on the left, edit with JTextField
+        longText:   view as multi line text on the right, edit with JTextArea
+        url:        view as url link on the left, edit with JTextField
+
+    hasColumn: true (default). If false no column is created for the field
+
+    hasReorder: Applicable to text and decimal. true (default). If false no reorder by field is allowed
+
+    hasViewerField: true (default). If false value is not visible on viewer (otherwise viewer is defined by other values)
+
+    hasSearch: true (default). If false no constraint descriptor is generated (search not allowed by the field)
+
+    showZero: Applicable to decimal.  true (default). If false column renders nothing for zero value ("0" otherwise)
+
+    noRemoteSearch: Applicable to decimal, text, ..?. false (default). If true constraint is unknown for remote search (any constraint is removed when building remote search)
+
+    xmlDisplayName: Applicable to enums. true (default). If false do not get display name from XML (use id as value display name)
+
+    jsonParser: Applicable to enums. Value is used to override default JSON to entity conversion.
+        idOnly:         enum values are presented as String ID, no JSON object. The ID is used to create an Entity identified by the ID.
+        userIdNum:      enum values (users) are presented as String ID and a number or ID and ID in parenthesise (example: "userId:1", "userId(userId)").
+        ghSprint:       enum values are toString of GreenHopper Sprint object, see JCO-1431
+        tempoAccount:   enum values are JSON object. Identified by "id" attribute and named by "name" attribute.
+
+    withTime: Applicable to date. false (default). If true describes date-time field. Otherwise day-only.
+
+    loadFullSet: Applicable to enums. Value is 'true', 'false' or boolean system property name. Default is 'true'.
+                 If set to property name - the value is obtained from the system property.
+                 When set to true remove missing enum values, when synchronizing connection. false - enum values are never removed
+
+Tag editable. If the tag presents the field is editable (and uploadable), otherwise field is read-only
+    editor: editor type
+        Values for single-enums:
+            combo (default):    comboBox editor
+            comboLegal:         comboBox editor, forbids commit of illegal values (inapplicable because of other issue values)
+            radio:              radio button group
+        Values for multi-enums:
+            subset (default):   CompactSubsetEditor
+            checkboxes:         CheckBox list
+
+    upload: upload algorithm
+        Values for text:
+            confirmed (default):    confirm uploaded value (upload failed if server value not equal to upload task)
+            unsure:                 field upload is successful after any no failed upload attempt (affected field)
+    uploadJson: conversion to JSON presentation (applicable to single-enum). By default create JSON object {"id" : <enumId>}
+        Values:
+            rawTextId:          raw String id of enum value
+            intId:              as "rawTextId" but the ID must be an integer. Modification is sent for example as '{ "set" : 1 }'
+
+
+-->
+<!--
+version - xml schema version (text value). Should be updated if parsing algorithm changed
+revision - custom fields configuration revision (positive integer). Should be incremented when new custom field types declared
+-->
+<fields version="3.0.1" revision="16">
+    <field type="enum" key="com.atlassian.jira.plugin.system.customfieldtypes:select">
+        <editable/>
+    </field>
+    <field type="enum" key="com.atlassian.jira.plugin.system.customfieldtypes:radiobuttons">
+        <editable editor="radio"/>
+    </field>
+    <field type="enum" key="com.atlassian.jira.plugin.system.customfieldtypes:project" static="project" remoteSearch="single">
+        <editable/>
+    </field>
+    <field type="enum" key="com.atlassian.jira.plugin.system.customfieldtypes:version" static="version">
+        <editable/>
+    </field>
+    <field type="enum" key="com.atlassian.jira.plugin.system.customfieldtypes:userpicker" static="user">
+        <editable/>
+    </field>
+    <field type="enum" key="com.atlassian.jira.plugin.system.customfieldtypes:grouppicker" static="group">
+        <editable/>
+    </field>
+    <field type="multiEnum" key="com.atlassian.jira.plugin.system.customfieldtypes:multiselect">
+        <editable/>
+    </field>
+    <field type="multiEnum" key="com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes">
+        <editable editor="checkboxes"/>
+    </field>
+    <field type="labels" key="com.atlassian.jira.plugin.system.customfieldtypes:labels" noneName="No Label" inlineView="true" rendererSeparator=" ">
+        <editable/>
+    </field>
+    <field type="multiEnum" key="com.atlassian.jira.plugin.system.customfieldtypes:multiuserpicker" static="user" lexicalColumnOrder="false">
+        <editable/>
+    </field>
+    <field type="multiEnum" key="com.atlassian.jira.plugin.system.customfieldtypes:multigrouppicker" static="group" lexicalColumnOrder="false">
+        <editable/>
+    </field>
+    <field type="multiEnum" key="com.atlassian.jira.plugin.system.customfieldtypes:multiversion" static="version">
+        <editable/>
+    </field>
+    <field type="cascade" key="com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect"/>
+    <field type="text" key="com.atlassian.jira.plugin.system.customfieldtypes:readonlyfield"/>
+    <field type="text" key="com.atlassian.jira.plugin.system.customfieldtypes:textarea" kind="longText" hasColumn="false" hasReorder="false">
+        <editable upload="unsure"/>
+    </field>
+    <field type="text" key="com.atlassian.jira.plugin.system.customfieldtypes:textfield">
+        <editable upload="unsure"/>
+    </field>
+    <field type="text" key="com.atlassian.jira.plugin.system.customfieldtypes:url" kind="url">
+        <editable/>
+    </field>
+    <field type="decimal" key="com.atlassian.jira.plugin.system.customfieldtypes:float">
+        <editable/>
+    </field>
+    <field type="decimal" key="com.atlassian.jira.plugin.system.customfieldtypes:importid" showZero="false"/>
+    <field type="date" key="com.atlassian.jira.plugin.system.customfieldtypes:datetime" withTime="true">
+        <editable/>
+    </field>
+    <field type="date" key="com.atlassian.jira.plugin.system.customfieldtypes:datepicker">
+        <editable/>
+    </field>
+
+<!-- OTHER PLUGINS -->
+
+    <field type="date" key="com.atlassian.jira.ext.charting:firstresponsedate"  withTime="true"/>
+    <field type="decimal" key="org.hakanai.jira.plugins.jira-order-plugin:ordertype" showZero="false"/>
+    <field type="labels" key="com.atlassian.jira.plugin.labels:labels" noneName="No Label" inlineView="true" rendererSeparator=" ">
+        <editable/>
+    </field>
+    <field type="decimal" key="net.sourceforge.atlasbits.jira.order:ordertype" showZero="false">
+        <editable/>
+    </field>
+    <field key="com.atlassian.jira.ext.charting:timeinstatus" type="unsupported"/>
+    <field key="com.oracle.jira.jira-subcomponent-plugin:oracle-subComponentField" type="enum" jsonParser="subComponent"/>
+    <!-- JIRA Service Desk https://marketplace.atlassian.com/plugins/com.atlassian.servicedesk -->
+    <field key="com.atlassian.servicedesk:sd-sla-field" type="unsupported"/>
+
+    <!-- GreenHopper -->
+    <field type="decimal" key="com.pyxis.greenhopper.jira:greenhopper-ranking" showZero="false" noRemoteSearch="true"/>
+    <field type="decimal" key="com.pyxis.greenhopper.jira:gh-global-rank" showZero="false" hasReorder="false" hasViewerField="false" noRemoteSearch="true"/>
+    <field type="unsupported" key="com.pyxis.greenhopper.jira:gh-epic-color"/>
+    <field type="multiEnum" key="com.pyxis.greenhopper.jira:gh-sprint" jsonParser="ghSprint" loadFullSet="jira.sprint.removeClosed"/>
+    <!-- Epic Name does not support remote search due to JIRA does not provide "~" operator - not possible to search by substring -->
+    <field type="text" key="com.pyxis.greenhopper.jira:gh-epic-label" kind="shortText" hasReorder="false" noRemoteSearch="true">
+        <editable/>
+    </field>
+    <field type="enum" key="com.pyxis.greenhopper.jira:gh-epic-status"/>
+
+    <!-- Toolkit -->
+    <field type="enum" key="com.atlassian.jira.toolkit:lastusercommented" jsonParser="idOnly"/> <!-- actually boolean -->
+    <field type="enum" key="com.atlassian.jira.toolkit:assigneedomain" remoteSearch="single"/>
+    <field type="enum" key="com.atlassian.jira.toolkit:reporterdomain" remoteSearch="single" jsonParser="idOnly"/>
+    <field type="multiEnum" key="com.atlassian.jira.toolkit:participants" static="user" lexicalColumnOrder="false" jsonParser="userIdNum"/>
+    <field type="text" key="com.atlassian.jira.toolkit:message" hasColumn="false" hasSearch="false" noRemoteSearch="true"/>
+    <field type="text" key="com.atlassian.jira.toolkit:userproperty" hasSearch="false" noRemoteSearch="true"/>
+    <field type="decimal" key="com.atlassian.jira.toolkit:comments" showZero="false"/>
+    <field type="decimal" key="com.atlassian.jira.toolkit:attachments" showZero="false"/>
+    <field type="date" key="com.atlassian.jira.toolkit:resolveddate" withTime="true"/>
+    <field type="unsupported" key="com.atlassian.jira.toolkit:originalestimate"/>
+    <field type="enum" key="com.atlassian.jira.toolkit:lastupdaterorcommenter" static="user" jsonParser="userIdNum"/>
+    <field key="com.atlassian.jira.toolkit:dayslastcommented" type="unsupported"/>
+
+  <!-- JIRA Database Values Plugin https://marketplace.atlassian.com/plugins/org.deblauwe.jira.plugin.database-values-plugin -->
+  <field type="enum" key="org.deblauwe.jira.plugin.database-values-plugin:databasevaluesselectionfield" prefix="databaseValuesPlugin" xmlDisplayName="false">
+    <editable/>
+  </field>
+
+<!-- JIRA Enhancer Plugin https://marketplace.atlassian.com/plugins/plugin.jep -->
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-closed-user" static="user" type="enum"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-closed-date" type="date" withTime="true"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-inprogress-date" type="date" withTime="true"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-inprogress-user" static="user" type="enum"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-reopened-date" type="date" withTime="true"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-reopened-user" static="user" type="enum"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-resolution-date" type="date" withTime="true"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-resolution-user" static="user" type="enum"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-commented-date" type="date" withTime="true"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:last-user-commented" static="user" type="enum"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:reopened-issue" type="unsupported"/>
+  <field key="com.tuncaysenturk.jira.plugins.jira-enhancer-plugin:reopened-counter" type="unsupported"/>
+  <!-- The following 3 field types are declared as "type":"array" in issue schema, however values are single string ("fieldId":"value").
+  So JIRA may reply array (multi-enum) value instead of single enum value.
+  See https://jira.almworks.com/browse/JCO-1721 for more details
+  -->
+  <field type="enum" key="plugin.jep:last-closed-user" static="user" jsonParser="userIdNum"/>
+  <field type="enum" key="plugin.jep:last-resolution-user" static="user" jsonParser="userIdNum"/>
+  <field type="enum" key="plugin.jep:last-user-commented" static="user" jsonParser="userIdNum"/>
+
+<!-- Tempo (http://www.tempoplugin.com/) -->
+  <field key="is.origo.jira.tempo-plugin:billingKeys" type="enum" jsonParser="idOnly">
+    <editable uploadJson="rawTextId"/>
+  </field>
+  <field key="com.tempoplugin.tempo-accounts:accounts.customfield" type="enum" jsonParser="tempoAccount" loadFullSet="false">
+    <editable uploadJson="intId"/>
+  </field>
+  <field key="com.tempoplugin.tempo-teams:team.customfield" type="unsupported"/>
+
+<!-- nFeed (http://uk.valiantys.com/display/AC/Valiantys+Add-ons https://marketplace.atlassian.com/plugins/com.valiantys.jira.plugins.SQLFeed) -->
+  <field key="com.valiantys.jira.plugins.SQLFeed:com.valiantys.jira.plugins.sqlfeed.customfield.type" type="multiEnum"/>
+
+    <field type="enum" key="org.jboss.labs.jira.plugin.cdw-plugin:cdwtargetreleasebyversion" static="version">
+        <editable/>
+    </field>
+</fields>

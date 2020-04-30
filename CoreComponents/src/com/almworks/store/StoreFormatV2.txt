@@ -1,0 +1,84 @@
+Store is implemented on the series of files, 1 index file and N data files.
+Each data file contains blocks of equal size (say, 500 bytes) and stores only
+data chunks of size lower than block size but higher than lower order file block
+size.
+
+
+Data File Structure:
+
+StoreDataFile ::=
+  FileHeader
+  FreeBlockBitMask
+  [ DataBlock ]*
+
+FileHeader ::=
+  Signature :0x5708EF12   { changed v2 }
+  FileUID :UID
+  HeaderLength :INT2 { including signature, but excluding CRC }
+  DataBlockLength :INT4
+  DataBlockCount :INT4
+  FileVersion :CompactInt { since v2 }
+  [ FileFeature ]*
+  CRC
+
+FreeBlockBitMask ::=
+  BitMaskLengthInBytes :INT2 { usually 4096 bytes, excluding this field }
+  Bits :ByteArray[BitMaskLengthInBytes] (actually bit array of 8*BitMaskLengthInBytes bits)
+
+DataBlock ::=
+  Signature :0xFFEEFFEF             { changed v2 }
+  [ BlockFeature :CompactString ]*  { since v2 }
+  null :CompactString               { since v2 }
+  StorePath :CompactString
+  DataLength :CompactInt { number of bytes that have meaning }
+  Data :ByteArray [DataBlockLength - StorePath.Length - Signature.Length - DataLength.Size - CRC.Length]
+  CRC
+
+
+-- known block features:
+"C" - crypted with DES3 cypher (application-specific key)
+
+=======================
+
+Index File Structure:
+
+StoreIndexFile ::=
+  FileHeader
+  [ FileEntry ]*
+  [ IndexEntry ]*
+  CRC  { of all file - all file is written at one time }
+
+FileHeader ::=
+  Signature :0x5708E1EF       { changed v2 }
+  FileUID :UID
+  FileEntriesNumber :CompactInt
+  IndexEntriesNumber :CompactInt
+
+FileEntry ::=
+  FileEntryMarker :'F'
+  FileName :CompactChar
+  LastSize :CompactInt
+  LastMTime :CompactInt
+  DataBlockSize :CompactInt
+  FormatVersion :CompactInt   { since v2 }
+  [ FileFeature ]*
+  EndOfFeatures :'='
+
+FileFeature ::=
+  '+'
+  FeatureName :CompactString
+
+IndexEntry ::=
+  IndexEntryMarker :'I'
+  StorePath :CompactString
+  FileID :CompactInt { in order of appearance of a file in this index }
+  BlockID :CompactInt { in order of appearance of a block in the file }
+
+CRC ::=
+  CRCMarker :'C'
+  CRC32 :INT4
+
+
+
+
+

@@ -1,0 +1,36 @@
+<!--
+This document contains rules for auto-assign features. To configure
+auto-assign, copy this file into "etc" subfolder of your workspace,
+such as:
+  C:\Documents and Settings\username\.Deskzilla\etc\autoAssign.xml
+
+The auto-assign sequence contains rules. Each rule contains
+a condition and a user. Auto-assign processor goes through all
+rules from top to bottom, checking if the issue satisifies the
+condition, and if it does, the user is selected as the new assignee.
+
+Conditions are currently limited to "in" statements (like in this
+sample) and their combinations with and/or. To write the formula
+correctly, create the condition in query builder and copy-paste it
+into text editor.
+-->
+
+<autoAssign>
+  <!--
+    This sample rule will make all unconfirmed bugs assigned to Joe,
+    when auto-assign is invoked. 
+  -->
+  <!--
+  <rule>
+    <name>Minor severity</name>
+    <user>admin@almworks.com</user>
+    <condition>severity in (minor )</condition>
+  </rule>
+  <rule>
+    <name>Major severity</name>
+    <user>admin</user>
+    <condition>severity in (major )</condition>
+  </rule>
+  -->
+</autoAssign>
+  

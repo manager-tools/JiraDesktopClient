@@ -1,0 +1,31 @@
+<config>
+  <column>
+    <id>KEY</id>
+    <order>1</order>
+    <width>89</width>
+    <reverseSort>false</reverseSort>
+  </column>
+  <column>
+      <id>Icons_StatusTypePriority</id>
+      <order>2</order>
+  </column>
+  <column>
+    <id>SUMMARY</id>
+    <order>3</order>
+  </column>
+  <column>
+    <id>ASSIGNEE_USER</id>
+    <order>4</order>
+    <width>103</width>
+  </column>
+  <column>
+    <id>STATUS_ID</id>
+    <order>5</order>
+    <width>80</width>
+  </column>
+  <column>
+    <id>UPDATED</id>
+    <order>6</order>
+    <width>92</width>
+  </column>
+</config>

@@ -1,0 +1,389 @@
+<html>
+<head><style type="text/css">
+td, th { margin-right: 21px; margin-bottom: 9px; }
+td { margin-left: 5px; }
+body { margin: 0px; }
+  h3 { background-color: #dddddd; color: #000555; padding: 2px 0px 2px 5px; margin-bottom: 0px; font-size: 120%}
+  h4 { padding-left: 5px; margin-top: 9px; margin-bottom: 4px; font-size: 110%}
+div.desc { margin-left: 25px; }
+nobr { color: #222255; font-weight: bold; }
+p.vf { margin-bottom: 15px; }
+</style></head>
+
+<body>
+
+<h3>Client for Jira 3.8.5</h3>
+<div class="desc">This version is open source and <b>UNSUPPORTED</b></div>
+<h4>Improvements</h4>
+<div class="desc">
+    Rebranding of application name and logos<br>
+    ScreenShot utility: better support for multi-monitor configurations<br>
+    Fixed scaling down of image attachments exported to PDF<br>
+    Embedded web browser fixes<br>
+</div>
+
+<h3>JIRA Client 3.8</h3>
+<h4>Log into JIRA with embedded web browser</h4>
+<div class="desc">
+    JIRA Client now can connect to JIRA servers protected by Single Sign On systems.<br>
+    It also supports login with Google account.<br><br>
+    If JIRA Client cannot connect to a JIRA server via standard login dialog, try connecting via web browser.
+</div>
+<h4>SVG support</h4>
+<div class="desc">
+    JIRA Client supports SVG images.<br><br>
+    Now it is able to show type, status and priority icons of modern JIRA.<br><br>
+    Also JIRA Client shows SVG attachments with internal viewer and shows preview on the issue details panel.
+</div>
+<h4>OSX improvements</h4>
+<div class="desc">
+    JIRA Client does not use high performance graphics card.<br>
+    Stability of JIRA Client on OSX is greatly improved.
+</div>
+
+<h3>JIRA Client 3.7</h3>
+<h4>Bundled with Java 8</h4>
+<div class="desc">
+    JIRA Client is fully compatible with Java 8 and can utilize the latest improvements.
+</div>
+<h4>Improved support for versions</h4>
+<div class="desc">
+    Version statuses (not yet released, released, archived) are displayed with an icon.<br><br>
+    Affects Version and Fix Version editors hide archived versions.<br><br>
+    In the versions lists archived versions are displayed separately, after not archived ones.
+</div>
+<h4>Status category color</h4>
+<div class="desc">
+    Status category color is reflected in status icon.
+</div>
+<h4>Support for JIRA 7.0</h4>
+<div class="desc">
+    JIRA Client is compatible with JIRA 7.0.
+</div>
+
+
+<h3>JIRA Client 3.6</h3>
+<h4>Improved Create Issue and Edit Issue forms</h4>
+<div class="desc">
+    Create and Edit forms look almost exactly the same as these screens are configured in your JIRA: fields appear in the same order and grouped into same tabs
+    (this functionality requires JIRA Client Plugin to be installed on the JIRA server).<br><br>
+    You may edit several issues with Edit Issue form.<br><br>
+    Hide any unused or rarely used fields from create/edit forms and quickly show all or some of them if you need them in some specific case.<br><br>
+    Mandatory issue fields are clearly marked.
+</div>
+<h4>Spell Checker</h4>
+<div class="desc">
+    JIRA Client now comes with the built-in spell checker. It supports English, German, French, Spanish and Russian languages and a user dictionary.
+</div>
+<h4>Custom hierarchies</h4>
+<div class="desc">
+    You can define custom hierarchies based on several link types
+</div>
+
+<h3>JIRA Client 3.5</h3>
+<h4>Improved performance</h4>
+<div class="desc">
+  JIRA Client should now consume less memory, load issues faster and produce less server load.
+</div>
+<h4>Customizable "Copy to Clipboard"</h4>
+<div class="desc">
+  Set up action.customcopy.pattern system property with <nobr>Tools | System Properties</nobr> and hit <nobr>Ctrl+Alt+C</nobr> to
+  copy to clipboard the text lines generated with this pattern for every selected issue.
+<br><br>
+  For example, set action.customcopy.pattern to be <nobr>&lt;a href="$url$">$key$ $summary$&lt;/a></nobr> to be able to copy URL links
+  to the selected issues to clipboard with Ctrl+Alt+C.
+</div>
+<h4>Bulk change worklog visibility</h4>
+<div class="desc">
+  Select several worklogs in the issue viewer and click <nobr>Edit Worklogs</nobr>. Select <nobr>Comment</nobr> and/or
+  <nobr>Visibility Level</nobr> checkboxes to change the comment or visibility of the selected worklogs and apply your change to all of
+  them with a single edit.
+</div>
+<h4>Delete comments and attachments</h4>
+<div class="desc">
+  Now JIRA Client lets you to delete comments and attachments from the JIRA server.
+</div>
+
+
+<h3>JIRA Client 3.1</h3>
+<h4>Support for JIRA 5.2 and GreenHopper 6.1</h4>
+<div class="desc">
+  JIRA Client now supports JIRA 5.2 and later versions. Also, the support for the "Epic Name" field was added, which lets you create Epics for GreenHopper 6.1 and later.
+</div>
+<h4>Single distribution</h4>
+<div class="desc">
+  Different JIRA Client editions were merged into one, allowing you to download a single installation package, which works with all kinds of licenses, sponsored servers and
+  servers with JIRA Client Plugin installed.
+</div>
+<h4>Reduced traffic when updating issues</h4>
+<div class="desc">
+  Interactions with JIRA are now more optimized and should place less stress on the server and consume less bandwidth.
+</div>
+
+<h3>JIRA Client 3.0</h3>
+<h4>New Issue Here</h4>
+<div class="desc">
+  Create an issue pre-populated with values according to the selected query using <nobr>Issue | New Issue Here</nobr> or <nobr>Ctrl+Alt+N</nobr>.
+</div>
+<h4>Issue links hierarchy with multiple parents</h4>
+<div class="desc">
+  Issues with multiple parents are now shown multiple times in the table&#8202;&#8212;&#8202;under each of its parents. 
+</div>
+<h4>Add or remove issue links in the New Issue and Edit Issue dialogs</h4>
+<div class="desc">
+  You can now link to existing issues while creating an issue on the <nobr>New Issue</nobr> dialog. You can add or remove links in 
+  the <nobr>Edit Issue</nobr> dialog as well.
+</div>
+<h4>Speed search for text editors</h4>
+<div class="desc">
+  <nobr>Ctrl+F</nobr> now works in all text editors&#8202;&#8212;&#8202;description, comment, work description, etc.
+</div>
+<h4>Quick "me" button</h4>
+<div class="desc">
+  All <nobr>Assignee</nobr> editors now have a button to set you as an assignee. Use it in the New and Edit Issue, 
+  Assign To, and workflow action dialogs.
+</div>
+
+<h3>JIRA Client 2.3.4</h3>
+<h4>Shortcut for Assign To</h4>
+<div class="desc">
+    Assign issues in one move using <nobr>Ctrl+Alt+A</nobr> (<nobr>Cmd+Ctrl+A</nobr>.)
+</div>
+
+<h3>JIRA Client 2.3.2</h3>
+<h4>Support for JIRA 4.2</h4>
+<div class="desc">
+    Atlassian JIRA 4.2 is now supported.
+</div>
+
+<br class="vf">
+
+<h3>JIRA Client 2.3</h3>
+<h4>See the list of issues you have recently changed </h4>
+<div class="desc">
+    JIRA Client now shows the most recently uploaded issue, either new or updated, in the status bar.
+    Just click on that message or press <nobr>Ctrl+/</nobr> to see all your recent uploads. Now it's
+    easy to find the issue that you have just submitted.
+</div>
+<h4>Per-query table configuration</h4>
+<div class="desc">
+    Issue table settings, including selected columns, sorting, and hierarchy setting, are now
+    remembered independently for each query.
+</div>
+<h4>Search for empty fields</h4>
+<div class="desc">
+    <nobr>Is empty</nobr> option has been added to the Query Builder, so you can easily find
+    issues that have certain fields empty.
+</div>
+<h4>Move sub-tasks</h4>
+<div class="desc">
+    You can now convert regular issues to sub-tasks and vice versa using the <nobr>Move</nobr> action.
+    You can also move sub-tasks between parent issues and change their types.
+</div>
+<h4>Edit comments</h4>
+<div class="desc">
+    Now it's possible to edit issue comments with JIRA Client, if you have permissions. Conflict
+    detection and resolution for comments is available.
+</div>
+<h4>Combine and save text searches</h4>
+<div class="desc">
+    A new type of search condition is <nobr>Text Search</nobr>. Text Search conditions work
+    just like Quick Search, but you can use them to make complex, persistent queries.
+</div>
+<h4>Suppress background synchronization</h4>
+<div class="desc">
+    Use <nobr>Right Click | Get Changes in Background</nobr> submenu to suppress background synchronization
+    for rarely used connections.
+</div>
+
+<br class="vf">
+
+<h3>JIRA Client 2.2</h3>
+<h4>Support for JIRA 4.1</h4>
+<div class="desc">
+    Atlassian JIRA 4.1 is now supported.
+</div>
+<h4>Other improvements and fixes</h4>
+<div class="desc">
+    JIRA Client now consistently respects your operating system's font smoothing settings,
+    so all the text you see should look better.
+    <br><br>
+    We have added a new column that uses icons as a compact representation for issue status, type, and priority.
+    The table configuration dialog has also become better.
+    <br><br>
+    You can use <nobr>Right Click | Reload JIRA Configuration</nobr> command on individual connections
+    to save time and network traffic when downloading server-side configuration changes.
+</div>
+
+<br class="vf">
+
+<h3>JIRA Client 2.1.2</h3>
+<h4>Added support for "Resolved" date field</h4>
+<div class="desc">
+  <nobr>Resolved</nobr> field, introduced in JIRA 4, is now supported. You can view resolution date in issue details view and as a column,
+    and you can search using "Resolved" filter.
+    <br><br>
+    Please note that searching using "Resolved" filter on JIRA 3.x will not give any results, as this field is not
+    supported on those versions.
+</div>
+
+<br class="vf">
+
+<h3>JIRA Client 2.1</h3>
+<h4>New connection wizard</h4>
+  <div class="desc">
+  You can easily create a connection to JIRA with a new wizard (<nobr>Connection | New JIRA Connection</nobr>).
+</div>
+<h4>Attach files and screenshots when creating issues</h4>
+  <div class="desc">
+  You can capture a screenshot, edit and attach it directly from New Issue window.
+  Note that you can now <nobr>Undo</nobr> and <nobr>Redo</nobr> your changes in the screenshot editor.
+  <br>
+  Similarly, you can attach a file while creating an issue.
+</div>
+<h4>Quick as-you-type navigation</h4>
+  <div class="desc">
+  Run <nobr>Search | New Query</nobr> or press <nobr>F3</nobr>, select Assignee and focus the list on the right using <nobr>Alt + Click</nobr> or <nobr>Ctrl + Click</nobr>.
+  Start typing any part of the assignee name, and a matching item will be selected. Use arrows to navigate to the next or previous matched name.
+  <br>
+  You can use this feature in any list to quickly locate the desired item. For example, in the last scenario you could start typing "As" to select Assignee in the "Constraint type" list.
+</div>
+<h4>Revamped interface</h4>
+  <div class="desc">
+  We have simplified the interface in numerous places and redesigned the main menu to make it more logical.
+</div>
+<h4>Avoiding illegal values</h4>
+  <div class="desc">
+  <nobr>New Issue</nobr> and <nobr>Edit Issue</nobr> windows now check for illegal values and warn if you try to upload or save them.
+</div>
+<h4>Message panel</h4>
+  <div class="desc">
+  If JIRA Client wants to tell you something about an issue, it shows it in the new message panel found below the issue viewer. If something goes wrong, don't panic! JIRA Client will offer appropriate actions to deal with the problem.
+</div>
+  
+<br class="vf">
+
+<h3>JIRA Client 2.0</h3>
+<h4>Support for JIRA 4</h4>
+  <div class="desc">
+  All JIRA Client features now work with JIRA 4, with the exception of downloading filters saved on JIRA server.
+</div>  
+<h4>Better Time Tracking</h4>
+<div class="desc">
+  <p>Select an issue and use <nobr>Right Click | Work on Issue</nobr> or
+  <nobr>Ctrl+G</nobr> to set it as your current task and start tracking time. Use
+  <nobr>Time | Time Tracking</nobr> menu item or <nobr>Ctrl+M</nobr> to
+  view time tracking control window.
+    <br><br>
+  Click on the big timer at the top of the Time Tracker window to select which value to display:
+    total time spent, time spent by you or time when last work was done.
+    <br><br>
+  Click on <b>Remaining Time</b> or <b>Time Spent</b> to adjust current values.
+    <br><br>
+  Use <nobr>Time | Edit and Publish Timesheet</nobr>
+  to convert tracked time into work log entries and upload them to JIRA. You can use <b>Summary</b> to
+  simply edit total time spent and remaining time, and JIRA Client will adjust work logs accordingly.</p>
+</div>
+<br class="vf">
+
+<h3>JIRA Client 1.5</h3>
+       <h4>Support for Work Log</h4>
+       <div class="desc">If you upgraded from a previous version, reload issues from server (only once) to view work log. Add, edit, delete work log entries in the
+           issue details view. You can also use keyboard shortcut <nobr>Ctrl+[</nobr>.
+       </div>
+
+        <h4>Time Tracking</h4>
+        <div class="desc">Select an issue and use <nobr>Right Click | Work on Issue</nobr> or
+        <nobr>Ctrl+G</nobr> to set it as your current task and start tracking time. Use
+        <nobr>Time | Time Tracking</nobr> menu item or <nobr>Ctrl+M</nobr> to
+        view time tracking control window. Use <nobr>Time | Edit and Publish Timesheet</nobr>
+        to convert tracked time into work log entries and upload them to JIRA.
+            <br><br>
+                Explore auto-pause settings with <nobr>Time | Time Tracking Options</nobr>.
+            <br><br>
+        Note that if you turn on <nobr>File | Use System Tray</nobr> menu option (available on
+            Windows and Mac OS X with Java 6), JIRA Client will show auto-pause notifications and you will also
+            be able to quickly open time tracking control with a single click on the system tray icon.
+        </div>
+
+       <h4>Interface Makeover</h4>
+       <div class="desc">Explore the new interface - most buttons are moved to the issue
+           details view.
+           Actions applicable to issue list are moved to the issue list header area. Issue list header also shows
+           applicable bulk edit actions when multiple issues are selected.
+       </div>
+
+       <h4>Minimize to System Tray</h4>
+       <div class="desc">You can turn on <nobr>File | Use System Tray</nobr> when running
+           on Windows or Mac OS X (with Java 6) to make JIRA Client hide to system tray when you minimize or close its main window.
+        </div>
+  <br class="vf">
+
+<h3>JIRA Client 1.4</h3>
+    <h4>Edit by Drag &amp; Drop</h4>
+    <div class="desc">Select issues and drag them over a query or a distribution node in the Navigation Tree.
+      If drop is possible, the target node is highlighted and a hint showing resulting changes is shown.
+      <br><br>
+      <b>NB:</b> You can bulk edit issues by selecting them and dropping over a query.
+      <br><br>
+      <b>NB:</b> After issues are edited with drag &amp; drop, they are not uploaded automatically.
+      Use <nobr>File | Upload Local Changes</nobr> to upload all changed issues or
+      <nobr>right click | Upload</nobr> to send to server changes to a specific issue.
+      <br><br>
+      <b>NB:</b> You can also use Copy and Paste.
+    </div>
+    <h4>Labels Support</h4>
+    <div class="desc">JIRA Labels plug-in is now supported. If you already have a connection to JIRA with a labels field,
+      then run <nobr>File | Synchronize</nobr> and, after synchronization is finished, <b>restart</b> JIRA Client. You will be able to
+      search for labels, make distribution by label and edit labels (with Edit Issue window or with drag-and-drop).</div>
+    <h4>Watching and Voting</h4>
+    <div class="desc">You can add/remove your vote or change watching status for an issue. If an issue is not fully
+    downloaded, use <nobr>right click | Download</nobr> to get all details from the server before voting and watching actions are available.</div>
+    <h4>Issue References Export/Import</h4>
+    <div class="desc">To export issues, select them and copy to clipboard. You then can paste them into any text editor
+      as a list of issue URLs.
+      <br><br>
+      To import references, select a text that contains issue URLs and copy to clipboard.
+      Then select a local tag node in the Navigation Tree, and <nobr>right click | Paste</nobr>.
+      Before importing, a connection must be configured with the same base URL as the original connection.</div>
+  <br class="vf">
+
+
+  <h3>JIRA Client 1.3</h3>
+    <h4>Screenshot Capture &amp; Edit</h4>
+    <div class="desc">Select an issue and use <nobr>Tools, Attach Screenshot</nobr> menu item to capture screenshot. Alternatively,
+    use <nobr>PrintScreen</nobr> button and the paste the screenshot from clipboard on the issue.</div>
+    <h4>Export to PDF</h4>
+    <div class="desc">Use <nobr>Export</nobr> button and select PDF format. Export attributes, comments, attachments.</div>
+    <h4>Highlight/Filter Issue Table</h4>
+    <div class="desc">Click <nobr>Ctrl+Shift+F</nobr> or use <nobr>Search, Find...</nobr> menu item to open highlight/filter panel
+    in a tab with a table of issues.</div>
+    <h4>Improved Synchronization</h4>
+    <div class="desc">JIRA Client now performs quick update once every 2-3 minutes: server changes will
+      appear in JIRA Client very quickly.</div>
+    <h4>Show Selected Issues in a Tab</h4>
+    <div class="desc">Select one or more issues and hit <nobr>Alt+Enter</nobr>.</div>
+    <h4>View Issue in a Separate Window</h4>
+    <div class="desc">Select an issue and hit <nobr>Shift+Enter</nobr>.</div>
+    <h4>Attach with Drag-and-Drop</h4>
+    <div class="desc">Drag files from operating system and drop them over an issue row in a table. You can also use Copy and
+    Paste.</div>
+  <br class="vf">
+
+<h3>JIRA Client 1.2</h3>
+      <h4>Sub-Task Support</h4>
+      <div class="desc">Run manual synchronization with Ctrl+F5. If your JIRA server allows sub-tasks, you
+        can now create sub-task (use Right Click on a parent task), and arrange sub-tasks into hierarchy.</div>
+      <h4>Issue-Level Security</h4>
+      <div class="desc">Run manual synchronization with Ctrl+F5. If your JIRA project has issue-level security
+        configured, you will be able to view, change and search by this field.</div>
+      <h4>Tags (formerly known as Collections)</h4>
+      <div class="desc">It's now possible to create a query "issue is tagged as ABC", and also create a distribution
+        by Tags. Check out corresponding options in Create Query and Create Distribution dialogs. Tags now are
+        accompanied by icons (you can add your own). To change tags for selected issues, use Ctrl+T or toolbar button.
+      </div>
+      <h4>Backlog Reorder</h4>
+      <div class="desc">Allows to rearrange issues in arbitrary order and store this order in JIRA by using a
+        designated custom field. Run any query and then select Tools-Reorder by Field.</div>
+
+</body></html>

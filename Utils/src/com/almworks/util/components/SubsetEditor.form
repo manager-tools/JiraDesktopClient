@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.almworks.util.components.SubsetEditor.Form">
+  <grid id="293df" binding="myWholePanel" layout-manager="FormLayout">
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:d:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="center:d:grow"/>
+    <colspec value="fill:d:grow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:d:grow"/>
+    <rowgroup>
+      <member index="5"/>
+      <member index="7"/>
+      <member index="9"/>
+      <member index="11"/>
+    </rowgroup>
+    <colgroup>
+      <member index="1"/>
+      <member index="5"/>
+    </colgroup>
+    <constraints>
+      <xy x="28" y="64" width="751" height="432"/>
+    </constraints>
+    <properties>
+      <enabled value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="bf16b" class="javax.swing.JLabel" binding="mySelectedLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="&amp;Selected:"/>
+        </properties>
+      </component>
+      <scrollpane id="e78db">
+        <constraints>
+          <grid row="2" column="0" row-span="10" col-span="1" vsize-policy="7" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="20" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="3d617" class="com.almworks.util.components.AList" binding="myTargetList">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="c6a12" class="javax.swing.JLabel" binding="myAvailableLabel">
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="A&amp;vailable:"/>
+        </properties>
+      </component>
+      <grid id="11ece" binding="mySearchPanel" layout-manager="FormLayout">
+        <rowspec value="center:d:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:max(d;4px):noGrow"/>
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="d76b8" class="javax.swing.JTextField" binding="mySearchText">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="154" height="21"/>
+              </grid>
+              <forms defaultalign-horz="false" defaultalign-vert="false"/>
+            </constraints>
+            <properties>
+              <columns value="10"/>
+            </properties>
+          </component>
+          <component id="6775f" class="com.almworks.util.components.AActionButton" binding="myAddNew">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-vert="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="c6525" class="com.almworks.util.components.AActionButton" binding="myMoveUp">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <focusable value="false"/>
+          <horizontalAlignment value="2"/>
+          <margin top="3" left="5" bottom="3" right="5"/>
+          <text value="Move &amp;Up"/>
+        </properties>
+      </component>
+      <component id="9e848" class="com.almworks.util.components.AActionButton" binding="myMoveDown">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <focusable value="false"/>
+          <horizontalAlignment value="2"/>
+          <margin top="3" left="5" bottom="3" right="5"/>
+          <text value="Move &amp;Down"/>
+        </properties>
+      </component>
+      <component id="d5285" class="com.almworks.util.components.AActionButton" binding="myAdd">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <focusable value="false"/>
+          <horizontalAlignment value="2"/>
+          <horizontalTextPosition value="11"/>
+          <margin top="3" left="5" bottom="3" right="5"/>
+          <text value="&amp;Add"/>
+        </properties>
+      </component>
+      <component id="2c998" class="com.almworks.util.components.AActionButton" binding="myRemove">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <focusable value="false"/>
+          <horizontalAlignment value="2"/>
+          <horizontalTextPosition value="11"/>
+          <margin top="3" left="5" bottom="3" right="5"/>
+          <text value="&amp;Remove"/>
+        </properties>
+      </component>
+      <scrollpane id="149af" binding="mySourceListScrollpane">
+        <constraints>
+          <grid row="4" column="4" row-span="8" col-span="1" vsize-policy="7" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="20" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="8ebea" class="com.almworks.util.components.AList" binding="mySourceList">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>

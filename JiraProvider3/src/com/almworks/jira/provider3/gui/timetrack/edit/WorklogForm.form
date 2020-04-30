@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.almworks.jira.provider3.gui.timetrack.edit.WorklogForm">
+  <grid id="27dc6" binding="myWholePanel" layout-manager="FormLayout">
+    <rowspec value="center:max(p;4px):noGrow"/>
+    <rowspec value="top:9dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):grow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <colspec value="fill:d:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(d;40dlu):grow"/>
+    <rowgroup>
+      <member index="3"/>
+      <member index="5"/>
+      <member index="9"/>
+      <member index="11"/>
+      <member index="13"/>
+      <member index="15"/>
+    </rowgroup>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="62d76" class="javax.swing.JLabel" binding="myStartedLabel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <enabled value="false"/>
+          <labelFor value="aafc7"/>
+          <text value="&amp;Started:"/>
+        </properties>
+      </component>
+      <component id="aafc7" class="com.almworks.util.components.ADateField" binding="myStartTime" custom-create="true">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <columns value="10"/>
+          <enabled value="false"/>
+        </properties>
+      </component>
+      <component id="7ebfd" class="javax.swing.JTextField" binding="mySpentField">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <columns value="10"/>
+          <editable value="true"/>
+          <enabled value="false"/>
+          <horizontalAlignment value="11"/>
+        </properties>
+      </component>
+      <component id="1d586" class="javax.swing.JLabel" binding="myTimeSpentLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <enabled value="false"/>
+          <labelFor value="7ebfd"/>
+          <text value="&amp;Time Spent:"/>
+        </properties>
+      </component>
+      <component id="1de99" class="javax.swing.JLabel" binding="myWorkDescriptionLabel">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <enabled value="false"/>
+          <labelFor value="8c5a0"/>
+          <text value="Work &amp;Description:"/>
+        </properties>
+      </component>
+      <scrollpane id="4865">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="8c5a0" class="javax.swing.JTextArea" binding="myWorkLog">
+            <constraints/>
+            <properties>
+              <columns value="20"/>
+              <enabled value="false"/>
+              <lineWrap value="true"/>
+              <rows value="5"/>
+              <wrapStyleWord value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="5922" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <labelFor value="dab84"/>
+          <text value="&amp;Visible To:"/>
+        </properties>
+      </component>
+      <component id="1ff74" class="javax.swing.JSlider" binding="mySliderSlider" custom-create="true">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <enabled value="false"/>
+          <paintLabels value="true"/>
+          <paintTicks value="true"/>
+          <paintTrack value="true"/>
+          <preferredSize width="350" height="32"/>
+          <valueIsAdjusting value="false"/>
+        </properties>
+        <clientProperties>
+          <JSlider.isFilled class="java.lang.Boolean" value="true"/>
+          <Slider.paintThumbArrowShape class="java.lang.Boolean" value="true"/>
+          <html.disable class="java.lang.Boolean" value="true"/>
+        </clientProperties>
+      </component>
+      <component id="dab84" class="com.almworks.util.components.AComboBox" binding="myViewableBy">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <enabled value="false"/>
+        </properties>
+      </component>
+      <component id="c24e3" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Remaining Time:"/>
+        </properties>
+      </component>
+      <component id="b702e" class="javax.swing.JRadioButton" binding="myAutoAdjust" default-binding="true">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="&amp;Adjust Automatically"/>
+        </properties>
+      </component>
+      <component id="7e413" class="javax.swing.JRadioButton" binding="myDontAdjust" default-binding="true">
+        <constraints>
+          <grid row="12" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Do &amp;Not Change"/>
+        </properties>
+      </component>
+      <grid id="7c8ba" layout-manager="FormLayout">
+        <rowspec value="center:d:grow"/>
+        <colspec value="fill:d:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <constraints>
+          <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="647e9" class="javax.swing.JRadioButton" binding="mySetRemain" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="S&amp;et to"/>
+            </properties>
+          </component>
+          <component id="3add7" class="javax.swing.JTextField" binding="myRemain">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <forms defaultalign-horz="false"/>
+            </constraints>
+            <properties>
+              <columns value="8"/>
+              <horizontalAlignment value="11"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="myAdjustGroup" bound="true">
+      <member id="b702e"/>
+      <member id="7e413"/>
+      <member id="647e9"/>
+    </group>
+  </buttonGroups>
+</form>

@@ -1,0 +1,80 @@
+.hint {
+    -fx-opacity: 60%;
+}
+
+.web-view {
+    -fx-pref-width: 1000px;
+}
+
+.topPanel {
+    -fx-padding: 1em 1.3em 1em 1.3em;
+    -fx-border-color: darkgrey;
+    -fx-border-width: 0 0 1px 0;
+}
+
+/*Box with "No JIRA" or "User connected to JIRA" message*/
+.stateBox {
+    -fx-padding: 0 .8em 0 .5em;
+    -fx-pref-width: 14em;
+    -fx-min-width: 10em;
+}
+
+.spacer {
+    -fx-padding: 0 .5em 0 0;
+    -fx-border-color: darkgrey;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-insets: 0 0 0 1.5em, 0;
+}
+
+/*-----------NAVIGATION*/
+.navigationButton {
+    -fx-background-color: transparent;
+    -fx-focus-traversable: false;
+    -fx-padding: 0.333333em 0.333333em 0.333333em 0.333333em;
+}
+.navigationButton:armed,.navigationButton:hover,.navigationButton:focused {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+}
+
+/*-----------LOCATION*/
+/*Location text field+progress+reload*/
+.locationPane {
+    -fx-padding: 0 0 0 1em;
+    -fx-pref-width: 30em;
+}
+
+.locationText {
+    -fx-background-color: darkgrey, -fx-control-inner-background;
+    -fx-background-insets: 0,1;
+    -fx-background-radius: 4, 3;
+    -fx-border-color: transparent;
+}
+
+.locationText:focused {
+    -fx-background-color: -fx-focus-color, -fx-faint-focus-color, darkgrey, -fx-control-inner-background;
+    -fx-background-insets: -0.5, -1.4, 0,1;
+    -fx-background-radius: 4, 4, 4, 3;
+}
+
+.progressBar {
+    -fx-opacity: 0.5;
+    -fx-border-width: 0;
+    -fx-padding: 0
+}
+
+.reloadButton {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-opacity: 0.8;
+    -fx-focus-traversable: false;
+}
+.reloadButton:armed, .reloadButton:hover {
+    -fx-opacity: 1;
+}
+
+.connectButton {
+    -fx-base: -fx-default-button
+}
+.connectButton:disabled {
+    -fx-base: #ececec
+}

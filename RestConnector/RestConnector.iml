@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="json-simple" level="project" />
+    <orderEntry type="module" module-name="Services" />
+    <orderEntry type="module" module-name="ConnectorSupport" />
+    <orderEntry type="module" module-name="TwoCents" />
+    <orderEntry type="library" name="commons-httpclient" level="project" />
+    <orderEntry type="module" module-name="CoreComponents" />
+    <orderEntry type="library" name="JDOM" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/rc" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="Engine" />
+  </component>
+</module>

@@ -1,0 +1,17 @@
+<project name="Run Generated build file" default="X">
+  <import file="properties.xml"/>
+  <import file="${file.generated}"/>
+  <target name="X"/>
+
+  <target name="setDeliverable">
+    <property name="deliverable" value="${product.name}-${product.buildno}"/>
+  </target>
+
+  <target name="distAll" depends="buildno">
+    <buildDist.jiraclient source="${dir.class.prodcode}" target="${dir.dist}"/>
+    <zip destfile="${dir.dist}/${product.name}-${product.buildno}.zip"
+         update="true">
+      <zipfileset dir="${dir.dist}/${product.name}" prefix="${product.name}"/>
+    </zip>
+  </target>
+</project>

@@ -1,0 +1,32 @@
+<library>
+  <component class="com.almworks.gui.BasicUIComponentDescriptor"/>
+  <component class="com.almworks.explorer.ExplorerComponentDescriptor"/>
+  <component class="com.almworks.exec.ExecutionComponentDescriptor"/>
+  <component class="com.almworks.config.ConfigComponentDescriptor"/>
+  <component class="com.almworks.progress.ProgressComponentDescriptor"/>
+  <component class="com.almworks.engine.EngineComponentDescriptor"/>
+  <component class="com.almworks.store.StoreComponentDescriptor"/>
+  <component class="com.almworks.inquiry.InquiriesComponentDescriptor"/>
+  <component class="com.almworks.sync.SynchronizationWindowComponentDescriptor"/>
+  <component class="com.almworks.passman.PasswordManagerComponentDescriptor"/>
+  <component class="com.almworks.services.HttpComponentsDescriptor"/>
+  <component class="com.almworks.search.TextSearchDescriptor"/>
+  <component class="com.almworks.status.StatusComponentDescriptor"/>
+  <component class="com.almworks.loadstatus.LoadStatusDescriptor"/>
+  <component class="com.almworks.syncreg.SyncRegistryComponent"/>
+  <component class="com.almworks.download.DownloadManagerComponentDescriptor"/>
+  <component class="com.almworks.screenshot.ScreenShooterDescriptor"/>
+  <component class="com.almworks.jira.provider3.app.JiraComponentDescriptor"/>
+  <component class="com.almworks.export.ExportComponentDescriptor"/>
+  <component class="com.almworks.extservice.ExternalApiServiceDescriptor"/>
+  <component class="com.almworks.application.ApplicationComponentsDescriptor"/>
+  <component class="com.almworks.image.ImageComponentsDescriptor"/>
+  <component class="com.almworks.tags.TagsComponentDescriptor"/>
+  <component class="com.almworks.timetrack.impl.TimeTrackingDescriptor"/>
+  <component class="com.almworks.jira.provider3.gui.timetrack.JiraTimeTrackingDescriptor"/>
+  <component class="com.almworks.recentitems.RecentItemsDescriptor"/>
+  <component class="com.almworks.engine.items.ItemStorageDescriptor"/>
+  <component class="com.almworks.itemsync.SyncManagerComponentDescriptor"/>
+  <component class="com.almworks.items.gui.meta.MetaComponentDescriptor"/>
+  <component class="com.almworks.spellcheck.SpellCheckComponentDescriptor"/>
+</library>

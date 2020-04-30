@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.almworks.search.AddScopeDialog">
+  <grid id="4ba9f" binding="myWholePanel" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="35" y="30" width="312" height="216"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <scrollpane id="f83e6">
+        <constraints>
+          <xy x="0" y="25" width="312" height="141"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3">
+            <preferred-size width="-1" height="90"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="3c75a" class="javax.swing.JTextPane" binding="myScopeNodes">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="9c3c2" class="javax.swing.JLabel" binding="myScopeNodesLabel">
+        <constraints>
+          <xy x="0" y="3" width="229" height="14"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="&amp;Scope nodes (selected in the Navigation Tree):"/>
+        </properties>
+      </component>
+      <component id="27d96" class="javax.swing.JLabel" binding="myScopeNameLabel">
+        <constraints>
+          <xy x="0" y="174" width="67" height="14"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Scope &amp;Name:"/>
+        </properties>
+      </component>
+      <component id="9c2ea" class="javax.swing.JTextField" binding="myScopeName">
+        <constraints>
+          <xy x="0" y="196" width="312" height="20"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1"/>
+        </constraints>
+        <properties>
+          <columns value="25"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

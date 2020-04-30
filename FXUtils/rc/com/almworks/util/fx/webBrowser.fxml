@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="myWholePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@webBrowser.css">
+   <children>
+      <GridPane hgap="5.0" styleClass="panel-top">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <StackPane maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" VBox.vgrow="NEVER">
+               <children>
+                  <TextField fx:id="myLocation" maxWidth="1.7976931348623157E308" promptText="http://mycompany.com/" />
+                  <ProgressBar fx:id="myProgressBar" maxWidth="1.7976931348623157E308" opacity="0.25" progress="0.32" />
+               </children>
+            </StackPane>
+            <HBox styleClass="buttons">
+               <children>
+                  <Button fx:id="myBack" mnemonicParsing="false" />
+                  <Button fx:id="myForward" mnemonicParsing="false" />
+                  <Button fx:id="myReload" mnemonicParsing="false" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <WebView fx:id="myWebView" prefHeight="700.0" prefWidth="1000.0" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>

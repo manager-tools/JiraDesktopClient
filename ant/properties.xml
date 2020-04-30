@@ -1,0 +1,36 @@
+<project name="Setup properties" default="propertiesX">
+  <property name="jdk.level.target" value="1.8"/>
+  <property name="jdk.level.source" value="1.8"/>
+
+  <property name="product.name" value="jiraclient"/>
+  <property name="product.name.capitalized" value="Client for Jira"/>
+
+  <property name="dir.project" location="../"/>
+  <property name="dir.sourceRoot" location="${dir.project}"/>
+  <property name="dir.build" location="${dir.project}/build"/>
+  <property name="dir.distimage" location="${dir.project}/env/distimage"/>
+  <property name="dir.lib" location="${dir.project}/lib"/>
+  <property name="dir.build.files" location="${dir.project}/ant/lib"/> <!-- todo move files here -->
+  <property name="dir.class.prodcode" location="${dir.build}/.prodcode"/>
+  <property name="dir.class.testcode" location="${dir.build}/.testcode"/>
+  <property name="dir.test.results" location="${dir.build}/.testresults"/>
+  <property name="dir.dist.public" location="${dir.build}/.pub"/>
+  <property name="dir.dist.jiraclient" location="${dir.build}/.pub/jiraclient"/>
+  <property name="dir.dist" location="${dir.build}/.dist"/>
+  <property name="dir.deliver.tmp" location="${dir.build}/deliver"/>
+  <property name="dir.deliver.out" location="${dir.build}/deliver.out"/>
+
+  <property name="subdir.java.production" value="src"/>
+  <property name="subdir.java.tests" value="tests"/>
+  <property name="subdir.resources" value="rc"/>
+  <property name="subdir.resources.tests" value="tests.rc"/>
+
+  <property name="file.generated" location="generated.xml"/>
+  <property name="file.product.cm" value="${product.name}.properties"/>
+
+  <target name="propertiesX">
+    <fail message="Should not happen"/>
+  </target>
+
+
+</project>

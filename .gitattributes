@@ -1,0 +1,81 @@
+# Boilerplate .gitattributes
+#
+# If you add anything here that might be useful for other (new) projects,
+# consider changing ssh://git/git/template.git
+
+* 		text=auto 	!eol
+
+.*ignore	text
+.gitignore	text
+.gitattributes	text
+
+*.txt		text
+*.java		text 		diff=java
+*.html   	text		diff=html
+*.css    	text
+*.js		text
+*.ts		text
+*.sql		text
+*.properties	text
+*.ipr		text
+*.iml		text
+*.iws		text
+*.xml		text
+*.form		text
+*.dtd		text
+*.xsl		text
+*.xslt		text
+*.plist		text
+*.vm		text
+*.install4j	text
+
+*.cs		text 		diff=csharp
+*.csproj	text		merge=union
+*.sln		text		merge=union	eol=crlf
+*.dsp		text		eol=crlf
+*.dsw		text		eol=crlf
+*.c		text		diff=cpp
+*.cpp		text		diff=cpp
+*.h		text		diff=cpp
+
+*.php		text		diff=php
+*.py		text		diff=python
+
+*.sh		text		eol=lf
+*.bat		text		eol=crlf
+*.cmd		text		eol=crlf
+*.lnk		text		eol=crlf
+Makefile	text
+
+*.png		binary
+*.jpg		binary
+*.gif		binary
+*.license	binary
+*.jar		binary
+*.zip		binary
+*.exe		binary
+*.bin		binary
+*.dat		binary
+*.bmp		binary
+*.ico		binary
+*.pdf		binary
+
+*.json		text
+
+*.jsbe		text            eol=crlf
+*.jsbp		text            eol=crlf
+*.jsbn		text            eol=crlf
+*.jsbh		text            eol=crlf
+*.jsbf		text            eol=crlf
+*.jsbc		text            eol=crlf
+
+*.mp4           binary
+
+*.soy		text
+*.groovy	text
+*.gant		text
+
+README		text
+
+*.pem		text
+*.gpg		text

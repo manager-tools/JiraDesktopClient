@@ -1,0 +1,7 @@
+.content {
+    -fx-background-color: #FFF6D7; /*Same color is mentioned in code*/
+}
+
+.message {
+    -fx-padding: 1em 1.5em 1em 1.5em;
+}

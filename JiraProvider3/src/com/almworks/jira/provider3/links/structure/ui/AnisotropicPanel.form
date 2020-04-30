@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.almworks.jira.provider3.links.structure.ui.StructuresController.AnisotropicPanel">
+  <grid id="27dc6" binding="myWholePanel" layout-manager="FormLayout">
+    <rowspec value="center:25px:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <colspec value="fill:22dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):grow"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <opaque value="false"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="fb03e" class="javax.swing.JCheckBox" binding="myEnabled">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <opaque value="false"/>
+          <text value="CheckBox"/>
+        </properties>
+      </component>
+      <component id="313d2" class="javax.swing.JRadioButton" binding="myInward">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <opaque value="false"/>
+          <text value="RadioButton"/>
+        </properties>
+      </component>
+      <component id="5f9a" class="javax.swing.JRadioButton" binding="myOutward">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <opaque value="false"/>
+          <text value="RadioButton"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="myButtonGroup1">
+      <member id="5f9a"/>
+      <member id="313d2"/>
+    </group>
+  </buttonGroups>
+</form>

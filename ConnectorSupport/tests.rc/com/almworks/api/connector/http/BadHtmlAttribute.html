@@ -1,0 +1,3285 @@
+
+<html>
+<head>
+    <content tag="section">find_link</content>
+	<title>Issue Navigator</title>
+
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" class="ie-f">
+    <tr class="hidden">
+
+
+            <td class="filterFormCell">&nbsp;</td>
+
+
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+
+        <td class="filterFormCell">
+            <!--[if IE]>
+            <table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td>
+            <![endif]-->
+
+
+
+
+
+<!-- JRA-4345 - need to statically include the javascript to address IE6 refresh issue -->
+<script language="javascript" type="text/javascript">
+function openDateRangePicker(formName, previousFieldName, nextFieldName, fieldId)
+{
+
+    var previousFieldValue = document.forms[formName].elements[previousFieldName].value;
+    var nextFieldValue = document.forms[formName].elements[nextFieldName].value;
+
+    var url = '/jira/secure/popups/DateRangePicker.jspa?';
+    url += 'formName=' + formName + '&';
+    url += 'previousFieldName=' + escape(previousFieldName) + '&';
+    url += 'nextFieldName=' + escape(nextFieldName) + '&';
+    url += 'previousFieldValue=' + escape(previousFieldValue) + '&';
+    url += 'nextFieldValue=' + escape(nextFieldValue) + '&';
+    url += 'fieldId=' + escape(fieldId);
+
+    var vWinUsers = window.open(url, 'DateRangePopup', 'status=no,resizable=yes,top=100,left=200,width=580,height=400,scrollbars=yes');
+    vWinUsers.opener = self;
+    vWinUsers.focus();
+}
+
+function show_calendar2(formName, fieldName)
+{
+    var form = document.forms[formName];
+    var element = form.elements[fieldName];
+    var vWinCal = window.open('/jira/secure/popups/Calendar.jspa?form=' + formName + '&field=' + fieldName + '&value=' + escape(element.value) + '&decorator=none', 'Calendar','width=230,height=170,status=no,resizable=yes,top=220,left=200');
+    vWinCal.opener = self;
+    vWinCal.focus();
+}
+
+</script>
+
+<script language="JavaScript" type="text/javascript" src="/jira/includes/js/cascadingUtil.js"></script>
+
+<form action="IssueNavigator.jspa?" name="filterform" method="post">
+
+
+<input type="hidden" name="refreshFilter" id="refreshFilter" value="false" />
+<input type="hidden" name="reset" id="reset" value="update" />
+<input type="hidden" name="usercreated" id="usercreated" value="true"/>
+
+
+<div class="tabwrap filter-menu">
+<ul id="filterFormHeader"  class="tabs horizontal">
+    <li class="tab-title">
+        Filter:
+    </li>
+
+
+        <li>
+            <a href="IssueNavigator.jspa?mode=hide" id="viewfilter" class="item" title="View the issues in your current search / filter" accesskey="V"><strong>View</strong></a>
+        </li>
+
+
+
+
+
+        <li class="active">
+            <strong>New</strong>
+        </li>
+
+
+
+
+
+
+        <li>
+            <a id="managefilters" href="ManageFilters.jspa" class="item" title="View, edit, share and delete your saved filters" accesskey="M"><strong>Manage</strong></a>
+        </li>
+
+
+
+</ul>
+</div>
+
+
+
+
+
+
+
+<div class="filter-description" id="filter-description">
+
+
+
+        <p>
+            You do not currently have a search or filter selected.
+
+
+        </p>
+
+
+</div>
+
+
+<ul class="filter-type">
+    <li>
+
+            Switch to <a id="switchnavtype" href="IssueNavigator!switchView.jspa?navType=advanced&createNew=true">advanced</a> searching
+
+
+    </li>
+</ul>
+
+
+
+
+<table id="filterForm">
+
+
+
+	<tr>
+	<td class="rowHeader fullyCentered" colspan="2">
+        <input type="submit" name="show" value="View &gt;&gt;" class="hiddenButton"/>
+		<input type="submit" name="hide" value="&lt;&lt; View &amp; Hide" id="searchAndHide" />
+		<input type="submit" name="show" value="View &gt;&gt;" id="searchButton" accesskey="S"
+                       title="Press Alt+S to submit form" />
+	</td>
+	</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="pidFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="pid">
+                    Project:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+    <select name="pid" id="pid"  class="standardInputField" multiple="multiple" size="2">
+        <option class="headerOption" value="-1" >All projects</option>
+                                    <option title="Ghost Recon Greenhopper Tasklist" value="10140" selected="selected">Ghost Recon Greenhopper Tasklist</option>
+                        </select>
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="typeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="type">
+                    Issue Type:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+    <select name="type" id="type" class="standardInputField" multiple="multiple" size="5">
+        <option class="headerOption" value="" selected >Any</option>
+                <option value="-2" title="Standard Issue Types" id="type_-2"
+              class="headerOption sectionHeaderOption"                                      >Standard Issue Types</option>
+                <option value="10" title="Epic" id="type_10"
+                                         class="imagebacked 10264 10320 " style="background-image: url('/jira/download/resources/com.pyxis.greenhopper.jira:greenhopper-webactions/images/ico_epic.png');"
+                                     >Epic</option>
+                <option value="9" title="Order" id="type_9"
+                                         class="imagebacked 10000 10264 " style="background-image: url('/jira/images/icons/sales.gif');"
+                                     >Order</option>
+                <option value="-3" title="Sub-Task Issue Types" id="type_-3"
+              class="headerOption sectionHeaderOption"                                      >Sub-Task Issue Types</option>
+                <option value="13" title="Epic Mandate" id="type_13"
+                                         class="imagebacked 10000 10264 " style="background-image: url('/jira/images/icons/blank.gif');"
+                                     >Epic Mandate</option>
+                <option value="5" title="Sub-task" id="type_5"
+                                         class="imagebacked 10000 10230 10264 " style="background-image: url('/jira/ubimages/icons/Jira/task3.gif');"
+                                     >Sub-task</option>
+            </select>
+
+                    <a class="localHelp" href="/jira/secure/ShowConstantsHelp.jspa?decorator=popup#IssueTypes" onclick="var child = window.open('/jira/secure/ShowConstantsHelp.jspa?decorator=popup#IssueTypes', 'jiraLocalHelp', 'width=600, height=500, resizable, scrollbars=yes'); child.focus(); return false;">
+
+        <img src="/jira/images/icons/help_blue.gif" width="16" height="16" align="absmiddle"
+            title="Get local help about locally defined Issue Types"
+        /></a>
+
+    <div id="projectRefreshPanel" class="infoBox" style="display:none;" onclick="refreshDependentFields();">
+        Newly selected projects or issue types may have different versions, components or custom fields. <a id="refresh-dependant-fields" href="#" onclick="refreshDependentFields();return false;">Click here</a> to refresh the search menu.
+    </div>
+
+
+    <script language="JavaScript" type="text/javascript">
+    <!--
+        var projectSelectList   = document.getElementById("pid");
+        var originalProjectValue = getMultiSelectValues(projectSelectList).replace(" -1", ""); // remove the "all projects flag"
+
+        var issueTypeSelectList = document.getElementById("type");
+        var originalIssueTypeValue = getMultiSelectValues(issueTypeSelectList);
+
+        function refreshDependentFields()
+        {
+            var refreshFilter = document.getElementById("refreshFilter");
+            refreshFilter.value = 'true';
+            refreshFilter.form.submit();
+        }
+
+        function toggleRefresh()
+        {
+            if(originalProjectValue   == getMultiSelectValues(projectSelectList).replace(" -1", "") && // remove the "all projects flag"
+               originalIssueTypeValue == getMultiSelectValues(issueTypeSelectList))
+            {
+                document.getElementById("projectRefreshPanel").style.display = 'none';
+            }
+            else
+            {
+                document.getElementById("projectRefreshPanel").style.display = '';
+            }
+        }
+
+        projectSelectList.onchange = toggleRefresh;
+        issueTypeSelectList.onchange = toggleRefresh;
+
+        toggleRefresh();
+    //-->
+    </script>
+
+    <script language="JavaScript" type="text/javascript" src="/jira/includes/js/issuetypes-search.js"></script>
+    <script language="JavaScript" type="text/javascript">
+    <!--
+                   addEntry('10140','10264');
+                dynamicMultiIssueTypeSelect("pid", "type");
+    //-->
+</script>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr class="spacer">
+                <td class="fieldLabelArea">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            </tbody>
+
+
+
+
+
+
+            <tr>
+                <th id="navigator.filter.subheading.textsearchheader" class="rowHeader" colspan="2" onclick="GuiPrefs.toggleVisibility('navigator.filter.subheading.textsearch');" title="Click to hide / show section Text Search">
+                    Text Search
+                </th>
+            </tr>
+            <tbody id="navigator.filter.subheading.textsearch">
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="queryFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="query">
+                    Query:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+    <input type="text" id="query" name="query" class="standardInputField"
+           value=""
+    />
+
+                    <a class="helpLink" href="http://docs.atlassian.com/jira/docs-040/Performing+Text+Searches?clicked=jirahelp" target="_jirahelp">
+
+        <img src="/jira/images/icons/help_blue.gif" width="16" height="16" align="absmiddle"
+            title="Get online help about Performing Text Searches"
+        /></a>
+                    </td>
+    </tr>
+
+<tr>
+    <td class="fieldLabelArea" style="width:30%;">
+        Query Fields:
+    </td>
+    <td class="fieldValueArea" style="width:70%;">
+        <table cellpadding=0 cellspacing=0 border=0 width="100%">
+        <tr>
+        <td nowrap width="50%">
+            <input type="checkbox" id="summaryId" name="summary" value="true"
+                    checked="checked"  >
+            <label for="summaryId">Summary</label>
+        </td>
+        <td nowrap width=50%>
+                            <input type="checkbox" id="descriptionId" name="description" value="true"
+                        checked="checked"  >
+                <label for="descriptionId">Description</label>
+                    </td>
+        </tr>
+        <tr>
+
+        <td nowrap width=50%>
+            <input type="checkbox" id="bodyId" name="body" value="true"
+                    >
+            <label for="bodyId">Comments</label>
+        </td>
+
+        <td nowrap width=50%>
+                            <input type="checkbox" id="environmentId" name="environment" value="true"  >
+                <label for="environmentId">Environment</label>
+                    </td>
+
+        </tr>
+        </table>
+        </td>
+</tr>
+
+
+
+
+
+
+
+
+
+            <tr class="spacer">
+                <td class="fieldLabelArea">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            </tbody>
+
+
+
+
+            <script language="JavaScript" type="text/javascript">
+            <!--
+                restore('navigator.filter.subheading.textsearch');
+            //-->
+            </script>
+
+
+
+            <tr>
+                <th id="common.concepts.projectcomponentsheader" class="rowHeader" colspan="2" onclick="GuiPrefs.toggleVisibility('common.concepts.projectcomponents');" title="Click to hide / show section Components / Versions">
+                    Components / Versions
+                </th>
+            </tr>
+            <tbody id="common.concepts.projectcomponents">
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="fixforFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="fixfor">
+                    Fix For:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="fixfor" id="fixfor" class="standardInputField" multiple="multiple" size="5">
+    <option class="headerOption" value="">Any</option>
+     <option class="headerOption" value="-1" >No Version</option>         <option value="-2"
+         class="sectionHeaderOption"                 >Unreleased Versions</option>
+        <option value="11673"
+                        >Backlog (Whole)</option>
+        <option value="11660"
+                        >Template &amp; Test de Jira</option>
+        <option value="11652"
+                        >Backlog Unscheduled</option>
+        <option value="11670"
+                        >To Delete</option>
+        <option value="11671"
+                        >To Redefine</option>
+        <option value="11672"
+                        >To Change priority </option>
+        <option value="11661"
+                        >Alpha </option>
+        <option value="11675"
+                        >Sprint 30 Avril</option>
+        <option value="11674"
+                        >Sprint 16 Avril</option>
+        <option value="11665"
+                        >Sprint 1 - 19 Mars</option>
+        <option value="11662"
+                        >Sprint 2 - 09 Avril </option>
+        <option value="11653"
+                        >Beta</option>
+        <option value="11681"
+                        >Sprint 28 Mai</option>
+        <option value="11680"
+                        >Sprint 14 mai</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="componentFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="component">
+                    Components:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="component" id="component" class="standardInputField" multiple="multiple" size="5">
+    <option class="headerOption" value="">Any</option>
+     <option class="headerOption" value="-1" >No Component</option>         <option value="10272"
+                        >Adverserial ING.</option>
+        <option value="10240"
+                        >Adverserial Maps</option>
+        <option value="10237"
+                        >Art &amp; Rendering</option>
+        <option value="10243"
+                        >Audio</option>
+        <option value="10238"
+                        >Campaign maps</option>
+        <option value="10245"
+                        >Engine Generic</option>
+        <option value="10273"
+                        >LD Component</option>
+        <option value="10230"
+                        >Main Character</option>
+        <option value="10233"
+                        >Matchmaking Tracking</option>
+        <option value="10242"
+                        >Menus Out-game, Online &amp; TRC</option>
+        <option value="10234"
+                        >NMI &amp; Teammate</option>
+        <option value="10253"
+                        >Online QoS</option>
+        <option value="10251"
+                        >Physics</option>
+        <option value="10260"
+                        >QAC</option>
+        <option value="10235"
+                        >UI &amp; Interface In-game</option>
+        <option value="10270"
+                        >Vehicule  / Civil / Civilians</option>
+        <option value="10271"
+                        >Weapons</option>
+        <option value="10250"
+                        >| === To Be Determined ===</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="versionFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="version">
+                    Affects Versions:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="version" id="version" class="standardInputField" multiple="multiple" size="5">
+    <option class="headerOption" value="">Any</option>
+     <option class="headerOption" value="-1" >No Version</option>         <option value="-2"
+         class="sectionHeaderOption"                 >Unreleased Versions</option>
+        <option value="11673"
+                        >Backlog (Whole)</option>
+        <option value="11660"
+                        >Template &amp; Test de Jira</option>
+        <option value="11652"
+                        >Backlog Unscheduled</option>
+        <option value="11670"
+                        >To Delete</option>
+        <option value="11671"
+                        >To Redefine</option>
+        <option value="11672"
+                        >To Change priority </option>
+        <option value="11661"
+                        >Alpha </option>
+        <option value="11675"
+                        >Sprint 30 Avril</option>
+        <option value="11674"
+                        >Sprint 16 Avril</option>
+        <option value="11665"
+                        >Sprint 1 - 19 Mars</option>
+        <option value="11662"
+                        >Sprint 2 - 09 Avril </option>
+        <option value="11653"
+                        >Beta</option>
+        <option value="11681"
+                        >Sprint 28 Mai</option>
+        <option value="11680"
+                        >Sprint 14 mai</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr class="spacer">
+                <td class="fieldLabelArea">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            </tbody>
+
+
+
+
+            <script language="JavaScript" type="text/javascript">
+            <!--
+                restore('common.concepts.projectcomponents');
+            //-->
+            </script>
+
+
+
+            <tr>
+                <th id="navigator.filter.subheading.issueattributesheader" class="rowHeader" colspan="2" onclick="GuiPrefs.toggleVisibility('navigator.filter.subheading.issueattributes');" title="Click to hide / show section Issue Attributes">
+                    Issue Attributes
+                </th>
+            </tr>
+            <tbody id="navigator.filter.subheading.issueattributes">
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="reporterSelectFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="reporterSelect">
+                    Reporter:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+    <select name="reporterSelect" id="reporterSelect">
+                    <option value="" rel="select.list.none"  >Any User</option>
+                    <option value="issue_no_reporter" rel="select.list.none"  >No Reporter</option>
+                    <option value="specificuser" rel="select.list.user"  >Specify User</option>
+                    <option value="specificgroup" rel="select.list.group"  >Specify Group</option>
+            </select>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="reporterFieldArea">
+    <td  class="fieldLabelArea" >
+          &nbsp;
+        </td>
+            <td class="fieldValueArea">
+
+
+    <div class="ajax_autocomplete" id="reporter_container">
+        <fieldset rel="reporter" class="hidden user-searcher-params">
+            <input type="hidden" id="formName" value="filterform">
+            <input type="hidden" id="fieldName" value="reporter">
+            <input type="hidden" id="userSelect" value="reporterSelect">
+            <input type="hidden" id="multiSelect" value="false">
+            <input type="hidden" id="userPickerEnabled" value="true">        </fieldset>
+    <input type="text" name="reporter" id="reporter" class="standardInputField" value="" />
+
+        <a id="reporterImage" class="user-popup-trigger" href="#"><img title="Select a user" name="reporterImage"  src="/jira/images/icons/filter_public.gif" hspace="0" height="16" width="16" border="0" align="absmiddle" /></a><a id="reporterGroupImage" class="group-popup-trigger"
+       href="#"><img title="Select a group" name="reporterGroupImage"  src="/jira/images/icons/filter_public.gif" hspace="0" height="16" width="16" border="0" align="absmiddle" /></a>
+<div id="reporter_desc" style="display:none;"><font size="1">Start typing to get a list of possible matches.</font></div>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="assigneeSelectFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="assigneeSelect">
+                    Assignee:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+    <select name="assigneeSelect" id="assigneeSelect">
+                    <option value="" rel="select.list.none"  >Any User</option>
+                    <option value="unassigned" rel="select.list.none"  >Unassigned</option>
+                    <option value="specificuser" rel="select.list.user"  >Specify User</option>
+                    <option value="specificgroup" rel="select.list.group"  >Specify Group</option>
+            </select>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="assigneeFieldArea">
+    <td  class="fieldLabelArea" >
+          &nbsp;
+        </td>
+            <td class="fieldValueArea">
+
+
+    <div class="ajax_autocomplete" id="assignee_container">
+        <fieldset rel="assignee" class="hidden user-searcher-params">
+            <input type="hidden" id="formName" value="filterform">
+            <input type="hidden" id="fieldName" value="assignee">
+            <input type="hidden" id="userSelect" value="assigneeSelect">
+            <input type="hidden" id="multiSelect" value="false">
+            <input type="hidden" id="userPickerEnabled" value="true">        </fieldset>
+    <input type="text" name="assignee" id="assignee" class="standardInputField" value="" />
+
+        <a id="assigneeImage" class="user-popup-trigger" href="#"><img title="Select a user" name="assigneeImage"  src="/jira/images/icons/filter_public.gif" hspace="0" height="16" width="16" border="0" align="absmiddle" /></a><a id="assigneeGroupImage" class="group-popup-trigger"
+       href="#"><img title="Select a group" name="assigneeGroupImage"  src="/jira/images/icons/filter_public.gif" hspace="0" height="16" width="16" border="0" align="absmiddle" /></a>
+<div id="assignee_desc" style="display:none;"><font size="1">Start typing to get a list of possible matches.</font></div>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="statusFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="status">
+                    Status:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+<select name="status" id="status" class="standardInputField" multiple="multiple" size="4">
+    <option class="headerOption" value="">Any</option>
+            <option value="1"
+            class="imagebacked" style="background-image: url(/jira/images/icons/status_open.gif);"
+                     >Open</option>
+        <option value="3"
+            class="imagebacked" style="background-image: url(/jira/images/icons/status_inprogress.gif);"
+                     >In Progress</option>
+        <option value="4"
+            class="imagebacked" style="background-image: url(/jira/images/icons/status_reopened.gif);"
+                     >Reopened</option>
+        <option value="5"
+            class="imagebacked" style="background-image: url(/jira/images/icons/status_resolved.gif);"
+                     >Resolved</option>
+        <option value="6"
+            class="imagebacked" style="background-image: url(/jira/images/icons/status_closed.gif);"
+                     >Closed</option>
+        <option value="10001"
+            class="imagebacked" style="background-image: url(/jira/images/icons/status_needinfo.gif);"
+                     >Waiting For</option>
+    </select>
+
+                    <a class="localHelp" href="/jira/secure/ShowConstantsHelp.jspa?decorator=popup#StatusTypes" onclick="var child = window.open('/jira/secure/ShowConstantsHelp.jspa?decorator=popup#StatusTypes', 'jiraLocalHelp', 'width=600, height=500, resizable, scrollbars=yes'); child.focus(); return false;">
+
+        <img src="/jira/images/icons/help_blue.gif" width="16" height="16" align="absmiddle"
+            title="Get local help about locally defined Statuses"
+        /></a>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="resolutionFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="resolution">
+                    Resolutions:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+<select name="resolution" id="resolution" class="standardInputField" multiple="multiple" size="4">
+    <option class="headerOption" value="">Any</option>
+     <option class="headerOption" value="-1" >Unresolved</option>         <option value="1"
+                     >Fixed</option>
+        <option value="5"
+                     >Cannot Reproduce</option>
+        <option value="3"
+                     >Duplicate</option>
+        <option value="6"
+                     >Need More Info</option>
+        <option value="7"
+                     >Not A Defect</option>
+        <option value="2"
+                     >Will Not Fix</option>
+    </select>
+
+                    <a class="localHelp" href="/jira/secure/ShowConstantsHelp.jspa?decorator=popup#ResolutionTypes" onclick="var child = window.open('/jira/secure/ShowConstantsHelp.jspa?decorator=popup#ResolutionTypes', 'jiraLocalHelp', 'width=600, height=500, resizable, scrollbars=yes'); child.focus(); return false;">
+
+        <img src="/jira/images/icons/help_blue.gif" width="16" height="16" align="absmiddle"
+            title="Get local help about locally defined Resolutions"
+        /></a>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="priorityFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="priority">
+                    Priorities:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+<select name="priority" id="priority" class="standardInputField" multiple="multiple" size="4">
+    <option class="headerOption" value="">Any</option>
+            <option value="1"
+            class="imagebacked" style="background-image: url(/jira/ubimages/icons/Priority/U.gif);"
+                     >Urgent</option>
+        <option value="2"
+            class="imagebacked" style="background-image: url(/jira/ubimages/icons/Priority/H.gif);"
+                     >High</option>
+        <option value="3"
+            class="imagebacked" style="background-image: url(/jira/ubimages/icons/Priority/M.gif);"
+                     >Medium</option>
+        <option value="4"
+            class="imagebacked" style="background-image: url(/jira/ubimages/icons/Priority/L.gif);"
+                     >Low</option>
+        <option value="5"
+            class="imagebacked" style="background-image: url(/jira/ubimages/icons/Priority/Unset.gif);"
+                     >Unset</option>
+    </select>
+
+                    <a class="localHelp" href="/jira/secure/ShowConstantsHelp.jspa?decorator=popup#PriorityLevels" onclick="var child = window.open('/jira/secure/ShowConstantsHelp.jspa?decorator=popup#PriorityLevels', 'jiraLocalHelp', 'width=600, height=500, resizable, scrollbars=yes'); child.focus(); return false;">
+
+        <img src="/jira/images/icons/help_blue.gif" width="16" height="16" align="absmiddle"
+            title="Get local help about locally defined Priorities"
+        /></a>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr class="spacer">
+                <td class="fieldLabelArea">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            </tbody>
+
+
+
+
+            <script language="JavaScript" type="text/javascript">
+            <!--
+                restore('navigator.filter.subheading.issueattributes');
+            //-->
+            </script>
+
+
+
+            <tr>
+                <th id="navigator.filter.subheading.datesandtimesheader" class="rowHeader" colspan="2" onclick="GuiPrefs.toggleVisibility('navigator.filter.subheading.datesandtimes');" title="Click to hide / show section Dates and Times">
+                    Dates and Times
+                </th>
+            </tr>
+            <tbody id="navigator.filter.subheading.datesandtimes">
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="created:afterFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="created:after">
+                    Created After:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="created:after_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="created:after" id="created:after"
+    value="" title="Retrieves issues created after or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "created:after",  // id of the input field
+        button      : "created:after_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825407,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="created:beforeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="created:before">
+                    Created Before:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="created:before_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="created:before" id="created:before"
+    value="" title="Retrieves issues created before or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "created:before",  // id of the input field
+        button      : "created:before_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825407,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+
+    <tr class="fieldArea" id="created:previousFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="created:previous">
+                    Created:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<a class="calendarPicker" href="javascript:openDateRangePicker('filterform', 'created:previous', 'created:next', 'created')"><img src="/jira/images/icons/duedatepicker-icon.gif" width="16" height="16" alt="Select a date range" title="Select a date range" /></a>
+
+<label for="created:previous" class="label">From</label>
+<input type="text" name="created:previous" id="created:previous" class="periodSearcher"  value="" />
+<label for="created:next" class="label">To</label>
+<input type="text" name="created:next" id="created:next" class="periodSearcher" value="" />
+
+                            <div class="fieldDescription">Use this picker for relative dates</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="updated:afterFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="updated:after">
+                    Updated After:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="updated:after_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="updated:after" id="updated:after"
+    value="" title="Retrieves issues updated after or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "updated:after",  // id of the input field
+        button      : "updated:after_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825411,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="updated:beforeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="updated:before">
+                    Updated Before:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="updated:before_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="updated:before" id="updated:before"
+    value="" title="Retrieves issues updated before or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "updated:before",  // id of the input field
+        button      : "updated:before_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825411,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+
+    <tr class="fieldArea" id="updated:previousFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="updated:previous">
+                    Updated:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<a class="calendarPicker" href="javascript:openDateRangePicker('filterform', 'updated:previous', 'updated:next', 'updated')"><img src="/jira/images/icons/duedatepicker-icon.gif" width="16" height="16" alt="Select a date range" title="Select a date range" /></a>
+
+<label for="updated:previous" class="label">From</label>
+<input type="text" name="updated:previous" id="updated:previous" class="periodSearcher"  value="" />
+<label for="updated:next" class="label">To</label>
+<input type="text" name="updated:next" id="updated:next" class="periodSearcher" value="" />
+
+                            <div class="fieldDescription">Use this picker for relative dates</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="duedate:afterFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="duedate:after">
+                    Due After:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="duedate:after_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="duedate:after" id="duedate:after"
+    value="" title="Retrieves issues due after or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "duedate:after",  // id of the input field
+        button      : "duedate:after_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825415,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="duedate:beforeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="duedate:before">
+                    Due Before:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="duedate:before_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="duedate:before" id="duedate:before"
+    value="" title="Retrieves issues due before or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "duedate:before",  // id of the input field
+        button      : "duedate:before_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825415,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+
+    <tr class="fieldArea" id="duedate:previousFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="duedate:previous">
+                    Due Date:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<a class="calendarPicker" href="javascript:openDateRangePicker('filterform', 'duedate:previous', 'duedate:next', 'duedate')"><img src="/jira/images/icons/duedatepicker-icon.gif" width="16" height="16" alt="Select a date range" title="Select a date range" /></a>
+
+<label for="duedate:previous" class="label">From</label>
+<input type="text" name="duedate:previous" id="duedate:previous" class="periodSearcher"  value="" />
+<label for="duedate:next" class="label">To</label>
+<input type="text" name="duedate:next" id="duedate:next" class="periodSearcher" value="" />
+
+                            <div class="fieldDescription">Use this picker for relative dates</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="resolutiondate:afterFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="resolutiondate:after">
+                    Resolved After:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="resolutiondate:after_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="resolutiondate:after" id="resolutiondate:after"
+    value="" title="Retrieves issues resolved after or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "resolutiondate:after",  // id of the input field
+        button      : "resolutiondate:after_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825418,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="resolutiondate:beforeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="resolutiondate:before">
+                    Resolved Before:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="resolutiondate:before_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="resolutiondate:before" id="resolutiondate:before"
+    value="" title="Retrieves issues resolved before or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "resolutiondate:before",  // id of the input field
+        button      : "resolutiondate:before_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825418,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+
+    <tr class="fieldArea" id="resolutiondate:previousFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="resolutiondate:previous">
+                    Resolved:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<a class="calendarPicker" href="javascript:openDateRangePicker('filterform', 'resolutiondate:previous', 'resolutiondate:next', 'resolutiondate')"><img src="/jira/images/icons/duedatepicker-icon.gif" width="16" height="16" alt="Select a date range" title="Select a date range" /></a>
+
+<label for="resolutiondate:previous" class="label">From</label>
+<input type="text" name="resolutiondate:previous" id="resolutiondate:previous" class="periodSearcher"  value="" />
+<label for="resolutiondate:next" class="label">To</label>
+<input type="text" name="resolutiondate:next" id="resolutiondate:next" class="periodSearcher" value="" />
+
+                            <div class="fieldDescription">Use this picker for relative dates</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr class="spacer">
+                <td class="fieldLabelArea">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            </tbody>
+
+
+
+
+            <script language="JavaScript" type="text/javascript">
+            <!--
+                restore('navigator.filter.subheading.datesandtimes');
+            //-->
+            </script>
+
+
+
+            <tr>
+                <th id="navigator.filter.subheading.workratioheader" class="rowHeader" colspan="2" onclick="GuiPrefs.toggleVisibility('navigator.filter.subheading.workratio');" title="Click to hide / show section Actual vs Estimated Work Ratio">
+                    Actual vs Estimated Work Ratio
+                </th>
+            </tr>
+            <tbody id="navigator.filter.subheading.workratio">
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="workratio:minFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="workratio:min">
+                    % Limits:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<label for="workratio:min" class="label">Min</label>
+<input type="text" name="workratio:min" id="workratio:min" class="smallInputField" value="" />
+<label for="workratio:max" class="label">Max</label>
+<input type="text" name="workratio:max" id="workratio:max" class="smallInputField" value="" />
+
+                    <a class="helpLink" href="http://docs.atlassian.com/jira/docs-040/Saving+Searches+('Issue+Filters')?clicked=jirahelp#workratio" target="_jirahelp">
+
+        <img src="/jira/images/icons/help_blue.gif" width="16" height="16" align="absmiddle"
+            title="Get online help about Saving Searches ('Issue Filters')"
+        /></a>
+
+                            <div class="fieldDescription">Enter a minimum, maximum or range limit</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr class="spacer">
+                <td class="fieldLabelArea">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            </tbody>
+
+
+
+
+            <script language="JavaScript" type="text/javascript">
+            <!--
+                restore('navigator.filter.subheading.workratio');
+            //-->
+            </script>
+
+
+
+            <tr>
+                <th id="navigator.filter.subheading.customfieldsheader" class="rowHeader" colspan="2" onclick="GuiPrefs.toggleVisibility('navigator.filter.subheading.customfields');" title="Click to hide / show section Custom Fields">
+                    Custom Fields
+                </th>
+            </tr>
+            <tbody id="navigator.filter.subheading.customfields">
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10051:afterFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10051:after">
+                    (Chart) Date of First Response (after):
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="customfield_10051:after_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="customfield_10051:after" id="customfield_10051:after"
+    value="" title="Retrieves issues (chart) date of first response (after) or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "customfield_10051:after",  // id of the input field
+        button      : "customfield_10051:after_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825426,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="customfield_10051:beforeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10051:before">
+                    (Chart) Date of First Response (before):
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="customfield_10051:before_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="customfield_10051:before" id="customfield_10051:before"
+    value="" title="Retrieves issues (chart) date of first response (before) or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "customfield_10051:before",  // id of the input field
+        button      : "customfield_10051:before_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825426,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+
+    <tr class="fieldArea" id="customfield_10051:previousFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10051:previous">
+                    (Chart) Date of First Response:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<a class="calendarPicker" href="javascript:openDateRangePicker('filterform', 'customfield_10051:previous', 'customfield_10051:next', 'customfield_10051')"><img src="/jira/images/icons/duedatepicker-icon.gif" width="16" height="16" alt="Select a date range" title="Select a date range" /></a>
+
+<label for="customfield_10051:previous" class="label">From</label>
+<input type="text" name="customfield_10051:previous" id="customfield_10051:previous" class="periodSearcher"  value="" />
+<label for="customfield_10051:next" class="label">To</label>
+<input type="text" name="customfield_10051:next" id="customfield_10051:next" class="periodSearcher" value="" />
+
+                            <div class="fieldDescription">Date of First Response for Chart Plugin</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10052FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10052">
+                    (Chart) Time in Status:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10052"
+       value=""
+       id="customfield_10052"
+       class="standardInputField"
+              />
+
+                            <div class="fieldDescription">Time in Status for Chart Plugin</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10190FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10190">
+                    (Toolkit) Multi Issue Key Searcher:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10190"
+       value=""
+       id="customfield_10190"
+       class="standardInputField"
+              />
+
+ <script language="JavaScript">
+
+   function moveDown(customfieldid, key, next)
+    {
+        var cf = document.getElementById(customfieldid);
+        var cfVal = cf.value;
+        var keys = cfVal.split(",");
+        var newList = new Array(keys.length - 1);
+        var curVal;
+        var pos = 0;
+        for (var i = 0 ; i < keys.length ; i++)
+        {
+            curVal = trim(keys[i]);
+            if (curVal != key)
+            {
+                newList[pos] = curVal;
+                pos++;
+                if (curVal == next)
+                {
+                    newList[pos] = key;
+                    pos++;
+                }
+            }else
+            {
+                if (next == '')
+                {
+                    newList[pos] = trim(keys[i+1]);
+                    pos++;
+                    newList[pos] = key;
+                    pos++;
+                    i++;
+                }
+            }
+
+        }
+        cf.value = newList.join(", ");
+        document.filterform.submit();
+
+
+    }
+
+    function moveUp(customfieldid, key, prev)
+    {
+        var cf = document.getElementById(customfieldid);
+        var cfVal = cf.value;
+        var keys = cfVal.split(",");
+        var newList = new Array(keys.length - 1);
+        var curVal;
+        var tempVal;
+
+        var pos = 0;
+        for (var i = 0 ; i < keys.length; i++)
+        {
+            curVal = trim(keys[i]);
+
+            if (curVal == prev )
+            {
+                newList[pos] = key;
+                pos++;
+            }
+            if (curVal != key)
+            {
+                newList[pos] = curVal;
+                pos++;
+            }else
+            {
+                if (prev == '')
+                {
+                    newList[pos] = newList[pos-1]
+                    newList[pos-1] = curVal;
+                    pos++;
+                }
+            }
+
+
+        }
+        cf.value = newList.join(", ");
+        document.filterform.submit();
+
+
+    }
+    function trim(str)
+    {
+        return str.replace(/^\s*|\s*$/g,"");
+    }
+
+    function removeKey(customfieldid, key)
+    {
+        var cf = document.getElementById(customfieldid);
+        var cfVal = cf.value;
+        var keys = cfVal.split(",");
+        var newList = new Array(keys.length - 1);
+        var curVal;
+
+        var pos = 0;
+        for (var i = 0 ; i < keys.length; i++)
+        {
+            curVal = trim(keys[i]);
+
+            if (curVal != key )
+            {
+                newList[pos] = curVal;
+                pos++;
+            }
+
+
+        }
+        cf.value = newList.join(", ");
+        document.filterform.submit();
+
+
+    }
+</script>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10280:afterFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10280:after">
+                    (Toolkit) Resolution Date (after):
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="customfield_10280:after_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="customfield_10280:after" id="customfield_10280:after"
+    value="" title="Retrieves issues (toolkit) resolution date (after) or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "customfield_10280:after",  // id of the input field
+        button      : "customfield_10280:after_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825431,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="customfield_10280:beforeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10280:before">
+                    (Toolkit) Resolution Date (before):
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="customfield_10280:before_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="customfield_10280:before" id="customfield_10280:before"
+    value="" title="Retrieves issues (toolkit) resolution date (before) or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "customfield_10280:before",  // id of the input field
+        button      : "customfield_10280:before_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825431,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+
+    <tr class="fieldArea" id="customfield_10280:previousFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10280:previous">
+                    (Toolkit) Resolution Date:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<a class="calendarPicker" href="javascript:openDateRangePicker('filterform', 'customfield_10280:previous', 'customfield_10280:next', 'customfield_10280')"><img src="/jira/images/icons/duedatepicker-icon.gif" width="16" height="16" alt="Select a date range" title="Select a date range" /></a>
+
+<label for="customfield_10280:previous" class="label">From</label>
+<input type="text" name="customfield_10280:previous" id="customfield_10280:previous" class="periodSearcher"  value="" />
+<label for="customfield_10280:next" class="label">To</label>
+<input type="text" name="customfield_10280:next" id="customfield_10280:next" class="periodSearcher" value="" />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10271FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10271">
+                    Epic:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="ajax_autocomplete">
+    <input type="text"
+           name="customfield_10271"
+           value=""
+           id="customfield_10271"
+           class="standardInputField plugin_label_input_search"
+            >
+    <fieldset style="display: none;">
+        <input type="hidden" name="customFieldKey" value="customfield_10271" class="plugin_labels_param">
+    </fieldset>
+</div>
+
+                            <div class="fieldDescription">Field that will help you regroup issues under an Epic.
+Reminder : one Epic by story or tasks</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10008FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10008">
+                    Expected Behavior:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10008"
+       value=""
+       id="customfield_10008"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10202FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10202">
+                    Fixed by code version:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10202"
+       value=""
+       id="customfield_10202"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10203FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10203">
+                    Fixed by data version:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10203"
+       value=""
+       id="customfield_10203"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10204FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10204">
+                    Fixed by sound version:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10204"
+       value=""
+       id="customfield_10204"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10270FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10270">
+                    Flagged:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="checkbox" name="customfield_10270" id="customfield_10270_1" value="Impediment"
+                        > <label for="customfield_10270_1">Impediment</label>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10206FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10206">
+                    Last Description:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10206"
+       value=""
+       id="customfield_10206"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10150FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10150">
+                    Location/Sublocation:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+
+
+<select name="customfield_10150" id="customfield_10150"  class="standardInputField">
+    <option value="">Please select...</option>
+        <option value="-1">Any</option>
+            <option value="10764"
+                        >LD_Maps</option>
+            <option value="10755"
+                        >Proto</option>
+            <option value="10795"
+                        >Menu</option>
+            <option value="10861"
+                        >Coop Map</option>
+            <option value="10862"
+                        >Adversarial Map</option>
+            <option value="10863"
+                        >Campaign Map</option>
+    </select>
+<br />
+<select name="customfield_10150:1" id="customfield_10150:1"  class="standardInputField childCascadingSelect">
+        <option class="" value="">Please select...</option>
+        <option class="-1" value="-1">Any</option>
+            <option class="10764" value="-1">Any</option>
+            <option class="10764" value="10851" >
+            Zoo_Vehicles
+        </option>
+            <option class="10764" value="10842" >
+            KREMILN
+        </option>
+            <option class="10764" value="10841" >
+            A08_Local_MISSION
+        </option>
+            <option class="10764" value="10821" >
+            A08_Local_TDM
+        </option>
+            <option class="10764" value="10840" >
+            C08_Local_FP2
+        </option>
+            <option class="10764" value="10822" >
+            A08_Local_CTF
+        </option>
+            <option class="10764" value="10823" >
+            A08_Local_COOP
+        </option>
+            <option class="10764" value="10824" >
+            A08_Local_BATTLEFIELD
+        </option>
+            <option class="10764" value="10825" >
+            Proto_Formation_AtT
+        </option>
+            <option class="10764" value="10827" >
+            All_Maps
+        </option>
+            <option class="10764" value="10828" >
+            All_Coop
+        </option>
+            <option class="10764" value="10829" >
+            All_Adversarial
+        </option>
+            <option class="10764" value="10766" >
+            Map_05_C
+        </option>
+                <option class="10755" value="-1">Any</option>
+            <option class="10755" value="10763" >
+            Formation AtT
+        </option>
+            <option class="10755" value="10810" >
+            Proto_A04
+        </option>
+            <option class="10755" value="10811" >
+            Proto_M07_ADVERSARIAL
+        </option>
+            <option class="10755" value="10812" >
+            Proto_A12
+        </option>
+            <option class="10755" value="10813" >
+            Proto_A16
+        </option>
+            <option class="10755" value="10757" >
+            Assault
+        </option>
+                <option class="10795" value="-1">Any</option>
+            <option class="10795" value="10797" >
+            Online Menu
+        </option>
+            <option class="10795" value="10860" >
+            Proto user menu
+        </option>
+                <option class="10861" value="-1">Any</option>
+                <option class="10862" value="-1">Any</option>
+                <option class="10863" value="-1">Any</option>
+
+</select>
+
+
+                    </td>
+    </tr>
+
+<script>
+    dynamicSelect("customfield_10150", "customfield_10150:1");
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10160FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10160">
+                    Milestone:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10160" id="customfield_10160" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="FPP - 18/12/09"
+                        >FPP - 18/12/09</option>
+            <option value="Christmas (19-12-08)"
+                        >Christmas (19-12-08)</option>
+            <option value="Gamer Xperience (15-01-09)"
+                        >Gamer Xperience (15-01-09)</option>
+            <option value="FPP 1 (29-01-09)"
+                        >FPP 1 (29-01-09)</option>
+            <option value="FPP 2"
+                        >FPP 2</option>
+            <option value="Alpha"
+                        >Alpha</option>
+            <option value="Beta"
+                        >Beta</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10201FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10201">
+                    Need Remote Debug:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10201" id="customfield_10201" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="Yes"
+                        >Yes</option>
+            <option value="No"
+                        >No</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10200FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10200">
+                    OccurenceThisWeek:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10200"
+       value=""
+       id="customfield_10200"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10205FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10205">
+                    Occurences:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10205"
+       value=""
+       id="customfield_10205"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10030FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10030">
+                    Platform/Module:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+<select name="customfield_10030" id="customfield_10030"  class="standardInputField"
+        size="5"
+        multiple="multiple">
+    <option value="-1" selected >Any</option>
+            <option value="Xbox360"
+                        >Xbox360</option>
+            <option value="PS3"
+                        >PS3</option>
+            <option value="PC"
+                        >PC</option>
+            <option value="Tools"
+                        >Tools</option>
+    </select>
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10210FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10210">
+                    Probability:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10210" id="customfield_10210" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="P0"
+                        >P0</option>
+            <option value="P1"
+                        >P1</option>
+            <option value="P2"
+                        >P2</option>
+            <option value="P3"
+                        >P3</option>
+            <option value="Unset"
+                        >Unset</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10111FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10111">
+                    Regression:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+
+<input type="radio" name="customfield_10111" id="customfield_10111_none"
+       value="-1" checked="checked" />
+<label for="customfield_10111_none">Any</label> <br />
+
+                            <div class="fieldDescription">To check if the bug was a regression or not</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10034:afterFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10034:after">
+                    Resolution Date (after):
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="customfield_10034:after_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="customfield_10034:after" id="customfield_10034:after"
+    value="" title="Retrieves issues resolution date (after) or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "customfield_10034:after",  // id of the input field
+        button      : "customfield_10034:after_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825447,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+    <tr class="fieldArea" id="customfield_10034:beforeFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10034:before">
+                    Resolution Date (before):
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<div class="calendarPicker"><img id="customfield_10034:before_trigger_c" src="/jira/images/icons/cal.gif" width="16" height="16" alt="Select a date" title="Select a date" /></div>
+<input type="text" class="dateSearcher" name="customfield_10034:before" id="customfield_10034:before"
+    value="" title="Retrieves issues resolution date (before) or on this date"/>
+
+<script type="text/javascript">
+    Calendar.setup({
+        firstDay    : (1) -1,              // first day of the week
+        inputField  : "customfield_10034:before",  // id of the input field
+        button      : "customfield_10034:before_trigger_c", // trigger for the calendar (button ID)
+        align       : "Tl",           // alignment (defaults to "Bl")
+        singleClick : true,
+        date : 1274273825447,
+        ifFormat    : "%e/%b/%y"      // our date only format
+    });
+</script>
+                    </td>
+    </tr>
+
+
+
+    <tr class="fieldArea" id="customfield_10034:previousFieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10034:previous">
+                    Resolution Date:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<a class="calendarPicker" href="javascript:openDateRangePicker('filterform', 'customfield_10034:previous', 'customfield_10034:next', 'customfield_10034')"><img src="/jira/images/icons/duedatepicker-icon.gif" width="16" height="16" alt="Select a date range" title="Select a date range" /></a>
+
+<label for="customfield_10034:previous" class="label">From</label>
+<input type="text" name="customfield_10034:previous" id="customfield_10034:previous" class="periodSearcher"  value="" />
+<label for="customfield_10034:next" class="label">To</label>
+<input type="text" name="customfield_10034:next" id="customfield_10034:next" class="periodSearcher" value="" />
+
+                            <div class="fieldDescription">Resolution Date</div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10002FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10002">
+                    Scope:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="checkbox" name="customfield_10002" id="customfield_10002_1" value="AI Behavior"
+                        > <label for="customfield_10002_1">AI Behavior</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_2" value="Animation"
+                        > <label for="customfield_10002_2">Animation</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_3" value="Camera"
+                        > <label for="customfield_10002_3">Camera</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_4" value="Collision"
+                        > <label for="customfield_10002_4">Collision</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_5" value="Controls"
+                        > <label for="customfield_10002_5">Controls</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_6" value="Crash"
+                        > <label for="customfield_10002_6">Crash</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_7" value="Drone"
+                        > <label for="customfield_10002_7">Drone</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_8" value="Engine"
+                        > <label for="customfield_10002_8">Engine</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_9" value="Framerate"
+                        > <label for="customfield_10002_9">Framerate</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_10" value="Game Design"
+                        > <label for="customfield_10002_10">Game Design</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_11" value="Graphic - FX "
+                        > <label for="customfield_10002_11">Graphic - FX </label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_12" value="Graphic - Lighting"
+                        > <label for="customfield_10002_12">Graphic - Lighting</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_13" value="Graphic - Model"
+                        > <label for="customfield_10002_13">Graphic - Model</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_14" value="Graphic - Shader"
+                        > <label for="customfield_10002_14">Graphic - Shader</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_15" value="Graphic - Texture"
+                        > <label for="customfield_10002_15">Graphic - Texture</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_16" value="HUD"
+                        > <label for="customfield_10002_16">HUD</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_17" value="Interactive Objects (Props)"
+                        > <label for="customfield_10002_17">Interactive Objects (Props)</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_18" value="Level Design"
+                        > <label for="customfield_10002_18">Level Design</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_19" value="Localisation"
+                        > <label for="customfield_10002_19">Localisation</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_20" value="Main Character"
+                        > <label for="customfield_10002_20">Main Character</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_21" value="Menu / Option"
+                        > <label for="customfield_10002_21">Menu / Option</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_22" value="NME"
+                        > <label for="customfield_10002_22">NME</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_23" value="Network"
+                        > <label for="customfield_10002_23">Network</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_24" value="Save &amp; Load"
+                        > <label for="customfield_10002_24">Save & Load</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_25" value="Scripted Events"
+                        > <label for="customfield_10002_25">Scripted Events</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_26" value="Sound - Ambiance"
+                        > <label for="customfield_10002_26">Sound - Ambiance</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_27" value="Sound - FX"
+                        > <label for="customfield_10002_27">Sound - FX</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_28" value="Sound - Generic Voice System"
+                        > <label for="customfield_10002_28">Sound - Generic Voice System</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_29" value="Sound - Music"
+                        > <label for="customfield_10002_29">Sound - Music</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_30" value="Sound - Scripted dialogue "
+                        > <label for="customfield_10002_30">Sound - Scripted dialogue </label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_31" value="Spawnpoints"
+                        > <label for="customfield_10002_31">Spawnpoints</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_32" value="Suggestion"
+                        > <label for="customfield_10002_32">Suggestion</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_33" value="Team Mates"
+                        > <label for="customfield_10002_33">Team Mates</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_34" value="TRC"
+                        > <label for="customfield_10002_34">TRC</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_35" value="Vehicule (not drone)"
+                        > <label for="customfield_10002_35">Vehicule (not drone)</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_36" value="VIP"
+                        > <label for="customfield_10002_36">VIP</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_37" value="Walkthrough"
+                        > <label for="customfield_10002_37">Walkthrough</label>
+    <br /><input type="checkbox" name="customfield_10002" id="customfield_10002_38" value="Weapons"
+                        > <label for="customfield_10002_38">Weapons</label>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10004FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10004">
+                    Severity:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10004" id="customfield_10004" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="S1"
+                        >S1</option>
+            <option value="S2"
+                        >S2</option>
+            <option value="S3"
+                        >S3</option>
+            <option value="Unset"
+                        >Unset</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10007FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10007">
+                    Steps To Reproduce:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10007"
+       value=""
+       id="customfield_10007"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10006FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10006">
+                    Technical Reproductibility:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10006" id="customfield_10006" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="1/5"
+                        >1/5</option>
+            <option value="1/10"
+                        >1/10</option>
+            <option value="2/5"
+                        >2/5</option>
+            <option value="2/10"
+                        >2/10</option>
+            <option value="2/20"
+                        >2/20</option>
+            <option value="3/5"
+                        >3/5</option>
+            <option value="4/5"
+                        >4/5</option>
+            <option value="5/5"
+                        >5/5</option>
+            <option value="1/1"
+                        >1/1</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10211FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10211">
+                    Ubi Priority:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10211" id="customfield_10211" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="&lt;span 01 style='background-color: rgb(208, 0, 0); color: rgb(255, 255, 255);'&gt;&lt;b&gt;01&lt;/b&gt;&lt;/span&gt;"
+                        ><span 01 style='background-color: rgb(208, 0, 0); color: rgb(255, 255, 255);'><b>01</b></span></option>
+            <option value="&lt;span 02 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'&gt;&lt;b&gt;02&lt;/b&gt;&lt;/span&gt;"
+                        ><span 02 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'><b>02</b></span></option>
+            <option value="&lt;span 03 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'&gt;&lt;b&gt;03&lt;/b&gt;&lt;/span&gt;"
+                        ><span 03 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'><b>03</b></span></option>
+            <option value="&lt;span 04 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'&gt;&lt;b&gt;04&lt;/b&gt;&lt;/span&gt;"
+                        ><span 04 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'><b>04</b></span></option>
+            <option value="&lt;span 05 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'&gt;&lt;b&gt;05&lt;/b&gt;&lt;/span&gt;"
+                        ><span 05 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'><b>05</b></span></option>
+            <option value="&lt;span 06 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'&gt;&lt;b&gt;06&lt;/b&gt;&lt;/span&gt;"
+                        ><span 06 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'><b>06</b></span></option>
+            <option value="&lt;span 07 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'&gt;&lt;b&gt;07&lt;/b&gt;&lt;/span&gt;"
+                        ><span 07 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'><b>07</b></span></option>
+            <option value="&lt;span 08 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'&gt;&lt;b&gt;08&lt;/b&gt;&lt;/span&gt;"
+                        ><span 08 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'><b>08</b></span></option>
+            <option value="&lt;span 09 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'&gt;&lt;b&gt;09&lt;/b&gt;&lt;/span&gt;"
+                        ><span 09 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'><b>09</b></span></option>
+            <option value="&lt;span 10 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'&gt;&lt;b&gt;10&lt;/b&gt;&lt;/span&gt;"
+                        ><span 10 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'><b>10</b></span></option>
+            <option value="&lt;span 11 style='background-color: rgb(116, 116, 156); color: rgb(255, 255, 255);'&gt;&lt;b&gt;11&lt;/b&gt;&lt;/span&gt;"
+                        ><span 11 style='background-color: rgb(116, 116, 156); color: rgb(255, 255, 255);'><b>11</b></span></option>
+            <option value="Unset"
+                        >Unset</option>
+    </select>
+
+                            <div class="fieldDescription">Ubisoft Priority field for all issues. <font color="Red"><b>The field is filled automatically.
+    Do NOT modify.</b></font>
+<br />
+<a id="viewHelp" onClick="window.open('/jira/ubimages/icons/Ubipriority/UPV2.html', 'wiki_renderer_notation_help', 'width=800, height=750, resizable, scrollbars=yes'); return false;"     href="/jira/secure/WikiRendererHelpAction.jspa?section=texteffects" title='Ubipriority Definitions'><img
+            src='/jira/images/icons/help_blue.gif' class='unselectedPreview' width='16' height='16' alt='Severity Definitions'
+            title='Severity Definitions'></a>
+
+<script type="text/javascript">
+
+
+document.jiraform.onsubmit=setPresetValue;
+var path = window.location.pathname;
+if (path.substring(path.lastIndexOf('/') + 1).indexOf('BulkEditDetails.jspa') > -1)
+     document.write("\n<H4>ATTENTION<BR><BR>To Bulk Edit Ubi Priority, you must specify Severity & Probability.</H4>");
+
+
+function setUnsetValue(priorityUbiField)
+{
+    priorityUbiField.value = "<span 11 style='background-color: rgb(116, 116, 156); color: rgb(255, 255, 255);'><b>11</b></span>";
+}
+
+function setPresetValue()
+{
+
+
+    // Custom Field ID to modified by instance
+    var priorityField = document.getElementById("priority");
+    var probabilityField = document.getElementById("customfield_10210");
+    var severityField = document.getElementById("customfield_10004");
+    var priorityUbiField = document.getElementById("customfield_10211");
+
+        if(probabilityField.value == "P0")
+        {
+            if(severityField.value != "Unset")
+                priorityUbiField.value = "<span 01 style='background-color: rgb(208, 0, 0); color: rgb(255, 255, 255);'><b>01</b></span>";
+                       else  //Unset
+                setUnsetValue(priorityUbiField);
+        }
+	    else if(probabilityField.value == "P1")
+        {
+            if(severityField.value == "S1")
+                priorityUbiField.value = "<span 02 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'><b>02</b></span>";
+            else if(severityField.value == "S2")
+                priorityUbiField.value = "<span 03 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'><b>03</b></span>";
+            else if(severityField.value == "S3")
+                priorityUbiField.value = "<span 07 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'><b>07</b></span>";
+            else  //Unset
+                setUnsetValue(priorityUbiField);
+        }
+	else if(probabilityField.value == "P2")
+        {
+            if(severityField.value == "S1")
+                priorityUbiField.value = "<span 04 style='background-color: rgb(255, 156, 0); color: rgb(255, 255, 255);'><b>04</b></span>";
+            else if(severityField.value == "S2")
+                priorityUbiField.value = "<span 05 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'><b>05</b></span>";
+            else if(severityField.value == "S3")
+                priorityUbiField.value = "<span 09 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'><b>09</b></span>";
+            else  //Unset
+                setUnsetValue(priorityUbiField);
+        }
+	else if(probabilityField.value == "P3")
+        {
+            if(severityField.value == "S1")
+                priorityUbiField.value = "<span 06 style='background-color: rgb(255, 255, 0); color: rgb(0, 0, 0);'><b>06</b></span>";
+            else if(severityField.value == "S2")
+                priorityUbiField.value = "<span 08 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'><b>08</b></span>";
+            else if(severityField.value == "S3")
+                priorityUbiField.value = "<span 10 style='background-color: rgb(0, 102, 0); color: rgb(255, 255, 255);'><b>10</b></span>";
+            else  //Unset
+                setUnsetValue(priorityUbiField);
+        }
+        else  //Unset
+            setUnsetValue(priorityUbiField);
+
+
+    priorityUbiField.focus();
+    return true;
+}
+
+</script></div>
+    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10021FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10021">
+                    Verified Version/s:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+<select name="customfield_10021" id="customfield_10021"
+         multiple size="6" >
+    <option value="-1"  selected >Unknown</option>
+                <optgroup label="Unreleased Versions">
+                            <option value="11673"
+                                                >
+                    Backlog (Whole)
+                </option>
+                            <option value="11660"
+                                                >
+                    Template & Test de Jira
+                </option>
+                            <option value="11652"
+                                                >
+                    Backlog Unscheduled
+                </option>
+                            <option value="11670"
+                                                >
+                    To Delete
+                </option>
+                            <option value="11671"
+                                                >
+                    To Redefine
+                </option>
+                            <option value="11672"
+                                                >
+                    To Change priority
+                </option>
+                            <option value="11661"
+                                                >
+                    Alpha
+                </option>
+                            <option value="11675"
+                                                >
+                    Sprint 30 Avril
+                </option>
+                            <option value="11674"
+                                                >
+                    Sprint 16 Avril
+                </option>
+                            <option value="11665"
+                                                >
+                    Sprint 1 - 19 Mars
+                </option>
+                            <option value="11662"
+                                                >
+                    Sprint 2 - 09 Avril
+                </option>
+                            <option value="11653"
+                                                >
+                    Beta
+                </option>
+                            <option value="11681"
+                                                >
+                    Sprint 28 Mai
+                </option>
+                            <option value="11680"
+                                                >
+                    Sprint 14 mai
+                </option>
+                    </optgroup>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10171FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10171">
+                    Walkthough Break:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10171" id="customfield_10171" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="No"
+                        >No</option>
+            <option value="Yes"
+                        >Yes</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10009FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10009">
+                    Workaround:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<input type="text"
+       name="customfield_10009"
+       value=""
+       id="customfield_10009"
+       class="standardInputField"
+              />
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+
+
+    <tr class="fieldArea" id="customfield_10010FieldArea">
+    <td  class="fieldLabelArea" >
+            <label for="customfield_10010">
+                    Workaround Available ?:
+                </label>
+        </td>
+            <td class="fieldValueArea">
+
+
+<select name="customfield_10010" id="customfield_10010" class="standardInputField">
+    <option value="-1">Any</option>
+            <option value="Yes"
+                        >Yes</option>
+            <option value="No"
+                        >No</option>
+    </select>
+
+                    </td>
+    </tr>
+
+
+
+
+
+
+</tbody>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+    restore('navigator.filter.subheading.customfields');
+//-->
+</script>
+
+
+	<tr>
+	<td class="rowHeader fullyCentered" colspan="2">
+		<input type="submit" name="hide" value="&lt;&lt; View &amp; Hide">
+		<input type="submit" name="show" value="View &gt;&gt;">
+	</td>
+	</tr>
+
+</table>
+</form>
+
+            <!--[if IE]>
+            </td></tr></table>
+            <![endif]-->
+        </td>
+
+
+
+        <td valign="top">
+            <div class="issue-nav-wrap">
+
+
+
+
+
+    <h2>
+        Issue Navigator
+    </h2>
+    <p>The Issue Navigator allows you to browse all the issues in the system. Filters allow you to limit the issues that you see.</p>
+    <p>Using the panel on the left, you can create and edit new filters.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="results-wrap">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+

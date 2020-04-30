@@ -1,0 +1,1 @@
+This directory should be here so env\debug is acknowledged as home dir when application starts under debugging.

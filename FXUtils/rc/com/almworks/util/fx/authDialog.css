@@ -1,0 +1,19 @@
+.whole-pane {
+    -fx-padding: 1em;
+    -fx-spacing: 1em;
+}
+
+.grid {
+    -fx-hgap: .7em;
+    -fx-vgap: .4em;
+    -fx-padding: 0;
+}
+
+.button-panel {
+    -fx-padding: .5em 0 0 0;
+    -fx-spacing: 1em
+}
+
+.button-panel Button {
+    -fx-pref-width: 7em;
+}

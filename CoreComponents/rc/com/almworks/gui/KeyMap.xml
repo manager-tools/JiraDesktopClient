@@ -1,0 +1,441 @@
+<!DOCTYPE keymap [
+        <!ELEMENT keymap (shortcut)*>
+        <!ELEMENT shortcut (actionId|keystroke|mac|windowId)*>
+        <!ELEMENT keystroke (#PCDATA)>
+        <!ELEMENT mac (#PCDATA)>
+        <!ELEMENT actionId (#PCDATA)>
+        <!ELEMENT windowId (#PCDATA)>
+        ]>
+<keymap>
+    <!-- File Menu -->
+    <!--shortcut>
+        <actionId>File.ConnectionManager</actionId>
+        <keystroke>control F9</keystroke>
+        <mac>meta F8</mac>
+    </shortcut-->
+    <shortcut>
+        <actionId>File.DownloadChanges</actionId>
+        <keystroke>control F5</keystroke>
+        <mac>none</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>File.DownloadChangesQuick</actionId>
+        <keystroke>F5</keystroke>
+        <mac>meta F7</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>File.UploadChanges</actionId>
+        <keystroke>F6</keystroke>
+        <mac>meta F9</mac>
+    </shortcut>
+
+    <!-- Edit Menu -->
+    <shortcut>
+        <actionId>Edit.NewArtifact</actionId>
+        <keystroke>control N</keystroke>
+        <mac>meta N</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.NewItemHere</actionId>
+        <keystroke>control alt N</keystroke>
+        <mac>meta alt N</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.EditArtifact</actionId>
+        <keystroke>F4</keystroke>
+        <mac>meta O</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Download.Attachments</actionId>
+        <keystroke>control alt D</keystroke>
+        <mac>meta control F7</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.Update</actionId>
+        <keystroke>shift F5</keystroke>
+        <mac>meta shift F7</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.CreateSubtask</actionId>
+        <keystroke>control shift N</keystroke>
+        <mac>meta shift N</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.Merge</actionId>
+        <keystroke>control alt M</keystroke>
+        <mac>meta alt F9</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.Commit</actionId>
+        <keystroke>shift F6</keystroke>
+        <mac>meta shift F9</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.Rename</actionId>
+        <keystroke>F2</keystroke>
+        <windowId>MainFrame</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.Tag</actionId>
+        <keystroke>control T</keystroke>
+        <mac>meta T</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.CopyIdSummary</actionId>
+        <keystroke>control shift C</keystroke>
+        <mac>meta shift C</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.CustomCopy</actionId>
+        <keystroke>control alt C</keystroke>
+        <mac>meta alt C</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.AddToFavorites</actionId>
+        <keystroke>control K</keystroke>
+        <mac>meta K</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Edit.RemoveFromFavorites</actionId>
+        <keystroke>control shift K</keystroke>
+        <mac>meta shift K</mac>
+    </shortcut>
+
+    <!-- Artifact Editor -->
+    <shortcut>
+        <actionId>ArtifactEditor.Commit</actionId>
+        <keystroke>control ENTER</keystroke>
+        <mac>meta S</mac>
+        <windowId>ArtifactEditor</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>ArtifactEditor.SaveDraft</actionId>
+        <keystroke>F2</keystroke>
+        <mac>meta shift S</mac>
+        <windowId>ArtifactEditor</windowId>
+    </shortcut>
+
+    <!-- New Artifact -->
+    <shortcut>
+        <actionId>NewArtifact.Commit</actionId>
+        <keystroke>control ENTER</keystroke>
+        <mac>meta S</mac>
+        <windowId>NewArtifact</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>NewArtifact.SaveDraft</actionId>
+        <keystroke>F2</keystroke>
+        <mac>meta shift S</mac>
+        <windowId>NewArtifact</windowId>
+    </shortcut>
+
+    <!-- Workflow Editor -->
+    <shortcut>
+        <actionId>WorkflowEditor.Commit</actionId>
+        <keystroke>control ENTER</keystroke>
+        <mac>meta S</mac>
+        <windowId>workflowEditor</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>WorkflowEditor.SaveDraft</actionId>
+        <keystroke>F2</keystroke>
+        <mac>meta shift S</mac>
+        <windowId>workflowEditor</windowId>
+    </shortcut>
+
+    <!-- Search Menu -->
+    <shortcut>
+        <actionId>Search.NewQuery</actionId>
+        <keystroke>F3</keystroke>
+        <mac>meta F3</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.NewDistribution</actionId>
+        <keystroke>control D</keystroke>
+        <mac>meta F4</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.ExcludeFromDistribution</actionId>
+        <keystroke>control MINUS</keystroke>
+        <mac>meta MINUS</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.EditQuery</actionId>
+        <keystroke>shift F3</keystroke>
+        <mac>meta shift F3</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.TopDuplicateQuery</actionId>
+        <keystroke>control shift T</keystroke>
+        <mac>meta alt F3</mac>
+    </shortcut>
+    <!-- todo #794 -->
+    <shortcut>
+        <actionId>Search.KeepLiveResults</actionId>
+        <keystroke>control F12</keystroke>
+        <mac>meta shift R</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.RefreshResults</actionId>
+        <keystroke>control shift F5</keystroke>
+        <mac>meta R</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.QuickSearch</actionId>
+        <keystroke>control F</keystroke>
+        <mac>meta F</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Table.Find</actionId>
+        <keystroke>control shift F</keystroke>
+        <mac>meta shift F</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.OpenArtifactInTab</actionId>
+        <keystroke>alt ENTER</keystroke>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.OpenArtifactInFrame</actionId>
+        <keystroke>shift ENTER</keystroke>
+    </shortcut>
+    <shortcut>
+        <actionId>Search.OpenArtifactInBrowser</actionId>
+        <keystroke>F9</keystroke>
+        <mac>meta B</mac>
+    </shortcut>
+
+    <!-- Tools Menu -->
+    <shortcut>
+        <actionId>Tools.ExternalSearch</actionId>
+        <keystroke>alt F7</keystroke>
+        <mac>meta alt F</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.Export</actionId>
+        <keystroke>control shift E</keystroke>
+        <mac>meta shift E</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.ExportQuick</actionId>
+        <keystroke>control E</keystroke>
+        <mac>meta E</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.ReorderTable</actionId>
+        <keystroke>control R</keystroke>
+        <mac>meta J</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.OperationConsole</actionId>
+        <keystroke>control PERIOD</keystroke>
+        <keystroke>meta PERIOD</keystroke>
+    </shortcut>
+    <shortcut>
+        <actionId>Windows.toggleFullScreen</actionId>
+        <keystroke>none</keystroke>
+        <mac>meta control F</mac>
+    </shortcut>
+
+    <!-- todo #793 -->
+    <shortcut>
+        <actionId>Jira.Attachments.AttachFile</actionId>
+        <keystroke>control alt F</keystroke>
+        <mac>meta alt A</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Attachments.AttachScreenShot</actionId>
+        <keystroke>control S</keystroke>
+        <mac>meta shift A</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.AddComment</actionId>
+        <keystroke>control EQUALS</keystroke>
+        <mac>meta EQUALS</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.ReplyToComment</actionId>
+        <keystroke>control J</keystroke>
+        <mac>meta shift EQUALS</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.AddLinks</actionId>
+        <keystroke>control L</keystroke>
+        <mac>meta L</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.ResolveAsDuplicate</actionId>
+        <keystroke>control shift D</keystroke>
+        <mac>meta D</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.WatchIssue</actionId>
+        <keystroke>control W</keystroke>
+        <mac>meta Y</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.VoteForIssue</actionId>
+        <keystroke>control O</keystroke>
+        <mac>none</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.AssignTo</actionId>
+        <keystroke>control alt A</keystroke>
+        <mac>meta control A</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.Edit.AssignToMe</actionId>
+        <keystroke>control alt shift A</keystroke>
+        <mac>meta control shift A</mac>
+    </shortcut>
+
+    <shortcut>
+        <actionId>Window.CloseTab</actionId>
+        <keystroke>control F4</keystroke>
+        <mac>meta W</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Window.NextTab</actionId>
+        <keystroke>control PAGE_DOWN</keystroke>
+        <mac>meta PAGE_DOWN</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Window.PrevTab</actionId>
+        <keystroke>control PAGE_UP</keystroke>
+        <mac>meta PAGE_UP</mac>
+    </shortcut>
+
+    <!-- Focus shortcuts -->
+    <shortcut>
+        <actionId>Windows.focusNavigationTree</actionId>
+        <keystroke>control 1</keystroke>
+        <mac>meta 1</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Windows.focusTable</actionId>
+        <keystroke>control 2</keystroke>
+        <mac>meta 2</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Windows.focusArtifactViewer</actionId>
+        <keystroke>control 3</keystroke>
+        <mac>meta 3</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Windows.cycleFocus</actionId>
+        <keystroke>F12</keystroke>
+        <mac>meta F12</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Windows.cycleFocusBack</actionId>
+        <keystroke>shift F12</keystroke>
+        <mac>meta shift F12</mac>
+    </shortcut>
+
+    <!-- Time Tracking -->
+    <shortcut>
+        <actionId>Tools.TimeTracking</actionId>
+        <keystroke>control M</keystroke>
+        <mac>meta I</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Jira.TimeTracking.LogWork</actionId>
+        <keystroke>control OPEN_BRACKET</keystroke>
+        <mac>meta OPEN_BRACKET</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.TimeTracking.Publish</actionId>
+        <keystroke>control shift M</keystroke>
+        <mac>meta shift I</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.TimeTracking.StartWork</actionId>
+        <keystroke>control G</keystroke>
+        <mac>meta G</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.TimeTracking.StopWork</actionId>
+        <keystroke>control shift G</keystroke>
+        <mac>meta shift G</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.TimeTracking.Start</actionId>
+        <keystroke>control 8</keystroke>
+        <mac>meta 8</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.TimeTracking.Pause</actionId>
+        <keystroke>control 9</keystroke>
+        <mac>meta 9</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>Tools.TimeTracking.Stop</actionId>
+        <keystroke>control 0</keystroke>
+        <mac>meta 0</mac>
+    </shortcut>
+
+    <!-- Recent Artifacts -->
+    <shortcut>
+        <actionId>RecentArtifacts.ShowRecentArtifacts</actionId>
+        <keystroke>control SLASH</keystroke>
+        <mac>meta SLASH</mac>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.CopyArtifact</actionId>
+        <keystroke>control C</keystroke>
+        <mac>meta C</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.CopyIdAndSummary</actionId>
+        <keystroke>control shift C</keystroke>
+        <mac>meta shift C</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.CustomCopy</actionId>
+        <keystroke>control alt C</keystroke>
+        <mac>meta alt C</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.PasteItemKey</actionId>
+        <keystroke>control V</keystroke>
+        <mac>meta V</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.OpenInTab</actionId>
+        <keystroke>alt ENTER</keystroke>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.OpenInFrame</actionId>
+        <keystroke>shift ENTER</keystroke>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.OpenInBrowser</actionId>
+        <keystroke>F9</keystroke>
+        <mac>meta B</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.EditArtifact</actionId>
+        <keystroke>F4</keystroke>
+        <mac>meta O</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.StartWork</actionId>
+        <keystroke>control G</keystroke>
+        <mac>meta G</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+    <shortcut>
+        <actionId>RecentArtifacts.StopWork</actionId>
+        <keystroke>control shift G</keystroke>
+        <mac>meta shift G</mac>
+        <windowId>RecentArtifacts</windowId>
+    </shortcut>
+
+</keymap>

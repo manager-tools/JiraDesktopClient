@@ -1,0 +1,9 @@
+.panel-top {
+    -fx-padding: .3em .2em .3em .2em;
+    -fx-border-color:  darkgrey;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.panel-top Button {
+    -fx-focus-traversable: false;
+}

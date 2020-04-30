@@ -1,0 +1,6 @@
+<providerDescriptors>
+  <descriptor>
+    <id>TestProvider</id>
+    <className>com.almworks.explorer.TestDescriptor</className>
+  </descriptor>
+</providerDescriptors>

@@ -1,0 +1,43 @@
+<!--
+External parameters:
+  jdk           path to JDK
+  build.number  build number
+-->
+
+<project name="Client for Jira" default="prepareDistribution" basedir=".">
+  <import file="properties.xml"/>
+
+  <target name="clean">
+    <delete dir="${dir.build}" failonerror="false"/>
+  </target>
+
+  <target name="init">
+    <mkdir dir="${dir.build}"/>
+    <mkdir dir="${dir.class.prodcode}"/>
+    <mkdir dir="${dir.deliver.tmp}"/>
+    <mkdir dir="${dir.deliver.out}"/>
+  </target>
+
+  <target name="generateBuildXml">
+    <property name="gen.file.metasource" location="meta.xml"/>
+    <property name="gen.file.transform" location="transform.xsl"/>
+
+    <delete file="${file.generated}" failonerror="true"/>
+    <xslt style="${gen.file.transform}" in="${gen.file.metasource}" out="${file.generated}" processor="trax" classpath="${dir.build.files}/saxon9he.jar"/>
+    <available file="${file.generated}" property="available.generated"/>
+    <fail message="XSLT failed" unless="available.generated"/>
+  </target>
+
+  <target name="prepareDistribution" depends="generateBuildXml, clean, init">
+    <ant antfile="runGenerated.xml">
+      <target name="ALL.compile"/>
+      <target name="ALL.test"/>
+      <target name="distAll"/>
+    </ant>
+    <chmod perm="+x">
+      <fileset dir="${dir.dist}/${product.name}/bin">
+        <include name="**/*.sh"/>
+      </fileset>
+    </chmod>
+  </target>
+</project>

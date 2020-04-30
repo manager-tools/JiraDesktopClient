@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox fx:id="myWholePane" prefWidth="600.0" styleClass="whole-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextFlow maxHeight="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+         <children>
+            <Text fx:id="myPrompt" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" />
+         </children>
+      </TextFlow>
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" styleClass="grid">
+        <columnConstraints>
+          <ColumnConstraints hgrow="NEVER" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="-Infinity" valignment="BASELINE" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" valignment="BASELINE" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="%username.label.text" />
+            <Label text="%password.label.test" GridPane.rowIndex="1" />
+            <TextField fx:id="myUsername" GridPane.columnIndex="1" />
+            <PasswordField fx:id="myPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <HBox alignment="BASELINE_RIGHT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" style="-fx-spacing: 1em;" styleClass="button-panel" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+               <children>
+                  <Button fx:id="myOk" defaultButton="true" mnemonicParsing="false" text="%buttons.ok.text" />
+                  <Button fx:id="myCancel" cancelButton="true" mnemonicParsing="false" text="%buttons.cancel.text" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</VBox>

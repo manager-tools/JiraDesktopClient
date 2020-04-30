@@ -1,0 +1,69 @@
+package com.almworks.timetrack.uam;
+
+import com.sun.jna.Native;
+import com.sun.jna.Structure;
+import com.sun.jna.win32.StdCallLibrary;
+
+/**
+ * Utility method to retrieve the idle time on Windows and sample code to test it.
+ * JNA shall be present in your classpath for this to work (and compile).
+ *
+ * @author ochafik
+ */
+public class WindowsLastUserActivityProvider implements LastUserActivityProvider {
+  public interface Kernel32 extends StdCallLibrary {
+    Kernel32 INSTANCE = (Kernel32) Native.loadLibrary("kernel32", Kernel32.class);
+
+    /**
+     * Retrieves the number of milliseconds that have elapsed since the system was started.
+     *
+     * @return number of milliseconds that have elapsed since the system was started.
+     * @see http://msdn2.microsoft.com/en-us/library/ms724408.aspx
+     */
+    public int GetTickCount();
+  }
+
+
+  public interface User32 extends StdCallLibrary {
+    User32 INSTANCE = (User32) Native.loadLibrary("user32", User32.class);
+
+
+    /**
+     * Contains the time of the last input.
+     *
+     * @see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/userinput/keyboardinput/keyboardinputreference/keyboardinputstructures/lastinputinfo.asp
+     */
+    public static class LASTINPUTINFO extends Structure {
+      public int cbSize = 8;
+
+      /// Tick count of when the last input event was received.
+      public int dwTime;
+    }
+
+    /**
+     * Retrieves the time of the last input event.
+     *
+     * @return time of the last input event, in milliseconds
+     * @see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/userinput/keyboardinput/keyboardinputreference/keyboardinputfunctions/getlastinputinfo.asp
+     */
+    public boolean GetLastInputInfo(LASTINPUTINFO result);
+  }
+
+  /**
+   * Get the amount of milliseconds that have elapsed since the last input event
+   * (mouse or keyboard)
+   *
+   * @return idle time in milliseconds
+   */
+  public static int getIdleTimeMillisWin32() {
+    User32.LASTINPUTINFO lastInputInfo = new User32.LASTINPUTINFO();
+    User32.INSTANCE.GetLastInputInfo(lastInputInfo);
+    return Kernel32.INSTANCE.GetTickCount() - lastInputInfo.dwTime;
+  }
+
+  public long getLastUserActivityTime() {
+    int t = getIdleTimeMillisWin32();
+    long now = System.currentTimeMillis();
+    return t > 0 ? now - t : now;
+  }
+}

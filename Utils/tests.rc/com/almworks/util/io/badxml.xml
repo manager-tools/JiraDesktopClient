@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<whatever>
+   <thetext>The message still does not convey why the document could not be opened. It
+should read something like, &quot;File/home/faught/foo.gif is not of a supported
+image type.&quot;
+
+If the dialoge needs to be more generic for other implementations (such as being
+called from the Open dialog), it could read &quot;/home/faught/foo.gif is not of a
+supported file type.&quot; or one might want to consider giving it its own dialog so
+it wouldn&apos;t need to be more generic.</thetext>
+</whatever>

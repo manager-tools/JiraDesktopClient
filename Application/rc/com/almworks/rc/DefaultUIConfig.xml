@@ -1,0 +1,81 @@
+<!DOCTYPE ui [
+<!ELEMENT viewer (id,presentation,componentFactory,componentBinding)>
+<!ELEMENT componentBinding (actionBinding*, modelBinding*, sameNames?)>
+<!ELEMENT sameNames (#PCDATA)>
+<!ELEMENT actionBinding (componentName, browseWeb)>
+<!ELEMENT modelBinding (componentName, key)>
+<!ELEMENT browseWeb (#PCDATA)>
+<!ELEMENT presentation (Name)>
+<!ELEMENT sizePolicy (srinkable)>
+<!ELEMENT prototype (property)+>
+<!ELEMENT property (key,value)>
+<!ELEMENT srinkable (#PCDATA)>
+<!ELEMENT componentFactory (className,instanceFieldName)>
+<!ELEMENT mainColumns (column)+>
+<!ELEMENT column (key,sizePolicy?)>
+<!ELEMENT ui (viewers,mainProperty,mainColumns,prototype)>
+<!ELEMENT viewers (viewer)+>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT key (#PCDATA)>
+<!ELEMENT componentName (#PCDATA)>
+<!ELEMENT className (#PCDATA)>
+<!ELEMENT instanceFieldName (#PCDATA)>
+<!ELEMENT Name (#PCDATA)>
+<!ELEMENT mainProperty (#PCDATA)>
+<!ELEMENT value (#PCDATA)>
+<!ELEMENT browseActionKey (#PCDATA)>
+]>
+<ui>
+  <viewers>
+    <viewer>
+      <id>system</id>
+      <presentation>
+        <Name>System</Name>
+      </presentation>
+      <componentFactory>
+        <className>com.almworks.explorer.view.SystemView</className>
+        <instanceFieldName>myWholePanel</instanceFieldName>
+      </componentFactory>
+    </viewer>
+  </viewers>
+  <mainProperty>name</mainProperty>
+  <mainColumns>
+    <column>
+      <key>name</key>
+    </column>
+    <column>
+      <key>type</key>
+    </column>
+    <column>
+      <key>description</key>
+    </column>
+    <column>
+      <key>key</key>
+    </column>
+    <column>
+      <key>ID</key>
+    </column>
+  </mainColumns>
+  <prototype>
+    <property>
+      <key>name</key>
+      <value>Array of references</value>
+    </property>
+    <property>
+      <key>type</key>
+      <value>Value Type</value>
+    </property>
+    <property>
+      <key>description</key>
+      <value>Values of this type are arrays of values of type Reference</value>
+    </property>
+    <property>
+      <key>key</key>
+      <value>2.3.4.5.6.7.</value>
+    </property>
+    <property>
+      <key>ID</key>
+      <value>tracker:whatever:address:could:be:here</value>
+    </property>
+  </prototype>
+</ui>

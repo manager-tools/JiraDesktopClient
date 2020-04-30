@@ -1,0 +1,82 @@
+<project name="Generated file header" default="genHeaderX">
+  <import file="properties.xml"/>
+
+  <target name="genHeaderX">
+    <fail message="Should not happen"/>
+  </target>
+
+<!-- Compiler -->
+
+  <taskdef
+          name="javac2"
+          classname="com.intellij.uiDesigner.ant.Javac2">
+    <classpath>
+      <pathelement location="${dir.build.files}/asm-all.jar"/>
+      <pathelement location="${dir.build.files}/javac2.jar"/>
+      <pathelement location="${dir.build.files}/bcel.jar"/>
+      <pathelement location="${dir.lib}/pjdom.jar"/>
+      <pathelement location="${dir.lib}/forms-1.0.7.jar"/>
+    </classpath>
+  </taskdef>
+
+  <presetdef name="gjc">
+    <javac2 debug="true" includeAntRuntime="false" source="${jdk.level.source}" target="${jdk.level.target}" nowarn="true"/>
+  </presetdef>
+
+<!-- Build No -->
+
+  <target name="buildno" depends="buildno.load">
+    <makeProductInfo2 target="${dir.class.prodcode}"/>
+  </target>
+
+  <target name="buildno.external">
+    <condition property="product.buildno" value="${build.number}">
+      <isset property="build.number"/>
+    </condition>
+    <condition property="dirty" value="true">
+      <not><isset property="product.buildno"/></not>
+    </condition>
+    <condition property="product.buildno" value="0">
+      <not><isset property="product.buildno"/></not>
+    </condition>
+    <echo message="BUILD: ${product.buildno}"/>
+  </target>
+
+  <target name="buildno.load" depends="buildno.external">
+    <property file="${file.product.cm}"/>
+    <fail unless="product.buildno" message="No product.buildno"/>
+    <fail unless="product.version" message="File ${file.product.cm} doesn't seem to have product.version"/>
+    <fail unless="product.versionType" message="File ${file.product.cm} doesn't seem to have product.versionType"/>
+    <fail unless="product.fileVersion" message="File ${file.product.cm} doesn't seem to have product.fileVersion"/>
+
+    <macrodef name="makeProductInfo2">
+      <attribute name="target"/>
+      <sequential>
+        <fail unless="product.buildno" message="build number unavailable"/>
+        <echo message="BUILD: ${product.buildno}"/>
+        <mkdir dir="${dir.build}/modsrc/CoreComponents/com/almworks/platform"/>
+        <copy todir="${dir.build}/modsrc/CoreComponents/com/almworks/platform"
+              file="${dir.project}/CoreComponents/src/com/almworks/platform/ProductInfoProperties.java"/>
+        <java classname="com.almworks.tools.modpip.ModPip" classpathref="classpath.tests.BuildTools" failonerror="true">
+          <arg value="${dir.build}/modsrc/CoreComponents/com/almworks/platform/ProductInfoProperties.java"/>
+          <arg value="buildNumber"/>
+          <arg value="${product.buildno}"/>
+          <arg value="productName"/>
+          <arg value="${product.name.capitalized}"/>
+          <arg value="version"/>
+          <arg value="${product.version}"/>
+          <arg value="versionType"/>
+          <arg value="${product.versionType}"/>
+        </java>
+        <javac
+                srcdir="${dir.build}/modsrc/CoreComponents"
+                debug="false"
+                destdir="${dir.class.prodcode}/CoreComponents"
+                includes="com/almworks/platform/ProductInfoProperties.java"
+                failonerror="true"
+                source="1.5"
+                target="1.5"/>
+      </sequential>
+    </macrodef>
+  </target>
+</project>

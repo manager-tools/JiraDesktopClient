@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../build.idea/CommonUtils" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.8_192" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="TwoCents" exported="" />
+    <orderEntry type="library" exported="" name="junit" level="project" />
+    <orderEntry type="library" name="JDOM" level="project" />
+    <orderEntry type="library" name="javolution" level="project" />
+    <orderEntry type="library" exported="" name="integers" level="project" />
+    <orderEntry type="library" exported="" name="trove-2.1.0" level="project" />
+  </component>
+</module>

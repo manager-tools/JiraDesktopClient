@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="myWholePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="592.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+      <ColumnConstraints hgrow="NEVER" minWidth="-Infinity" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" />
+      <ColumnConstraints hgrow="NEVER" minWidth="-Infinity" />
+      <ColumnConstraints hgrow="NEVER" minWidth="-Infinity" />
+    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="200.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints valignment="TOP" vgrow="NEVER" />
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" valignment="BASELINE" vgrow="NEVER" />
+      <RowConstraints maxHeight="-Infinity" minHeight="0.0" valignment="BASELINE" vgrow="NEVER" />
+    <RowConstraints vgrow="ALWAYS" />
+  </rowConstraints>
+   <children>
+      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+         <children>
+            <Label fx:id="myNoContentLabel" styleClass="hint" text="%browser.noContent" />
+            <WebView fx:id="myWebView" prefHeight="-1.0" prefWidth="-1.0" />
+         </children>
+      </StackPane>
+      <Button fx:id="myConnectButton" mnemonicParsing="false" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BASELINE" />
+     <TextField maxWidth="1.7976931348623157E308" promptText="http://mycompany.com/" GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.valignment="BASELINE" />
+     <Label fx:id="myStateLabel" text="Label" GridPane.rowIndex="1" GridPane.valignment="BASELINE">
+         <graphic>
+            <ImageView fx:id="myStateImage" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@connect_ico_1.png" />
+               </image></ImageView>
+         </graphic>
+      </Label>
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Button fx:id="myBackButton" mnemonicParsing="false" styleClass="nav-button" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <graphic>
+            <ImageView fx:id="myBackImage" fitHeight="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@arrow_back.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button fx:id="myForwardButton" mnemonicParsing="false" GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <graphic>
+            <ImageView fx:id="myForwardImage" fitHeight="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@arrow_forward.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+     <VBox fx:id="myVBox" GridPane.columnIndex="1" GridPane.rowSpan="3">
+       <children>
+         <Label text="Label" />
+         <Label text="Label" />
+       </children>
+     </VBox>
+   </children>
+</GridPane>

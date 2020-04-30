@@ -1,0 +1,12 @@
+<ui>
+  <viewers/>
+  <mainProperty>mainAttribute</mainProperty>
+  <!--
+    <prototype>
+      <property>
+        <key>Description</key>
+        <value>123456789.123456789.123456789.1234567890</value>
+      </property>
+    </prototype>
+  -->
+</ui>

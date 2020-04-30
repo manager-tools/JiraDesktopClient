@@ -1,0 +1,86 @@
+@media screen {
+  body, div, td, th {
+    font-size: 80%;
+  }
+  h1 {
+    font-size: 300%;
+  }
+}
+
+@media print {
+  h1 {
+    font-size: 8pt;
+  }
+  body, div, td, th {
+    font-size: 55%;
+  }
+}
+
+body, div, td, th {
+  font-family: Verdana, Helvetica, Arial;
+  background: #fff;
+}
+
+table.bugs {
+  margin: 1em 0em;
+  border-collapse: collapse;
+}
+
+table.bugs td {
+  background: #fff;
+  border: 1px solid #888;
+} 
+
+table.bugs th {
+  background: #ccc;
+  vertical-align: bottom;
+  border: 1px solid #888;
+  page-break-inside: avoid;
+}
+
+div.notlast {
+  page-break-after: always;
+}
+
+td, th {
+  padding: 0.1em 0.3em;
+}
+
+h1 {
+  padding: 0.3em 1em;
+  background: #ccc;
+  border: 1px solid #888;
+}
+
+.infoTable {
+  page-break-after: avoid;
+  page-break-before: avoid;
+  page-break-inside: avoid;
+}
+
+td.infoData {
+  text-align: left;
+  font-weight: bold;
+}
+
+td.id {
+  text-align: center;
+}
+
+.number, .date {
+  text-align: right;
+}
+
+.blocker {
+  font-weight: bold;
+}
+
+@media screen {
+.critical, .blocker {
+  color: red;
+}
+
+.enhancement {
+  color: #888;
+}
+}

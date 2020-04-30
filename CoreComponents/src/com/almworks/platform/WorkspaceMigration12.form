@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.almworks.platform.WorkspaceMigration12">
+  <grid id="6abd7" binding="myWholePanel" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="75" y="71" width="405" height="254"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="2bb2a" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="0" width="396" height="70"/>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="&lt;html&gt;Starting from Deskzilla 1.2, Deskzilla workspace by default is located in the user's&lt;br&gt;home directory. Deskzilla can now copy the workspace to its new default location.&lt;br&gt;Old workspace directory will be renamed to &quot;workspace.migrated&quot;.&lt;br&gt;&lt;br&gt;Workspace contains your configuration, downloaded files and issue database."/>
+        </properties>
+      </component>
+      <component id="3e887" class="javax.swing.JTextField" binding="myCurrentWorkspace">
+        <constraints>
+          <xy x="155" y="97" width="250" height="20"/>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1"/>
+        </constraints>
+        <properties>
+          <columns value="30"/>
+          <editable value="false"/>
+        </properties>
+      </component>
+      <component id="87721" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="100" width="145" height="14"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Current workspace directory:"/>
+        </properties>
+      </component>
+      <component id="2e75b" class="javax.swing.JTextField" binding="myNewWorkspace">
+        <constraints>
+          <xy x="155" y="123" width="250" height="20"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1"/>
+        </constraints>
+        <properties>
+          <columns value="30"/>
+          <editable value="false"/>
+        </properties>
+      </component>
+      <component id="d5c80" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="126" width="129" height="14"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="New workspace directory:"/>
+        </properties>
+      </component>
+      <component id="c2226" class="javax.swing.JLabel">
+        <constraints>
+          <xy x="0" y="170" width="365" height="56"/>
+          <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="&lt;html&gt;Would you like Deskzilla to copy the workspace to the new default location?&lt;br&gt;&lt;b&gt;YES&lt;/b&gt; - Copy the workspace and start Deskzilla;&lt;br&gt;&lt;b&gt;NO&lt;/b&gt; - Keep workspace at the old location and start Deskzilla;&lt;br&gt;&lt;b&gt;Cancel&lt;/b&gt; - Exit the application"/>
+        </properties>
+      </component>
+      <component id="8a3bf" class="javax.swing.JCheckBox" binding="myDontAsk">
+        <constraints>
+          <xy x="0" y="232" width="116" height="22"/>
+          <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Don't ask me again"/>
+        </properties>
+      </component>
+      <vspacer id="a250a">
+        <constraints>
+          <xy x="67" y="149" width="11" height="21"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2">
+            <preferred-size width="-1" height="21"/>
+          </grid>
+        </constraints>
+      </vspacer>
+      <vspacer id="1505">
+        <constraints>
+          <xy x="67" y="76" width="11" height="21"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2">
+            <preferred-size width="-1" height="21"/>
+          </grid>
+        </constraints>
+      </vspacer>
+    </children>
+  </grid>
+</form>

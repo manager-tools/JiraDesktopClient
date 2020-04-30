@@ -1,0 +1,11 @@
+<ui>
+  <componentFactory>
+    <className>javax.swing.JTree</className>
+  </componentFactory>
+  <mainProperty>mainAttribute</mainProperty>
+  <mainColumns>
+    <column>
+      <key>mainAttribute</key>
+    </column>
+  </mainColumns>
+</ui>

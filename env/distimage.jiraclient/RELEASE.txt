@@ -1,0 +1,954 @@
+Client for Jira Release Notes
+http://almworks.com/jiraclient
+
+Version:         3.8.5
+Date of Release: 26 April 2020
+
+
+For system requirements, installation and upgrade instructions and
+information about backing up/restoring Client for Jira configuration,
+please see README.txt or ALM Works website.
+
+
+Change History
+==============
+
+3.8.4 => 3.8.5
+------------
+
+* Rebranding of application name and logos
+* License changed to GPLv3
+
+3.8.3 => 3.8.4
+--------------
+
+* Support for updated Atlassian ID site
+* View image attachments memory leak fixed
+* Minor fixes in New Connection feature
+
+3.8.2 => 3.8.3
+--------------
+
+* Continuous Download Changes fixed (affects connections configured with Google Accounts)
+
+3.8.1 => 3.8.2
+--------------
+
+Improved connect with embedded web browser:
+
+* Support for recent changes on Google Accounts web interface
+* Support for popup authentication dialogs
+* General fixes and stability improvements
+
+Other improvements:
+
+* ScreenShot utility: better support for multi-monitor configurations (3 monitors and more)
+* Fixed scaling down of image attachments exported to PDF
+* Distribution by Sprint keeps complete Sprints
+* Sort Statuses by name
+
+3.8 => 3.8.1
+------------
+
+Support for macOS Sierra
+
+3.7 => 3.8
+----------
+
+Connect with embedded web browser:
+
+* Support for any Single Sign On system
+* Support for Google accounts
+
+Support for SVG images:
+
+* Supports JIRA SVG icons for types/statuses/priorities
+* SVG attachment are shown in issue details and viewable with internal viewer
+
+OS X distribution improved:
+
+* JIRA Client does not use high performance graphics card
+* Crashes fixed
+
+Other improvements:
+
+* Customizable date and time formats
+* Obtain custom fields' options from workflow screens
+* Keyboard shortcut for Assign to Me
+
+3.6.2 => 3.7
+------------
+
+Bundled with Java 8
+
+Support for JIRA 7.0
+
+Fixes and improvements:
+
+* Status category color is reflected in status icon
+* Version statuses are displayed with an icon
+* Affects Version and Fix Version editors hide archived versions
+* In the versions lists archived versions are displayed separately, after not archived ones
+
+3.6.1 => 3.6.2
+--------------
+
+Fix for JIRA on demand
+
+JCO-1768 JIRAClient cannot edit due to permissions are renamed on JIRA OnDemand
+
+3.6 => 3.6.1
+------------
+
+A bug fix release.
+
+JCO-1701 JIRA Client ignores field configuration, which may result in non-applicable fields showing up on the Edit / Create screens
+JCO-1703 User List Not Available when assigning issues
+JCO-1706 Allow multiple New Task windows
+JCO-1719 Support other languages in the Issue Resolution drop down
+
+3.5.2 => 3.6
+------------
+
+Support for JIRA screens
+
+JCO-1698 Support for JIRA screens
+JCO-135 Screen configuration is not honoured for fields
+JCO-167 Group fields to reflect tabs in JIRA
+JCO-1476 Remove not editable fields from create/edit issue form
+
+Other new features
+
+JCO-1181 Spell Check
+JCO-781 Display a hierarchy view with ALL links at once.
+
+Other fixes and improvements
+
+JCO-340 List only assignable users in Assigned To field
+JCO-1301 Open attached files of known types using default programs on double-click
+JCO-1694 Support HTTP basic authentication
+JCO-1439 Upgrade Install4J and embedded JRE
+JCO-1297 Issue Synchronization failing when required fields are missing.
+JCO-1526 Links renderer in comments highlights hyperlink with an offset
+
+3.5.1 => 3.5.2
+--------------
+
+Mac OS X improvements
+
+JCO-1587 Sign application bundle for OS X GateKeeper
+JCO-1345 Support for Retina Displays on Mac OS X
+
+3.5 => 3.5.1
+------------
+
+A bug fix release.
+
+JCO-1500 Jira client 3.1.3 not working on OSX 10.9
+JCO-1564 Jira client stops working, showing error
+JCO-1583 Tickets with a lot of worklogs publish duplicate time records
+JCO-1555 Greenhopper spints no longer work
+JCO-1553 It cannot export 2byte character to PDF and CSV.
+
+New improvements
+
+JCO-1579 Update default project key pattern
+JCO-1552 Edit worklogs with double-click
+
+3.1.3 => 3.5
+------------
+
+Memory issues and performance
+
+JCO-1337 Out of memory error when during connection init
+JCO-1399 OutOfMemory error when connecting to server with hundreds of projects
+JCO-1396 New JIRA Client stop with message "out of memory"
+
+New features and improvements
+
+JCO-1477 Check compatibility with JIRA 6.0
+JCO-776 Delete comments
+JCO-221 Delete attachments
+JCO-1385 Worklogs viewer improvements
+JCO-1018 Customizable "copy to clipboard" action
+JCO-1364 Load displayable user names for comments authors
+JCO-1327 Support logged-in connections to jira.atlassian.com (Atlassian ID)
+JCO-1299 Show Sprint names (in addition to IDs) and allow requests to the server using sprint names or ids.
+JCO-1268 Support Account custom field from Tempo plugin
+
+Other fixes and improvements
+
+JCO-1464 Avoid consecutive login attempts if the password is known to be incorrect
+JCO-1432 New connection: check both http and https protocols
+JCO-1231 Check that JIRA Client behaves correctly if username contains uppercase letters
+JCO-1048 Learn whether the current issue can be edited and disable "Edit Issue" action if it cannot
+JCO-1384 Fix mouse scrolling in viewer and editor
+JCO-1421 Connection wizard displays wrong message when JIRA URL is incorrectly entered
+JCO-1484 Mac, Connection Info panel -- License value is right-aligned
+JCO-1379 In Export dialog, no attributes are selected by default
+JCO-1398 License with expired maintenance does not work
+
+3.2 Alpha 1 => 3.2 Alpha 2
+--------------------------
+
+New features and improvements:
+
+JCO-221 Delete attachments
+JCO-776 Delete comments
+JCO-1327 Support logged-in connections to jira.atlassian.com (Atlassian ID)
+JCO-1268 Support Account custom field from Tempo plugin
+JCO-1299 Show Sprint names (in addition to IDs) and allow requests to the server using sprint names or ids.
+
+3.1.2 => 3.2 Alpha 1
+--------------------
+
+Memory issues and performance
+
+JCO-1337 Out of memory error when during connection init
+JCO-1399 OutOfMemory error when connecting to server with hundreds of projects
+JCO-1396 New JIRA Client stop with message "out of memory"
+
+Other fixes and improvements
+
+JCO-1421 Connection wizard displays wrong message when JIRA URL is incorrectly entered
+JCO-1398 License with expired maintenance does not work
+JCO-1384 Fix mouse scrolling in viewer and editor
+JCO-1385 Worklogs viewer improvements
+JCO-1048 Learn whether the current issue can be edited and disable "Edit Issue" action if it cannot
+JCO-1378 Issue types drop-down: sort by type's type (standard types, subtask types), then either by decisive order from the server or by name
+JCO-1364 No displayable user names are loaded for comments authors
+
+3.1 => 3.1.2
+------------
+
+A bug fix release.
+
+JCO-874 Connection wizard: automatically detect that JIRA uses HTTPS and configure with HTTPS URL
+JCO-1324 Remote search by Security Level
+JCO-1316 Filter by user name: the character '.' is a reserved JQL character
+JCO-1322 Show license file location in LicenseKey dialog
+
+
+3.0.2 => 3.1
+------------
+
+JIRA 5.2 support and single distribution.
+
+* JCO-1314 Support JIRA 5.2
+* JCO-1315 Replace Pro, Lite and Site with single distribution
+* JCO-1226 JIRA Client can't work with the new Labs Search on
+* JCO-1238 Issue Type selection doesn't work
+* JCO-780  Support remote "<field> is empty" queries
+* JCO-1246 JIRAClient downloads too many issues during quick synchronization
+* JCO-1302 Support Epic Name field, introduced by GreenHopper 6.1 (probably
+           other fields too)
+* JCO-871 "Quick check" during quick sync should download only issue ID and
+           Updated fields
+* JCO-1220 Drag and drop onto uneditable custom field produces error message
+           "Cannot change connection"
+* JCO-1283 Degradation: non-standard issue key pattern is rejected where it was
+           accepted in 2.3
+
+
+3.0 => 3.0.2
+------------
+
+A bug fix release.
+
+* JCO-1209 Login problems with JIRA OnDemand ("the server did not set session
+           id")
+* JCO-1185 Better support for custom fields of type unknown to JIRA Client
+* JCO-1213 Cannot upload custom fields of type "date"
+* JCO-1215 Cannot update date-time custom field on JIRA earlier than 4.4:
+           "wrong date format" with duplicate "h:mm a"
+
+
+3.0 => 3.0.1
+------------
+
+Bug fixes and improvements:
+
+* JCO-1188 Cannot link issues on some JIRA 5.1 instances
+* JCO-1080 Select "Fixed" resolution by default on the Resolve Issue screen
+* JCO-1192 Recent variants are not shown for custom fields like "select list"
+           or "version picker"
+* JCO-1196 "Download Attachments" action in the issue table pop-up is always
+           disabled
+* JCO-1197 Column widths are reset to default when column is added to the table
+* JCO-1195 Don't set invalid values via drag and drop
+* JCO-1198 External links with hyphen are opened in JIRA Client instead of
+           browser
+* JCO-1189 Users that cannot edit own comments cannot edit local comments too
+
+
+2.3.5 => 3.0
+------------
+
+New features and improvements:
+
+* PLO-86  "New Issue Here" action in Navigation Tree
+* JCO-782  When displaying an issue hierarchy, issues linked to multiple parents 
+           should be displayed several times, once under each parent
+
+Improvements to issue editing:
+
+* JCO-1064 Add and remove links in New/Edit Issue
+* PLO-420  Allow to edit issue while it is uploading or downloading
+* PLO-90   Do not ask confirmation when closing New Issue window with no user 
+           input
+* PLO-883  Incremental search in all text editors
+* PLO-882  Add "me" button to all "Assignee" editors
+* PLO-884  Button to quickly set resolution to Fixed
+* JCO-678  Remove "Priority not set" value
+* JCO-1132 Disallow setting versions from another project as values of "Version 
+           Picker" custom field
+
+Improvements to attachments:
+
+* JCO-1133 Attach Screenshot/Text: allow to specify the exact attachment name
+* JCO-1134 Allow to rename attachments before they are uploaded
+* JCO-21   Action to create and attach text file to an issue
+* JCO-619  Allow to view screenshots and attachments from the New/Edit Issue 
+           form
+* PLO-887  Allow user to select encoding when viewing text attachment
+
+Other improvements:
+
+* JCO-1083 Tabular Distribution configurations
+* PLO-889  Bulk add comment
+* JCO-638  Edit distribution: right pane should be initially expanded if 
+           distribution settings differ from the defaults
+* JCO-1084 Create links to several issues by pasting opposite issue
+
+Compatibility with JIRA 5.1:
+
+* JCO-1152 JIRA Client fails to load issue XML view on JIRA 5.1rc2
+* JCO-1153 Cannot upload Due Date or date custom field (date formats are not 
+           loaded on JIRA 5.1)
+
+Bug fixes:
+
+* JCO-1105 Local file name for screenshot does not match filename on server
+* JCO-969  OutOfMemoryError on JIRA server when uploading large attachments
+* JCO-1033 When I set Due Date, the resulting date is one day less
+* JCO-1046 Timezone problems with update of a Date custom field
+* JCO-1078 Cannot create issue if Estimate field is required
+* JCO-941  Labels should be case-sensitive
+* PLO-891  In Mac OS X application refuses to minimize
+* JCO-1167 Cannot upload Due Date if user locale isn't English (without 
+           tampering with System Properties)
+* JCO-989  Voting does not work on JIRA 4.3.*
+* JCO-1088 Voters list is not loaded when watching is turned off in JIRA
+* JCO-1065 Cannot create issue with labels and custom field of type "Multi Group 
+           Picker" if the latter is required
+* JCO-356  Clear tags on issues when removing tag
+* JCO-565  Time-based queries do not update themselves over time
+* JCO-1170 Wrong remaining estimate is set to issue when adding work log in case 
+           "Default Unit" JIRA setting is not "minute"
+* JCO-1096 Cannot progress workflow action if Greenhopper Rank field is on 
+           screen ("Cannot upload illegal values")
+
+
+2.3.5 => 3.0 Alpha 1
+--------------------
+
+New features and improvements:
+
+* PLO-86   "New Issue Here" action in Navigation Tree
+* PLO-420  Allow to edit issue while it is uploading or downloading
+* PLO-882  Add "me" button to all "Assignee" editors
+* PLO-884  Button to quickly set resolution to Fixed
+* JCO-21   Action to create and attach text file to an issue
+* PLO-883  Incremental search in all text editors
+* JCO-941  Labels should be case-sensitive
+* PLO-840  On the Mac Cmd-W should close windows
+* PLO-832  A dialog for setting system properties
+
+Bug fixes:
+
+* JCO-969  OutOfMemoryError on JIRA server when uploading large attachments
+* JCO-1065 Cannot create issue with labels and custom field of type 
+           "Multi Group Picker" if the latter is required
+* PLO-843  Mouse wheel doesn't work in some tables (Recent Items, System
+           Properties)
+* PLO-838  Attachment tooltip hides the pop-up menu on Mac OS X
+* JCO-990  Do not define HOME env variable in launch.sh
+* PLO-846  "java.lang.IllegalArgumentException: null source" error
+
+
+2.3.4 => 2.3.5
+--------------
+
+Bug fixes:
+
+* JCO-1031 Some custom fields are not working with Jira 4.4
+* JCO-1025 Custom field search has unexpected results, available options
+           disappear
+* JCO-1027 Server response is incorrectly decoded when sent in non-UTF charset
+* JCO-1034 Cannot create issue on JIRA 4.2 and later if "Labels" is a required
+           field
+* JCO-1040 Dates (Created, Updated) are loaded only with details on localized
+           JIRA 4.4
+* JCO-1045 Cannot upload datetime custom field value: pattern is not
+           determined
+* JCO-1008 Support custom fields from Database Values plugin
+* JCO-939  Issues in a project the key of which contains a dash followed by
+           numbers do not show in query
+* JCO-1026 Text does not wrap in the "Log Work" dialog in Jira Client on OSX
+
+
+2.3.3 => 2.3.4
+--------------
+
+New features and improvements:
+
+* JCO-927 Create a shortcut for "Assign" action
+* JCO-924 Support non-standard project keys
+
+Bug fixes:
+
+* JCO-934 JIRA Client doesn't show Labels if JIRA installation has no custom
+          fields (JIRA 4.2)
+* JCO-914 JIRA login required when valid credentials given
+* JCO-918 On some JIRA installations, JIRA Client may not allow to edit
+          comments on server although user can edit them on JIRA
+* JCO-847 Local comments cannot be edited if the user does not have
+          permissions to edit own comments and on JIRA older than 3.11
+* JCO-922 Use standard shortcuts for Undo/Redo on Mac
+* JCO-923 Georgian characters are not displayed
+
+
+2.3.2 => 2.3.3
+--------------
+
+Bug fixes:
+
+* JCO-912 Existing connections to JIRA 4.2 may become unusable after
+          upgrading to JC 2.3.2
+* JCO-913 Attachments are removed if "Download Details" cannot get
+          attachments from ManageAttachments.jspa
+
+
+2.3.1 => 2.3.2
+--------------
+
+New features and improvements:
+
+* JCO-903 Support JIRA 4.2
+* JCO-856 Fall back to form-based login if LoginGadgetResource fails
+* JCO-894 Correctly inform the user that JIRA login requires CAPTCHA
+* JCO-901 Ability to specify date and time formats for non-English JIRAs
+* JCO-896 Recognize JIRA Order plugin custom field
+
+Bug fixes:
+
+* JCO-887 Moving issues between projects may not work
+* JCO-889 Queries with text searches don't work sometimes
+* PLO-779 In Mac OS X application refuses to minimize and restore
+
+
+2.3 => 2.3.1
+------------
+
+New features and improvements:
+
+* JCO-868 Support JIRA Studio integrated with Google Apps
+* JCO-876 Improve cookie handling to correctly follow redirects
+* JCO-870 Improve support for the JIRA Toolkit plugin
+* JCO-878 Implement remote search for numeric custom fields with
+          range searchers
+* JCO-869 Add "Parent Key" to the list of exportable attributes
+
+Bug fixes:
+
+* JCO-873 Opening WMV attachments on Windows leads to Java VM crash
+* PLO-769 Query Builder doesn't restore numeric condition type
+
+
+2.3 Beta 1 => 2.3
+-----------------
+
+* JCO-811 Speed up quick search by issue Key, allowing the user to type in 
+          only the number
+* PLO-590 Hide/Show Navigation Tree
+* Few other minor fixes
+
+
+2.2 => 2.3 Beta 1
+-----------------
+
+New features and improvements:
+
+* PLO-432 Usability: There should be a way to open issue I've just posted
+* PLO-399 Remember table configuration per query
+* PLO-567 Search for empty fields
+* JCO-189 Convert issues to/from sub-tasks
+* JCO-200 Move subtasks
+* JCO-34  Edit comments on JIRA server
+* PLO-709 "Text Search" constraint type for the Query Builder
+* PLO-611 Per-connection offline mode (a way to pause updating a connection)
+* PLO-629 Cleaner UI on Windows XP, Vista, 7
+
+Bug fixes:
+
+* JCO-839 Trailing spaces in project's Version lead to weird behaviour
+* JCO-797 JIRA Client does not correctly detect expired cookies sometimes
+* JCO-817 Better support for JIRA Studio
+
+
+2.2 Beta 1 => 2.2
+-----------------
+
+* JCO-774 Drag-and-drop on Labels field should provide Replace action
+* JCO-765 Default columns config: added status-type-priority icon column
+* Few other minor fixes
+
+
+2.1.2 => 2.2 Beta 1
+-------------------
+
+* Added support for JIRA 4.1
+
+User interface improvements, including the following:
+
+* PLO-196 Enable ClearType throughout the application (Windows, Linux)
+* PLO-689 A way to synchronize just a single connection
+* JCO-533 A single column with issue status, type, and priority icons
+* PLO-239 Pop-up menus with Copy, Paste, etc. in text fields (Windows, Mac)
+* PLO-324 Merge window: buttons for resolutions
+* PLO-639 Make Open File/Folder attachment actions available on Mac and Linux
+* PLO-644 Improve "Open containing folder" to select opened item
+          in Explorer (Windows) or Finder (Mac)
+* PLO-518 Make Tab key move focus from large text fields
+
+Bug fixes, including these:
+
+* PLO-576 Highlighting of text search matches in comments is broken
+* PLO-630 Time Tracker erases unsaved bug/issue edits
+* PLO-431 Time tracking window shows wrong artifact
+* PLO-620 E-mail and mailto links are not handled properly on the Mac
+* PLO-50  "Open Containing Folder" doesn't work on Vista
+* JCO-762 Adding new projects to a connection doesn't bring new issues
+          until restart
+
+
+2.1 => 2.1.2
+------------
+
+* JCO-720 Support "Resolved" field in JIRA 4+
+* JCO-729 Add to warn output full text of pages that do not parse
+          correctly
+* JCO-728 Invalid HTML in Labels report breaks configuration
+          download
+
+
+2.1 => 2.1.1
+------------
+
+* PLO-598 JRE HTTP executor incorrectly sends requests for URLs that need
+          encoding
+* PLO-604 Wrong "Big Time" when publishing time tracking data
+
+
+2.1 Beta 1 => 2.1
+-----------------
+
+Fixes for connectivity with JIRA:
+
+* JCO-690 Synchronization fails with https proxy when authentication required
+* PLO-594 Simplify connection setup procedure for servers with self-signed
+          SSL certificates
+* JCO-377 Field values for a new bug are lost if the fields are missing on
+          Create Issue screen in JIRA configuration
+* JCO-679 JIRA date format is incorrectly determined on JIRA 4
+* JCO-682 New connection initialization incorrectly reports failure when
+          Remote API is off
+
+Further user experience improvements:
+
+* JCO-7   Drag-and-drop on Components, Fix Versions and the like should provide
+          both "add" and "replace" actions
+* JCO-671 Pasting an image file onto an issue should bring up the screenshot
+          editor
+* PLO-540 Improve as-you-type navigation in the "Select Columns" dialog
+
+Other bugfixes:
+
+* JCO-642 Issues created through HTML interface can get duplicated in
+          JIRA Client in some cases
+* JCO-674 Version Picker and Single Version Picker fields do not display
+          versions when edited on a workflow action dialog
+* JCO-680 New Connection Wizard: Suggested URL disappears after pressing <Tab>
+
+
+2.0.1 => 2.1 Beta 1
+-------------------
+
+User experience improvements:
+
+* PLO-1   Attach file / screenshot when creating issue
+* PLO-304 New/Edit Issue: Display recently selected items in
+          Assignee, Affects Versions and other fields
+* PLO-306 Quick as-you-type navigation in all lists and Tag dialog
+* PLO-458 Redesign the main menu
+* PLO-430 Wizard for creating new connection
+* JCO-363 Make "Create Distribution" dialog simpler
+* PLO-426 New/Edit Issue checks for invalid values for Components and other
+          fields
+* JCO-526 Messages and warnings related to issue are shown in the new message
+          panel
+* PLO-355 Remove "Hide empty queries: ON | OFF" from Navigation Tree
+* PLO-359 Support Undo/Redo in Screenshot tool
+* PLO-27  Closing Icons for Tabs
+* JCO-544 Show type and priority icons in links view
+* JCO-31  Always expand first 10 comments
+* PLO-423 Upgrade to Java 6
+* Various other UI improvements (user-friendly wording, minor glitches, etc.)
+
+Various bugfixes, including:
+
+* JCO-215 JIRA Client is not able to reassign issues if "assignee" field is
+          removed from "edit issue" screen in JIRA
+* JCO-1   Support dependency of issue types from project
+* JCO-3   Support dependency of security levels from projects
+* JCO-366 Hierarchy drop-down should show links only from current
+          connection
+* JCO-510 Labels are not auto merged
+* JCO-550 Move to other project changes issue type even when the original
+          type is available in both projects
+* JCO-530 Cannot upload changes to issue that was concurrently moved to another
+          project on server
+* JCO-386 Two clicks on comment garbles author name
+
+
+2.0 => 2.0.1
+------------
+
+Fix for a critical problem is added:
+
+* JCO-536 Issue may be moved to another project if only type is changed
+
+
+2.0 Beta 1 => 2.0
+-----------------
+
+* JIRA Client Lite, the free version of JIRA Client, introduced
+* Support for JIRA starter license
+* Fixed several problems in beta version
+* JCO-464 Get list of attachments from XML
+
+
+1.5.3 => 2.0 Beta 1
+-------------------
+
+* Full support for JIRA 4 (up to build rc1.460)
+* Improvements to time tracking - better UI, tracking remaining time
+* Mac UI improvements
+
+
+1.5.2 => 1.5.3
+--------------
+
+JCO-405 Connection test / sync fails when there's only one project in JIRA
+JCO-404 Cannot find server info on free-license JIRAs
+JCO-397 Rename "Open Issues" default queries to "Outstanding Issues" where
+        it checks for no resolution
+JCO-398 Greenhopper ranking support is broken: restore
+JCO-396 Custom field of type "Date" is not editable
+JCO-400 Bundle TrackLink.NET with the applicatoin
+JCO-399 Fix issue HTML description that is returned to TrackLink
+
+
+1.5.1 => 1.5.2
+--------------
+
+* Added columns: number of attachments, comments, work logs, links
+* A number of improvements for Mac OS X user interface
+
+
+1.5 => 1.5.1
+------------
+
+Several bug-fixes and performance improvements
+
+* JCO-70  Support day- and month- based values in estimate field
+          (assume day = 8 hours, week = 5 days)
+* JCO-65  Support JIRA 4 Beta
+* JCO-61  Redundant "Visible To" combo box on New Issue form
+* JCO-60  Issue table auto-refresh should be on by default
+* JCO-308 Download state for issues keeps reverting to partially-downloaded
+* JCO-303 Time tracking comment is lost if Publish button is pressed while
+          keyboard focus is still in comment edit area
+* JCO-299 Recognize "bugzilla id / import id" field type as read-only
+* JCO-297 Move issue fails if there's session timeout in the middle
+* JCO-296 When entering incorrect value into Estimate field, there's no
+          indication of error and value is silently skipped
+
+
+1.4.1 => 1.5
+------------
+
+ * JIRA work logs support
+ * Time Tracking control and timesheet view, integration with work logs
+ * URLs and issue keys in text fields and comments are clickable
+ * Support jira groups and project roles for comments
+ * #230 Minimize to System Tray
+ * Home, End buttons in issues table
+ * #952 Support Atlasbits "Custom Issue Order" plug-in with "Reorder by Field"
+ * #947 Fix: Have a way to choose authentication method if several are offered
+   by the server
+ * #951 Fix: Subtask creation problem
+ * #957 Fix: "Original Estimate" value cleared when changing JIRA ticket status
+
+
+1.4 => 1.4.1
+------------
+
+A number of problems have been fixed since the 1.4 release:
+
+ * #445 StackOverflowError caused by cycled context frames (z.cmm.a, z.gv.a)
+ * #927 Trying to change "Affect versions in" in existing queries cause crash
+ * #941 The order of enums in custom fields is lost
+ * #938 Cannot search by custom field of type "Select List" with "Multi Select
+        Searcher" search template
+ * #934 AOOBE when closing tabs on Mac OS X
+ * #929 Check/discard "field change checks" for uploading priorities and other
+        fields that the user may not have permission to change
+ * #932 Cannot use NTLM authentication with default preemptive auth
+ * #931 Exception: NPE at z.iai.a
+
+
+1.4.b1 => 1.4
+-------------
+
+We had to turn off spellchecker component by default due to some
+problems in the third-party component that we've been using. It is
+still possible to turn it back on using "spellcheck=true" command-line
+property, e.g.:
+  jiraclient.exe -J-Dspellcheck=true
+
+A few fixes applied to beta version before the release.
+
+
+1.3.1 => 1.4.b1
+---------------
+
+  * #399 Edit issues with dragging and dropping them on queries
+  * #795 Support Labels plug-in
+  * #472 Support voting
+  * #644 Support watchers
+  * #520 Collection import/export
+  * #628 When viewing attachment as text, allow to search
+  * #905 Let the user specify maximum number of projects that can be
+         configured per connection
+  * #904 Reuse cookies and SOAP tokens to minimize number of logins
+  * #907 Preemptive HTTP authentication
+  * #874 Basic HTTP authentication fails if auth realm is not constant
+  * #900 Limited support for date/time field
+  * #896 Preserve wiki mark-up in text fields
+  * #689 "Issue is Tagged" tooltip should show what tags are
+
+
+1.3 => 1.3.1
+------------
+
+Few minor problems have been fixed.
+
+
+1.3.b1 => 1.3
+-------------
+Only minor problems were found in beta.
+
+  * #852 Improve heuristics that make spell checker turned off
+  * #825 Select dialog text disappears on focus (Mac OS X)
+  * #829 "Open selected issue in browser" keystroke not working on Mac OSX
+  * #843 When migrated from previously used workspace, the custom fields are
+         not detected when they are configured for specific project/type
+  * #844 Edit window is very wide due to the long text in components field 
+  * #833 Attach files keystroke
+  * #832 Attachment tooltips don't match sort order
+
+
+1.2.1 => 1.3.b1
+---------------
+
+  * #70  Feature: Screenshot capture tool
+  * #755 Quick highlighting/searching in issues table
+  * #280 Spell checking
+  * #83  Feature: Open bug for viewing in a separate window
+  * #783 Export improvements: export to PDF, export comments, export
+         attachments
+  * #740 Show selected bug(s) in a new tab
+  * #738 Create attachments with drag-and-drop
+  * #793 Periodic synchronization should load only changed issues, metadata
+         should be synchronized separately and less often
+  * #658 Exported CSV file with non-ascii characters does not display
+         correctly in MS Excel
+  * #173 Feature: pre-download attachments
+  * #778 Date/time/timestamp parser incorrectly treats Australian EST
+         as U.S. EST
+  * #814 Automatically detect page size limit set in JIRA to avoid HTTP
+         errors when downloading queries
+  * #813 Use pager/start parameter when downloading issues from
+         JIRA versions > 3.7
+  * #794 Due date field shows wrong value when cleared
+  * #788 Israeli Standard Time (IST) gets confused with Indian Standard
+         Time (IST)
+
+1.2 => 1.2.1
+------------
+
+  * #725 In Query Builder, for user conditions, show not only 
+    	first & last name, but also username
+
+  * #733 Exception: NPE at  z.geq.ck_
+
+  * #732 Exception: NPE at z.hjt.a
+
+  * #731 Exception: NPE at z.exp.a
+
+
+1.2.b2 => 1.2
+-------------
+
+  * a number of fixes and minor improvements
+
+1.1 => 1.2.b2
+-------------
+
+#384 Support issue-level security
+#555 Support sub-tasks
+#394 A query constraint "issue is tagged with"
+#482 Edit field through drag-and-drop reordering
+#452 Export from tabular distribution
+#443 Editable combobox enhancements (was: auto-completion)
+#646 Add an option "skip proxy" for connection configuration
+#613 Date/time/timestamp parser incorrectly treats China Standard Time
+     (CST) as Central Standard Time (also CST)
+#616 Allow to create new tag right in the "tag issue" dialog
+#629 Switch from "collections" to "tags": new tagging action, viewing tags
+#636 Exception: NPE at z.bge.a (after drag-and-drop)
+#641 Exception: AIOOBE in DefaultTableHeaderUI due to Apple's UI not
+     clearing draggingColumn
+#637 Exception: NPE at z.fsj.a
+#638 Exception: NPE (valueData) at z.dhh.a
+#639 Exception: z.xv at z.bmc.a (while creating link)
+#648 JIRA Client fails to detect custom field which has an option with a
+     leading or trailing whitespace
+
+1.1.b1 ==> 1.1.b2 ==> 1.1
+-------------------------
+
+A number of bug fixed, including:
+  * [#590] Problem with resolving an issue, caused by a version 
+           defined in JIRA that contains leading or trailing spaces
+  * [#591] In issue view, linked issues' summaries may be aligned 
+           far to the right
+
+
+1.0.2 ==> 1.1.b1
+----------------
+
+  * [#214] Improved table header shows query path
+  * [#221] Add comment actions to comment pop-up menu
+  * [#516] Fixed: Nested "Create Distribution" created duplicate nodes
+  * [#515] Fixed: Edit Issue creates vast horizontal scrollbar
+  * 24 more improvements and fixes
+
+
+1.0.1 ==> 1.0.2
+---------------
+
+The following problems have been fixed:
+
+  * #471 CCE: java.lang.String cannot be cast to z.gfz
+
+  * #435 Entering incorrect password for a username when JIRA auth is 
+         LDAP-based causes account lock in ADS
+
+  * #434 Server fails with HTTP 500 on a second attempt to create a 
+         bug with "-" symbol in the summary field
+
+  * #423 User names with non-ascii symbols are not sent to the server 
+         properly, causing "login failed"
+
+  * #401 Move issue fails on JIRA 3.7 because of a bug in JIRA (Implement 
+         workaround)
+
+  * #391 Don't show archived versions when changing an issue
+
+  * #390 Released versions are sorted in reverse order
+
+  * #457 Partially support issue deletion
+
+  * #436 Clear per-issue workflow actions if issue's project/type changes
+
+  * #402 JIRA Client does not verify that Priority field has been changed 
+         by edit action
+
+  * #389 Don't add ".0" to values in decimal fields in Edit dialog
+
+
+1.0 ==> 1.0.1
+-------------
+
+This is a patch release with fixes for problems that have appeared
+since 1.0 and with few cosmetic changes. 
+
+In this release:
+
+  * Fixes and workarounds for exceptions that have been reported by 
+    users
+
+  * #358 Login failed when JIRA redirects from http:// to 
+         https:// address.
+
+  * #380 JIRA Client should verify that values were really updated and 
+         show error message if JIRA ignored the update
+
+  * #368 When workflow action is rejected by server, there's no way 
+         to edit its fields
+
+  * #374 Comment is sometimes added twice when put into "resolve as" 
+         dialog
+
+  * #379 Renaming versions and components on JIRA server may not be 
+         correctly caught up with by JIRA Client
+
+  * #363 Fix Version is not uploaded when issue is created
+
+  * #378 Issue may be created twice
+
+  * #373 Cannot create issue if Priority is a required field
+
+  * #375 Image thumbnails should be rendered with bicubic approximation
+
+
+1.0 Beta 3 ==> 1.0
+------------------
+
+This version contains several fixes and cosmetic improvements since the
+last beta.
+
+
+  * #344 "Add comment" action should be in the context menu for an issue
+
+  * #340 Default date formats should be short locale-specific
+
+  * #339 In the issues table, a tooltip would be nice on the icon that 
+         shows "pending update" status for an issue.
+
+  * #351 New Collection action must be globally enabled
+
+  * #347 Priorities are not sorted according to their server order
+
+  * #348 Removed bug remains in "sync problems" list
+
+  * #338 The purpose of "4." before "Description" heading and other 
+         numeric prefixes is not clear
+
+  * #350 When creating new issue, place current user into Reporter field
+
+
+
+

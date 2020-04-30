@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../build.idea/Utils" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="JDOM" level="project" />
+    <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/rc" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/tests.rc" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="commons-codec" level="project" />
+    <orderEntry type="library" name="winlaf" level="project" />
+    <orderEntry type="library" name="commons-httpclient" level="project" />
+    <orderEntry type="module" module-name="AppInit" exported="" />
+    <orderEntry type="library" name="javolution" level="project" />
+    <orderEntry type="library" exported="" name="jgoodies-forms" level="project" />
+    <orderEntry type="module" module-name="TwoCents" exported="" />
+    <orderEntry type="module" module-name="CommonUtils" exported="" />
+    <orderEntry type="library" exported="" name="integers" level="project" />
+    <orderEntry type="library" name="commons-logging" level="project" />
+    <orderEntry type="module" module-name="SpellCheck" exported="" />
+    <orderEntry type="library" name="svgSalamander-tiny" level="project" />
+    <orderEntry type="library" name="json-simple" level="project" />
+    <orderEntry type="library" exported="" name="trove-2.1.0" level="project" />
+  </component>
+  <component name="RetroweaverPlugin">
+    <setting name="active" value="true" />
+    <setting name="verbose" value="false" />
+    <setting name="verifyrefs" value="true" />
+    <setting name="targetJDK" value="1.4" />
+  </component>
+</module>
