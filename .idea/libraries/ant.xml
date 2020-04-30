@@ -1,0 +1,41 @@
+<component name="libraryTable">
+  <library name="ant">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-antlr.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-apache-bcel.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-apache-bsf.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-apache-log4j.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-apache-oro.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-apache-regexp.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-apache-resolver.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-commons-logging.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-commons-net.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-icontract.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-jai.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-javamail.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-jdepend.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-jmf.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-jsch.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-junit.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-launcher.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-netrexx.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-nodeps.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-starteam.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-stylebook.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-swing.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-trax.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-vaj.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-weblogic.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-xalan1.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-xslp.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/xercesImpl.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/xml-apis.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://C:/java/apache-ant-1.6.5/docs/manual/api" />
+      <root url="file:///java/apache-ant-1.6.5/docs/manual/api" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

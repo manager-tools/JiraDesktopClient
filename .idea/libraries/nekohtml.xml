@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="nekohtml">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/nekohtml.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://C:/PATCHED/nekohtml-0.9.5/src/html" />
+      <root url="file://C:/sereda/ALMWorks/PATCHED/nekohtml-0.9.5/src/html" />
+    </SOURCES>
+  </library>
+</component>

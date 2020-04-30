@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="suggester-basic">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/suggester-basic/suggester-1.1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/suggester-basic/src.zip!/src" />
+    </SOURCES>
+  </library>
+</component>

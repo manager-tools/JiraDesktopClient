@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="xerces">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/xml-apis.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/xercesImpl.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://C:/java/xerces/docs/javadocs/api" />
+      <root url="file:///java/xerces/docs/javadocs/api" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://C:/PATCHED/xerces-2_8_1/src" />
+      <root url="file://C:/PATCHED/xerces-2_8_1/build/src" />
+      <root url="file://C:/sereda/ALMWorks/PATCHED/xerces-2_8_1/src" />
+      <root url="file://C:/sereda/ALMWorks/PATCHED/xerces-2_8_1/build/src" />
+      <root url="jar://$PROJECT_DIR$/lib/src/xerces-2_8_1.patched.zip!/src" />
+    </SOURCES>
+  </library>
+</component>

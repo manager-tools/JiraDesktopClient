@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="integers">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/integers/integers.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/integers/integers-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
