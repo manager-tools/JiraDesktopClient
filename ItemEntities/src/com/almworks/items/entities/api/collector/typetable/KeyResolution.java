@@ -34,7 +34,7 @@ class KeyResolution extends SpecialTable {
 
   @Override
   protected DBIdentifiedObject createIdentifiedObject(DBNamespace namespace, SpecialPlace keyPlace) {
-    return DBObjectsCache.createAttribute(keyPlace.getEntity(), namespace);
+    return DBObjectsCache.createAttribute(keyPlace.createEntity(), namespace);
   }
 
   @Nullable

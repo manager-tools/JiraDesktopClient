@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="winlaf">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/winlaf.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://T:/java/winlaf/code/src" />
+      <root url="file://C:/java/winlaf/code/src" />
+      <root url="file:///java/winlaf/code/src" />
+    </SOURCES>
+  </library>
+</component>

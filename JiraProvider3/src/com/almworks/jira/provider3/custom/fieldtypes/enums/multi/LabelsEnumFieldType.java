@@ -32,6 +32,7 @@ import com.almworks.jira.provider3.sync.download2.meta.OptionsLoader;
 import com.almworks.jira.provider3.sync.jql.JQLConvertor;
 import com.almworks.jira.provider3.sync.jql.JqlEnum;
 import com.almworks.jira.provider3.sync.schema.ServerCustomField;
+import com.almworks.jira.provider3.sync.schema.ServerJira;
 import com.almworks.util.LogHelper;
 import com.almworks.util.text.NameMnemonic;
 import org.almworks.util.TypedKey;
@@ -78,7 +79,7 @@ public class LabelsEnumFieldType extends FieldType {
       String fullId = ServerCustomField.createFullId(connectionId, PREFIX, fieldId);
       EntityKey<Collection<Entity>> key = EntityKey.entityCollection(fullId, EntityKeyProperties.shadowable());
       IssueFieldDescriptor descriptor = new LabelsFieldsDescriptor(fieldId, fieldName, key, type);
-      return new Field(descriptor, type);
+      return new Field(descriptor, ServerJira.toItemType(type));
     }
 
     @Override

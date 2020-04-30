@@ -20,8 +20,8 @@ class CascadeJsonParser implements EntityParser {
   private CascadeJsonParser() {
   }
 
-  public static JsonEntityParser<Integer> create(Entity entityType) {
-    return new JsonEntityParser<Integer>(entityType, ServerCustomField.ENUM_ID, ServerCustomField.ENUM_DISPLAY_NAME, INSTANCE, "id");
+  public static JsonEntityParser create(Entity entityType) {
+    return new JsonEntityParser.Impl<>(entityType, ServerCustomField.ENUM_ID, ServerCustomField.ENUM_DISPLAY_NAME, INSTANCE, "id");
   }
 
   @Override

@@ -193,30 +193,21 @@ class JiraServerDetector {
       checkCancelled();
       RestSession session = baseUri.createSession(CookieJiraCredentials.establishConnection(myCookies, myAuthenticationRegister), myMaterialFactory.get(), mySNIErrorHandler);
       RestServerInfo serverInfo = null;
-      String username = null;
-      String displayableUsername = null;
+      LoadUserInfo myself = null;
       try {
         checkCancelled();
         RestAuth1Session auth = RestAuth1Session.get(session, RequestPolicy.SAFE_TO_RETRY, true);
-        if (!auth.hasUsername()) {
-          log.debug("No JIRA session", session.getBaseUrl(), auth.getResult(), auth.getFailure());
-          return null;
-        }
-        username = auth.getUsername();
+        myself = auth.hasUsername() ? auth.getUserInfo() : null;
         checkCancelled();
         RestResponse response = session.restGet(LoadServerInfo.PATH, RequestPolicy.SAFE_TO_RETRY);
         serverInfo = LoadServerInfo.fromResponse(response);
-        if (username != null) {
-          checkCancelled();
-          displayableUsername = myMaster.getDisplayableUsername(session, username);
-        }
       } catch (ConnectionException e) {
         log.debug("No JIRA at", session.getBaseUrl(), e.getMessage());
         // Ignore
       } finally {
         session.dispose();
       }
-      return serverInfo == null ? null : new DetectedJiraServer(baseUri, myCookies, serverInfo, username, displayableUsername);
+      return serverInfo == null ? null : new DetectedJiraServer(baseUri, myCookies, serverInfo, myself);
     }
 
     @Override

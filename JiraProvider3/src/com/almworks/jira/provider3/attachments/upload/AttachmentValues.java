@@ -1,5 +1,6 @@
 package com.almworks.jira.provider3.attachments.upload;
 
+import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.collector.transaction.EntityHolder;
 import com.almworks.items.entities.api.collector.transaction.EntityTransaction;
 import com.almworks.items.sync.ItemVersion;
@@ -32,8 +33,8 @@ class AttachmentValues extends SlaveValues {
   }
 
   @Override
-  public boolean matchesFailure(EntityHolder slave, @NotNull String thisUser) {
-    return thisUser.equalsIgnoreCase(slave.getScalarFromReference(ServerAttachment.AUTHOR, ServerUser.ID))
+  public boolean matchesFailure(EntityHolder slave, @NotNull Entity thisUser) {
+    return ServerUser.sameUser(thisUser, slave.getReference(ServerAttachment.AUTHOR))
       && myFile.getName().equalsIgnoreCase(slave.getScalarValue(ServerAttachment.FILE_NAME));
   }
 
@@ -46,7 +47,7 @@ class AttachmentValues extends SlaveValues {
     String authorName;
     if (author != null) {
       authorName = author.getValue(User.NAME);
-      if (attachmentName == null || attachmentName.isEmpty()) attachmentName = author.getValue(User.ID);
+      if (attachmentName == null || attachmentName.isEmpty()) attachmentName = User.getDisplayName(author);
     } else authorName = null;
     if (mimeType == null) {
       LogHelper.warning("Missing mime-type");

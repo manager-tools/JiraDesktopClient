@@ -8,13 +8,11 @@ import com.almworks.http.errors.SNIErrorHandler;
 import com.almworks.http.errors.SSLProblemHandler;
 import com.almworks.jira.provider3.app.connection.setup.weblogin.ReLogin;
 import com.almworks.jira.provider3.app.connection.setup.weblogin.WebLoginConfig;
-import com.almworks.jira.provider3.sync.JiraLoginController;
 import com.almworks.restconnector.BasicAuthCredentials;
 import com.almworks.restconnector.CookieJiraCredentials;
 import com.almworks.restconnector.JiraCredentials;
 import com.almworks.restconnector.RestSession;
 import com.almworks.restconnector.login.JiraLoginInfo;
-import com.almworks.restconnector.login.LoginJiraCredentials;
 import com.almworks.util.LogHelper;
 import com.almworks.util.collections.UserDataHolder;
 import com.almworks.util.config.ConfigurationException;
@@ -59,20 +57,20 @@ public class ConnectionDescriptor {
     }
     JiraCredentials credentials;
     WebLoginConfig webLogin = JiraConfiguration.getWebLogin(config);
-    String username = JiraConfiguration.getJiraUsername(config);
+    JiraLoginInfo loginInfo = JiraConfiguration.getLoginInfo(config);
     if (JiraConfiguration.isWebLogin(config) && webLogin != null) {
-      credentials = CookieJiraCredentials.connected(username, webLogin.getCookies().getAllCookies(),
-              cred -> updateConfig(master, cred), argument -> maybeWebReLogin(master, config), master.getAuthenticationRegister());
+      String accountId = JiraConfiguration.getAccountId(config);
+      credentials = CookieJiraCredentials.connected(accountId, webLogin.getCookies().getAllCookies(),
+              cred -> updateConfig(master, cred), argument -> maybeWebReLogin(master, config), master.getAuthenticationRegister(), loginInfo.getDisplayName());
     } else if (JiraConfiguration.isBasicAuth(config)) {
-      JiraLoginInfo loginInfo = JiraConfiguration.getLoginInfo(config);
-      if (loginInfo.isAnonymous() || loginInfo.getJiraUsername().isEmpty()) {
+      if (loginInfo.isAnonymous()) {
         LogHelper.error("Expected non-anonymous: ", loginInfo);
-        credentials = LoginJiraCredentials.fromLoginInfo(loginInfo, new JiraLoginController(master.getConnection()));
+        credentials = JiraCredentials.ANONYMOUS;
       } else
-        credentials = BasicAuthCredentials.connected(loginInfo.getLogin(), loginInfo.getPassword(), loginInfo.getJiraUsername());
-    } else {
-      JiraLoginInfo loginInfo = JiraConfiguration.getLoginInfo(config);
-      credentials = LoginJiraCredentials.fromLoginInfo(loginInfo, new JiraLoginController(master.getConnection()));
+        credentials = BasicAuthCredentials.connected(loginInfo.getLogin(), loginInfo.getPassword(), loginInfo.getAccountId(), loginInfo.getDisplayName());
+    } else  {
+      assert loginInfo.isAnonymous();
+      credentials = JiraCredentials.ANONYMOUS;
     }
 
     HttpMaterialFactory materialFactory = master.getMaterialFactory();
@@ -94,9 +92,9 @@ public class ConnectionDescriptor {
         LogHelper.warning("Missing webLogin config");
         return false;
       }
-      String currentUsername = JiraConfiguration.getJiraUsername(config);
-      if (!Objects.equals(Util.NN(currentUsername), credentials.getUsername())) {
-        LogHelper.warning("Config not updated, accounts do not match", currentUsername, credentials.getUsername(), master.getConnection());
+      String currentAccountId = JiraConfiguration.getAccountId(config);
+      if (!Objects.equals(Util.NN(currentAccountId), credentials.getAccountId())) {
+        LogHelper.warning("Config not updated, accounts do not match", currentAccountId, master.getConnection());
         return false;
       }
       if (!webLogin.updateCookies(credentials.getCookies())) return false;

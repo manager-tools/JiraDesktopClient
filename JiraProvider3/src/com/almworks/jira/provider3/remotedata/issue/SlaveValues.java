@@ -1,5 +1,6 @@
 package com.almworks.jira.provider3.remotedata.issue;
 
+import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.collector.transaction.EntityHolder;
 import com.almworks.util.LogHelper;
 import org.jetbrains.annotations.NotNull;
@@ -23,5 +24,5 @@ public abstract class SlaveValues {
     myId = slaveId;
   }
 
-  public abstract boolean matchesFailure(EntityHolder slave, @NotNull String thisUser);
+  public abstract boolean matchesFailure(EntityHolder slave, @NotNull Entity thisUser);
 }

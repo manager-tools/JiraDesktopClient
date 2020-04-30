@@ -35,9 +35,9 @@ public class SlaveIds {
   }
 
   public void searchForSubmitted(EntityHolder issue, UploadContext context, SlaveValues values) {
-    String thisUser = context.getConnection().getConfigHolder().getJiraUsername();
-    if (thisUser == null || values.getId() != null) {
-      LogHelper.error("Need not search", thisUser, values.getId());
+    Entity thisUser = context.getConnection().getConfigHolder().getConnectionUserEntity();
+    if (thisUser == null) {
+      LogHelper.error("Does not need search", values.getId());
       return;
     }
     Integer issueId = issue.getScalarValue(ServerIssue.ID);

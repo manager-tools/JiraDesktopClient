@@ -78,8 +78,8 @@ class NewIssue extends CreateIssueUnit {
       if (parentId == null) return UploadProblem.notNow("Parent not submitted " + myParentItem).toCollection();
     } else parentId = null;
     List<IssueFieldValue> values = edit.getValues();
-    Integer projectId =IssueFields.PROJECT.findChangeId(values);
-    Integer typeId = IssueFields.ISSUE_TYPE.findChangeId(values);
+    Integer projectId =findChangeId(IssueFields.PROJECT, values);
+    Integer typeId = findChangeId(IssueFields.ISSUE_TYPE, values);
     if (projectId == null || typeId == null) return UploadProblem.illegalData(M_NO_PROJECT_TYPE_SHORT.create(), M_NO_PROJECT_TYPE_FULL.create()).toCollection();
     ParsedIssueFields meta = ParsedIssueFields.loadCreateMeta(session, projectId, typeId);
     JSONObject fields = new JSONObject();
@@ -185,8 +185,8 @@ class NewIssue extends CreateIssueUnit {
     } else if (parentId != null) return false;
     if (myCheckCreated.after(created)) return false;
     List<IssueFieldValue> values = edit.getValues();
-    if (!Util.equals(projectId, IssueFields.PROJECT.findChangeId(values))) return false;
-    if (!Util.equals(typeId, IssueFields.ISSUE_TYPE.findChangeId(values))) return false;
+    if (!Util.equals(projectId, findChangeId(IssueFields.PROJECT, values))) return false;
+    if (!Util.equals(typeId, findChangeId(IssueFields.ISSUE_TYPE, values))) return false;
     if (!Util.equals(summary, IssueFields.SUMMARY.findChangeValue(values))) return false;
     return true;
   }

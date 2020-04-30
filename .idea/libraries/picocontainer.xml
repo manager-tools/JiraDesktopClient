@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="picocontainer">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/picocontainer.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://C:/java/picocontainer-1.1/docs/apidocs" />
+      <root url="file:///java/picocontainer-1.1/docs/apidocs" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://C:/java/picocontainer-1.1/src/java" />
+      <root url="file:///java/picocontainer-1.1/src/java" />
+      <root url="file://D:/java/libs/picocontainer-1.1/src/java" />
+    </SOURCES>
+  </library>
+</component>

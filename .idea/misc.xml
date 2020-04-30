@@ -1,10 +1,269 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="JavaScriptSettings">
-    <option name="languageLevel" value="ES6" />
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="javafx.fxml.FXML" />
+    </list>
+    <writeAnnotations>
+      <writeAnnotation name="javafx.fxml.FXML" />
+    </writeAnnotations>
   </component>
-  <component name="PreferredVcsStorage">
-    <preferredVcsName>ApexVCS</preferredVcsName>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="d:\trash\jc302\npe" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8_112" project-jdk-type="JavaSDK" />
+  <component name="IdProvider" IDEtalkID="A04FDEFE3AD7597E1F71C030D4C6CE05" />
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" />
+    <option name="OPTION_SCOPE" value="protected" />
+    <option name="OPTION_HIERARCHY" value="true" />
+    <option name="OPTION_NAVIGATOR" value="true" />
+    <option name="OPTION_INDEX" value="true" />
+    <option name="OPTION_SEPARATE_INDEX" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_USE" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="true" />
+    <option name="OPTION_DEPRECATED_LIST" value="true" />
+    <option name="OTHER_OPTIONS" value="" />
+    <option name="HEAP_SIZE" />
+    <option name="LOCALE" />
+    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OPTION_INCLUDE_LIBS" value="false" />
+  </component>
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8_192" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build.idea" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn.almworks.com/tracker2/branches" />
+                  <option value="http://svn.almworks.com/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk2013" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/.idea">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Application">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/CommonUtils">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/CoreComponents">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Engine">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ItemEntities">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ItemGUI">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ItemSync">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ItemWrite">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/JiraProvider3">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Screenshot">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Services">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Utils">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://svn/tracker2/branches" />
+                  <option value="http://svn/tracker2/research" />
+                  <option value="http://svn/tracker2/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://svn/tracker2/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="myVersion" value="124" />
+  </component>
+  <component name="TL_PLUGIN">
+    <option name="myModel">
+      <IssueLinkModel>
+        <option name="autodetectStatus" value="false" />
+        <option name="deskzillaWorkspace" value="$TEST_AREA$/JIRAClient/released.2" />
+        <option name="integrateWith" value="2" />
+        <option name="myDeskzillaWorkspace" value="$TEST_AREA$/JIRAClient/released.2" />
+        <option name="myIntegrateWith" value="2" />
+        <option name="myAutodetectStatus" value="false" />
+      </IssueLinkModel>
+    </option>
+    <option name="myCheckinOptions">
+      <CheckinOptions />
+    </option>
+  </component>
+  <component name="TrackLink.DashboardWindow">
+    <option name="myModelBeanOrderedList">
+      <list>
+        <option value="favorites" />
+      </list>
+    </option>
+    <option name="myModelBean">
+      <map>
+        <entry key="favorites" value="true" />
+      </map>
+    </option>
+  </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>

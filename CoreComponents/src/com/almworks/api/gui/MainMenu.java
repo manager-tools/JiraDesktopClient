@@ -20,7 +20,6 @@ public interface MainMenu {
     String EXIT = "File.Exit";
     String USE_SYSTEM_TRAY = "File.UseSystemTray";
     String CONNECTION_AUTO_SYNC = "File.ConnectionAutoSync";
-    String RESET_LOGIN_FAILURE = "File.ResetLoginFailure";
   }
 
   interface Edit {

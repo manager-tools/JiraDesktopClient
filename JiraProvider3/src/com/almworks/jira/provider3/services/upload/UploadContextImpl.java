@@ -27,7 +27,6 @@ import java.util.*;
 class UploadContextImpl implements UploadContext {
   private final HashMap<Long, UploadUnit.Factory> myFactories;
   private final JiraConnection3 myConnection;
-  private final Pair<String,Boolean> myCredentials;
   private final MessageCollector myMessages;
   private final Map<Long, UserDataHolder> myItemCache = Collections15.hashMap();
   private final UserDataHolder myUserData = new UserDataHolder();
@@ -49,7 +48,6 @@ class UploadContextImpl implements UploadContext {
     myFactories = factories;
     myConnection = connection;
     myMessages = new MessageCollector(this, problems);
-    myCredentials = Pair.create(connection.getConfigHolder().getJiraUsername(), connection.getConfigHolder().isAuthenticated());
     myInitialRequest = LongSet.copy(initialRequest);
     myRemoteMetaConfig = connection.getCustomFields().createIssueConversion();
   }
@@ -113,11 +111,6 @@ class UploadContextImpl implements UploadContext {
 
   EntityTransaction createTransaction() {
     return getConnection().getServerInfo().createTransaction();
-  }
-
-  @NotNull
-  Pair<String, Boolean> getCredentials() {
-    return myCredentials;
   }
 
   void addProblem(UploadUnit unit, UploadProblem problem) {

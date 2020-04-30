@@ -12,6 +12,7 @@ import com.almworks.jira.provider3.sync.ServerInfo;
 import com.almworks.jira.provider3.sync.download2.meta.CommonEnumOptions;
 import com.almworks.jira.provider3.sync.download2.meta.OptionsLoader;
 import com.almworks.jira.provider3.sync.schema.ServerCustomField;
+import com.almworks.jira.provider3.sync.schema.ServerJira;
 import org.almworks.util.TypedKey;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,8 +30,8 @@ public interface EnumTypeKind {
     private final Entity myType;
     private final DBStaticObject myEnumType;
 
-    StaticEnumType(Entity type, DBStaticObject enumType) {
-      myType = type;
+    StaticEnumType(DBItemType type, DBStaticObject enumType) {
+      myType = ServerJira.dbTypeToEntity(type);
       myEnumType = enumType;
     }
 

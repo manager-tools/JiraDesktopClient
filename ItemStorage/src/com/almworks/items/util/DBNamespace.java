@@ -4,6 +4,7 @@ import com.almworks.integers.LongList;
 import com.almworks.items.api.DBAttribute;
 import com.almworks.items.api.DBIdentifiedObject;
 import com.almworks.items.api.DBItemType;
+import com.almworks.util.Pair;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -166,6 +167,26 @@ public class DBNamespace {
 
   private String fullId(String id, String kind) {
     return myModule + kind + subId(id);
+  }
+
+  /**
+   * Reverses composition of {@link #fullId(String, String) fullId}. The ID must be from this namespace.<br>
+   * NOTE! A Parent namespace may reverse fullID from its child namespace. The localId part starts with child's local part (relative to the parent).
+   *
+   * @param id full ID to reverse
+   * @return [kind, localId] if the full ID belongs to this namespace. null if the fullID is from other NS, or is not well-formed
+   */
+  public Pair<String, String> reverseFullId(String id) {
+    if (!id.startsWith(myModule)) return null;
+    id = id.substring(myModule.length());
+    if (!id.startsWith(":")) return null;
+    int kindEnd = id.indexOf(':', 1);
+    if (kindEnd < 2 || kindEnd >= id.length() - 1) return null; // If not found, or two colons in a row, or nothing after the second colon
+    String kind = id.substring(1, kindEnd);
+    id = id.substring(kindEnd + 1);
+    if (!id.startsWith(myLocal)) return null;
+    id = id.substring(myLocal.length() + (myLocal.isEmpty() ? 0 : 1)); // Cut myLocal and possible dot before in-namespace id
+    return Pair.create(kind, id);
   }
 
   public String idType() {

@@ -21,10 +21,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 
 public class EnumFieldUtils {
-  public static void migrateField(ItemVersionCreator field, String prefix, boolean editable, Entity enumType) throws FieldType.MigrationProblem {
-    DBItemType dbType = ServerJira.toItemType(enumType);
-    if (field == null || enumType == null || prefix == null || dbType == null) {
-      LogHelper.error("Missing value", field, enumType, prefix, dbType);
+  public static void migrateField(ItemVersionCreator field, String prefix, boolean editable, DBItemType dbType) throws FieldType.MigrationProblem {
+    if (field == null || prefix == null || dbType == null) {
+      LogHelper.error("Missing value", field, prefix, dbType);
       throw FieldType.MigrationProblem.internalError();
     }
     Pair<String, String> pair = FieldType.getConnectionFieldIds(field);

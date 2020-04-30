@@ -2,6 +2,7 @@ package com.almworks.jira.provider3.sync.jql;
 
 import com.almworks.api.constraint.*;
 import com.almworks.items.api.DBAttribute;
+import com.almworks.jira.provider3.schema.User;
 import com.almworks.jira.provider3.sync.jql.impl.JqlQueryBuilder;
 import com.almworks.restconnector.jql.JQLCompareConstraint;
 import com.almworks.restconnector.jql.JqlConvertorUtil;
@@ -10,10 +11,8 @@ import org.almworks.util.Collections15;
 import org.almworks.util.Util;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class JqlEnum implements JQLConvertor {
   private final DBAttribute<?> myAttribute;
@@ -26,6 +25,10 @@ public abstract class JqlEnum implements JQLConvertor {
     myAttribute = attribute;
     myEmptyId = emptyId;
     myDisplayName = displayName;
+  }
+
+  public static JqlEnum user(String jqlName, DBAttribute<?> attribute, String displayName) {
+    return new UserEnum(jqlName, attribute, displayName);
   }
 
   public static JqlEnum generic(String jqlName, DBAttribute<?> attribute, DBAttribute<?> idAttribute, String displayName) {
@@ -59,13 +62,13 @@ public abstract class JqlEnum implements JQLConvertor {
 
   private Constraint createJqlConstraint(JqlQueryBuilder context, Constraint original, boolean negated, Collection<Long> enumItems) {
     JQLCompareConstraint isEmpty;
-    if (enumItems.contains(0l)) {
+    if (enumItems.contains(0L)) {
       isEmpty = JQLCompareConstraint.isEmpty(myJqlName, negated, myDisplayName);
       enumItems = Collections15.arrayList(enumItems);
-      enumItems.remove(0l);
+      enumItems.remove(0L);
     } else
       isEmpty = null;
-    HashSet<String> enumIds = loadArguments(context, enumItems);
+    Collection<String> enumIds = loadArguments(context, enumItems);
     if (enumIds.isEmpty()) return isEmpty != null ? isEmpty : original;
     if (isEmpty == null && myEmptyId != null && enumIds.remove(myEmptyId)) isEmpty = JQLCompareConstraint.isEmpty(myJqlName, negated, myDisplayName);
     JQLCompareConstraint searchIds;
@@ -76,7 +79,7 @@ public abstract class JqlEnum implements JQLConvertor {
     return searchIds != null ? searchIds : isEmpty;
   }
 
-  protected abstract HashSet<String> loadArguments(JqlQueryBuilder context, Collection<Long> enumItems);
+  protected abstract Collection<String> loadArguments(JqlQueryBuilder context, Collection<Long> enumItems);
 
   private static class Generic extends JqlEnum {
     private final DBAttribute<?> myIdAttribute;
@@ -86,14 +89,39 @@ public abstract class JqlEnum implements JQLConvertor {
       myIdAttribute = idAttribute;
     }
 
-    protected HashSet<String> loadArguments(JqlQueryBuilder context, Collection<Long> enumItems) {
+    protected Collection<String> loadArguments(JqlQueryBuilder context, Collection<Long> enumItems) {
       List<?> rawIds = myIdAttribute.collectValues(enumItems, context.getReader());
-      HashSet<String> result = Collections15.hashSet();
+      List<String> result = new ArrayList<>();
       for (Object id : rawIds) {
         if (id == null) continue;
         result.add(JqlConvertorUtil.maybeQuote(id.toString()));
       }
       return result;
+    }
+  }
+
+  private static class UserEnum extends JqlEnum {
+    private UserEnum(String jqlName, DBAttribute<?> attribute, String displayName) {
+      super(jqlName, attribute, null, displayName);
+    }
+
+    @Override
+    protected Collection<String> loadArguments(JqlQueryBuilder context, Collection<Long> enumItems) {
+      List<String> result = new ArrayList<>();
+      ArrayList<Long> userItems = new ArrayList<>(enumItems);
+      List<String> accountIds = User.ACCOUNT_ID.collectValues(userItems, context.getReader());
+      for (int i = 0; i < userItems.size(); i++) {
+        Long user = userItems.get(i);
+        String accountId = accountIds.get(i);
+        if (accountId != null) result.add(accountId);
+        else LogHelper.warning("Missing user.accountId", user);
+      }
+
+      return result.stream()
+        .filter(Objects::nonNull)
+        .map(JqlConvertorUtil::maybeQuote)
+        .distinct()
+        .collect(Collectors.toList());
     }
   }
 }

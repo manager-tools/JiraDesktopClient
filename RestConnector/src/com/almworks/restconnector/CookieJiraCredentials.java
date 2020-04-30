@@ -5,6 +5,7 @@ import com.almworks.jira.connector2.JiraCredentialsRequiredException;
 import com.almworks.jira.connector2.JiraException;
 import com.almworks.restconnector.login.AuthenticationRegister;
 import com.almworks.restconnector.login.JiraAccount;
+import com.almworks.restconnector.operations.LoadUserInfo;
 import com.almworks.restconnector.operations.RestAuth1Session;
 import com.almworks.util.LogHelper;
 import com.almworks.util.commons.Function;
@@ -33,10 +34,12 @@ import java.util.function.Consumer;
  */
 public class CookieJiraCredentials implements JiraCredentials {
   public static final long CHECK_INTERVAL = 5 * Const.MINUTE;
+
   /**
    * null - anonymous session, empty-string - authenticated session with unknown username, not-empty - known username
+   * @see com.almworks.restconnector.operations.LoadUserInfo#getAccountId()
    */
-  private final String myUsername;
+  private final String myAccountId;
   private volatile List<Cookie> myCookies;
   /**
    * This callback will notify when cookies are updated. This may happen due to:<br>
@@ -50,20 +53,22 @@ public class CookieJiraCredentials implements JiraCredentials {
   private final Function<CookieJiraCredentials, List<Cookie>> myReLogin;
   @Nullable
   private final AuthenticationRegister myAuthenticationRegister;
+  private final String myDisplayName;
   /**
    * Time of last successful cookie check. -1 means cookie are not checked yet.
    */
   private volatile long myLastSuccessfulCheck = -1;
 
-  private CookieJiraCredentials(String username, List<Cookie> cookies, @Nullable Consumer<CookieJiraCredentials> updateCookiesCallback,
+  private CookieJiraCredentials(String accountId, List<Cookie> cookies, @Nullable Consumer<CookieJiraCredentials> updateCookiesCallback,
                                 boolean checkUsername, @Nullable Function<CookieJiraCredentials, List<Cookie>> reLogin,
-                                @Nullable AuthenticationRegister authenticationRegister) {
-    myUsername = username;
+                                @Nullable AuthenticationRegister authenticationRegister, String displayName) {
+    myAccountId = accountId;
     myCookies = Collections15.unmodifiableListCopy(cookies);
     myUpdateCookiesCallback = updateCookiesCallback;
     myCheckUsername = checkUsername;
     myReLogin = reLogin;
     myAuthenticationRegister = authenticationRegister;
+    myDisplayName = displayName;
   }
 
   /**
@@ -73,12 +78,11 @@ public class CookieJiraCredentials implements JiraCredentials {
    * @return credential
    */
   public static CookieJiraCredentials establishConnection(List<Cookie> cookies, AuthenticationRegister authenticationRegister) {
-    return new CookieJiraCredentials(null, cookies, null, false, null, authenticationRegister);
+    return new CookieJiraCredentials(null, cookies, null, false, null, authenticationRegister, null);
   }
 
   /**
    * Creates credentials for the known JIRA connection - when username is known (or known to be anonymous).
-   * @param username connection username, null for anonymous
    * @param cookies session cookies
    * @param updateCookiesCallback this callback will be called if session cookie are updated
    * @param reLoginCallback this callback will be called if cookies expire. It should ask user for new pair [username, cookies]
@@ -86,24 +90,29 @@ public class CookieJiraCredentials implements JiraCredentials {
    * @return credential which check username of each response
    * @see #myUpdateCookiesCallback
    */
-  public static CookieJiraCredentials connected(String username, List<Cookie> cookies, @Nullable Consumer<CookieJiraCredentials> updateCookiesCallback,
-                                                @Nullable Function<CookieJiraCredentials, List<Cookie>> reLoginCallback, @Nullable AuthenticationRegister authenticationRegister) {
-    return new CookieJiraCredentials(username, cookies, updateCookiesCallback, true, reLoginCallback, authenticationRegister);
+  public static CookieJiraCredentials connected(String accountId, List<Cookie> cookies, @Nullable Consumer<CookieJiraCredentials> updateCookiesCallback,
+                                                @Nullable Function<CookieJiraCredentials, List<Cookie>> reLoginCallback,
+                                                @Nullable AuthenticationRegister authenticationRegister, String displayName) {
+    return new CookieJiraCredentials(accountId, cookies, updateCookiesCallback, true, reLoginCallback, authenticationRegister, displayName);
   }
 
   public List<Cookie> getCookies() {
     return myCookies;
   }
 
-  @NotNull
+  @Nullable("When anonymous")
   @Override
-  public String getUsername() {
-    return Util.NN(myUsername);
+  public String getDisplayName() {
+    return myDisplayName;
   }
 
+  @Nullable
+  public String getAccountId() {
+    return myAccountId;
+  }
   @Override
   public boolean isAnonymous() {
-    return myUsername == null;
+    return myAccountId == null;
   }
 
   @Override
@@ -126,32 +135,29 @@ public class CookieJiraCredentials implements JiraCredentials {
       throw new SessionExpiredException();
     }
     update = Collections15.unmodifiableListCopy(update);
-    LogHelper.debug("New cookies provided", session.getBaseUrl(), myUsername);
+    LogHelper.debug("New cookies provided", session.getBaseUrl(), myAccountId);
     session.setSessionCookies(update);
     RestAuth1Session auth = RestAuth1Session.get(session, RequestPolicy.FAILURE_ONLY, true);
-    if (!auth.hasUsername()) {
-      LogHelper.warning("Failed to check new cookies", session.getBaseUrl(), myUsername);
+    LoadUserInfo userInfo = auth.getUserInfo();
+    if (userInfo == null) {
+      LogHelper.warning("Failed to check new cookies", session.getBaseUrl(), myAccountId);
       session.setSessionCookies(myCookies);
       if (myAuthenticationRegister != null)
         myAuthenticationRegister.markFailed(session.getBaseUrl(), update);
       throw auth.getFailureOr(new SessionExpiredException());
     }
-    if (myUsername == null || !myUsername.isEmpty()) {
-      if (!Objects.equals(myUsername, auth.getUsername())) {
-        LogHelper.warning("Session restored to wrong account. Session is rejected.", session.getBaseUrl(), myUsername, auth.getUsername());
+    if (myAccountId == null || !myAccountId.isEmpty()) {
+      if (!Objects.equals(myAccountId, userInfo.getAccountId())) {
+        LogHelper.warning("Session restored to wrong account. Session is rejected.", session.getBaseUrl(), myAccountId, userInfo.getAccountId());
         session.setSessionCookies(myCookies);
         // Do not notify myAuthenticationRegister about failure - the session may be valid, it is just connected to a wrong account
         throw auth.getFailureOr(new SessionExpiredException());
       }
     }
-    LogHelper.debug("New cookies checked", session.getBaseUrl(), myUsername);
+    LogHelper.debug("New cookies checked", session.getBaseUrl(), myAccountId);
     myLastSuccessfulCheck = System.currentTimeMillis();
     myCookies = update;
     if (myUpdateCookiesCallback != null) myUpdateCookiesCallback.accept(this);
-  }
-
-  private JiraAccount getAccount(RestSession session) {
-    return JiraAccount.create(myUsername, session.getBaseUrl());
   }
 
   @Override
@@ -160,8 +166,8 @@ public class CookieJiraCredentials implements JiraCredentials {
     for (Cookie c : myCookies) {
       cookies.add(String.format("Cookie(name='%s',exp=%s,domain=%s,path=%s", c.getName(), c.getExpiryDate(), c.getDomain(), c.getPath()));
     }
-    return String.format("Cookie(user='%s', check=%s, lastCheck=%s, cookies=[%s])",
-            myUsername, myCheckUsername, System.currentTimeMillis() - myLastSuccessfulCheck, TextUtil.separateToString(cookies, ", "));
+    return String.format("Cookie(accountId='%s', check=%s, lastCheck=%s, cookies=[%s])",
+            myAccountId, myCheckUsername, System.currentTimeMillis() - myLastSuccessfulCheck, TextUtil.separateToString(cookies, ", "));
   }
 
   /**
@@ -198,17 +204,18 @@ public class CookieJiraCredentials implements JiraCredentials {
    */
   @NotNull
   private ResponseCheck doCheckResponse(RestSession session, RestSession.Job job, @NotNull RestResponse response) {
-    String username = response.getResponseHeader(RestResponse.X_AUSERNAME);
-    boolean hasUsername = username != null;
+    String accountId = response.getResponseHeader(RestResponse.X_ACCOUNT_ID);
+    if (accountId == null) accountId = response.getResponseHeader("X-AACCOUNTID");
+    boolean hasUsername = accountId != null;
     boolean recentlyChecked = myLastSuccessfulCheck > 0 && System.currentTimeMillis() - myLastSuccessfulCheck < CHECK_INTERVAL + Const.SECOND * 20;
-    if (username == null && response.getStatusCode() / 100 != 2) {
+    if (accountId == null && response.getStatusCode() / 100 != 2) {
       // Some not-successful responses (such as 404) may return empty USERNAME header
       // If session is recently checked assume it's OK, but do not update cookies
       if (recentlyChecked) // Return "surely" valid if the session is expected to be anonymous, return "unsure" otherwise since response was not checked well
-        return myUsername == null ? ResponseCheck.success("Anonymous connection confirmed") : ResponseCheck.unsure("Missing username. Status: " + response.getStatusCode());
+        return myAccountId == null ? ResponseCheck.success("Anonymous connection confirmed") : ResponseCheck.unsure("Missing username. Status: " + response.getStatusCode());
     }
     String wrongUsername;
-    if (username == null) {
+    if (accountId == null) {
       try {
         URI lastURI = response.getHttpResponse().getLastURI();
         if (lastURI != null) {
@@ -221,7 +228,7 @@ public class CookieJiraCredentials implements JiraCredentials {
       }
       wrongUsername = "Response misses username";
     } else {
-      wrongUsername = checkUsername(username);
+      wrongUsername = checkAccountId(accountId);
     }
     if (myCheckUsername && wrongUsername != null) { // Sometimes wrong username does not mean expired session for sure
       RestSession.Request request = response.getRequest();
@@ -241,21 +248,20 @@ public class CookieJiraCredentials implements JiraCredentials {
 
   /**
    * Checks if the username equals to the expected username
-   * @param username username to check
+   * @param accountId accountId to check
    * @return null if username is equal. Or non-null message if it is not
    */
   @Nullable
-  private String checkUsername(String username) {
-    if (RestResponse.ANONYMOUS_USER.equals(username)) username = null;
-    if (Objects.equals(myUsername, username)) return null;
-    if (username != null) // Maybe username is right, but it is URL-encoded
+  private String checkAccountId(String accountId) {
+    if (Objects.equals(myAccountId, accountId)) return null;
+    if (accountId != null) // Maybe username is right, but it is URL-encoded
       try {
-        String decoded = URLDecoder.decode(username, StandardCharsets.UTF_8.name());
-        if (Objects.equals(myUsername, decoded)) return null;
+        String decoded = URLDecoder.decode(accountId, StandardCharsets.UTF_8.name());
+        if (Objects.equals(myAccountId, decoded)) return null;
       } catch (UnsupportedEncodingException e) {
         // ignore
       }
-    return String.format("Expected username: '%s' but was: '%s'", myUsername, username);
+    return String.format("Expected username: '%s' but was: '%s'", myAccountId, accountId);
   }
 
   private boolean checkSession(RestSession session) throws ConnectorException {
@@ -266,18 +272,18 @@ public class CookieJiraCredentials implements JiraCredentials {
     try {
       RestAuth1Session auth = RestAuth1Session.get(session, RequestPolicy.FAILURE_ONLY, true);
       if (auth.getFailure() != null) throw auth.getFailure();
-      if (!auth.hasUsername()) return false;
-      String username = auth.getUsername();
+      LoadUserInfo userInfo = auth.getUserInfo();
+      if (userInfo == null) return false;
+      String accountId = userInfo.getAccountId();
       if (myCheckUsername) {
-        if (RestResponse.ANONYMOUS_USER.equals(username)) username = null;
-        if (!Objects.equals(myUsername, username)) {
-          LogHelper.debug("CookieCredentials: login check failed due to username mismatch", myUsername, username);
+        if (!Objects.equals(myAccountId, accountId)) {
+          LogHelper.debug("CookieCredentials: login check failed due to accountId mismatch", myAccountId, accountId);
           return false;
         }
       }
       complete = true;
       myLastSuccessfulCheck = now;
-      if (myAuthenticationRegister != null) myAuthenticationRegister.markConfirmed(JiraAccount.create(session.getBaseUrl(), username), myCookies);
+      if (myAuthenticationRegister != null) myAuthenticationRegister.markConfirmed(JiraAccount.create(session.getBaseUrl(), accountId), myCookies);
       return true;
     } finally {
       if (!complete) {
@@ -292,8 +298,10 @@ public class CookieJiraCredentials implements JiraCredentials {
   public CookieJiraCredentials createUpdated(RestSession session) throws ConnectorException {
     RestAuth1Session auth = RestAuth1Session.get(session, RequestPolicy.SAFE_TO_RETRY, true);
     if (!auth.hasUsername()) throw auth.getFailureOr(new SessionExpiredException());
-    String username = auth.getUsername();
-    return new CookieJiraCredentials(username, myCookies, myUpdateCookiesCallback, true, myReLogin, myAuthenticationRegister);
+    LoadUserInfo userInfo = auth.getUserInfo();
+    String accountId = userInfo != null ? userInfo.getAccountId() : null;
+    String displayName = userInfo != null ? userInfo.getDisplayName() : null;
+    return new CookieJiraCredentials(accountId, myCookies, myUpdateCookiesCallback, true, myReLogin, myAuthenticationRegister, displayName);
   }
 
   /**

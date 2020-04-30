@@ -24,6 +24,7 @@ import com.almworks.items.sync.EditPrepare;
 import com.almworks.items.sync.ItemVersion;
 import com.almworks.items.sync.VersionSource;
 import com.almworks.items.sync.util.ItemValues;
+import com.almworks.util.LogHelper;
 import com.almworks.util.advmodel.AListModel;
 import com.almworks.util.advmodel.SegmentedListModel;
 import com.almworks.util.advmodel.SubsetModel;
@@ -58,13 +59,15 @@ public class EnumSubsetDiffEditor extends BaseFieldEditor {
   private final TypedKey<TLongObjectHashMap<LongList>> myOriginalDbValues;
   private final TypedKey<List<ItemKey>> myAdded;
   private final TypedKey<List<ItemKey>> myRemoved;
+  private final TypedKey<Boolean> myNoNewItems;
 
-  @NotNull
+  @Nullable
   private final EnumItemCreator myEnumItemCreator;
   @Nullable
   private final CanvasRenderer<ItemKey> myOverrideRenderer;
 
-  public EnumSubsetDiffEditor(NameMnemonic labelText, DBAttribute<Set<Long>> attribute, EnumVariantsSource variants, @NotNull EnumItemCreator enumItemCreator, @Nullable CanvasRenderer<ItemKey> overrideRenderer) {
+  public EnumSubsetDiffEditor(NameMnemonic labelText, DBAttribute<Set<Long>> attribute, EnumVariantsSource variants,
+                              @Nullable EnumItemCreator enumItemCreator, @Nullable CanvasRenderer<ItemKey> overrideRenderer) {
     super(labelText);
     myAttribute = attribute;
     myVariants = variants;
@@ -73,6 +76,11 @@ public class EnumSubsetDiffEditor extends BaseFieldEditor {
     myOriginalDbValues = TypedKey.create(attribute.getName() + "/db");
     myAdded = TypedKey.create(attribute.getName() + "/added");
     myRemoved = TypedKey.create(attribute.getName() + "/removed");
+    myNoNewItems = TypedKey.create(attribute.getName() + "/noNewItems");
+  }
+
+  public void disableNewItems(EditItemModel model) {
+    model.putHint(myNoNewItems, true);
   }
 
   protected DBAttribute<?> getAttribute() {
@@ -165,6 +173,10 @@ public class EnumSubsetDiffEditor extends BaseFieldEditor {
     long item = key.getItem();
     if (item > 0) return item;
     if (!createMissing) return 0;
+    if (myEnumItemCreator == null) {
+      LogHelper.error("New items are not supported", key);
+      return 0;
+    }
     return myEnumItemCreator.createItem(context, key.getId());
   }
 
@@ -219,12 +231,11 @@ public class EnumSubsetDiffEditor extends BaseFieldEditor {
       @Override
       public void onItemsUpdated(AListModel.UpdateEvent event) {}
     }));
-    SubsetEditor<ItemKey> editor = SubsetEditor.create(subset, false, null, ItemKey.DISPLAY_NAME, new Function<String, ItemKey>() {
-      @Override
-      public ItemKey invoke(String id) {
-        return new ItemKeyStub(id, id, ItemOrder.byString(id));
-      }
-    });
+    Function<String, ItemKey> itemCreator;
+    if (myEnumItemCreator != null && !Boolean.TRUE.equals(model.getValue(myNoNewItems)))
+      itemCreator = id -> new ItemKeyStub(id, id, ItemOrder.byString(id));
+    else itemCreator = null;
+    SubsetEditor<ItemKey> editor = SubsetEditor.create(subset, false, null, ItemKey.DISPLAY_NAME, itemCreator);
     if (myOverrideRenderer != null) editor.setCanvasRenderer(myOverrideRenderer);
     FieldEditorUtil.registerComponent(model, this, editor.getComponent());
     return singletonList(SimpleComponentControl.create(editor.getComponent(), ComponentControl.Dimensions.WIDE, this, model, ComponentControl.Enabled.ALWAYS_ENABLED));

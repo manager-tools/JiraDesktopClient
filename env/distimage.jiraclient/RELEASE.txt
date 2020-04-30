@@ -1,7 +1,7 @@
 Client for Jira Release Notes
 http://almworks.com/jiraclient
 
-Version:         3.8.5
+Version:         3.9.0
 Date of Release: 26 April 2020
 
 
@@ -13,9 +13,10 @@ please see README.txt or ALM Works website.
 Change History
 ==============
 
-3.8.4 => 3.8.5
+3.8.4 => 3.9
 ------------
 
+* Support for Jira Cloud connections with username/API-token credentials
 * Rebranding of application name and logos
 * License changed to GPLv3
 

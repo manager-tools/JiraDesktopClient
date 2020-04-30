@@ -38,11 +38,10 @@ import java.util.regex.Pattern;
 
 public class RestResponse {
   /**
-   * HTTP Header name. The value of this header contains logged-in username. However, it may contain other (arbitrary) username.
+   * HTTP Header name. The value of this header contains logged-in user accountId. However, it may contain other (arbitrary) username.
    * Seems wrong username is provided for cacheable resources.
    */
-  public static final String X_AUSERNAME = "X-AUSERNAME";
-  public static final String ANONYMOUS_USER = "anonymous";
+  public static final String X_ACCOUNT_ID = "X-AACCOUNTID";
 
   private final String myUrl;
   private final HttpResponseData myData;

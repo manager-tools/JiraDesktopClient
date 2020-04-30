@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="javolution">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/javolution.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://C:/java/javolution-4.0/src.1.5" />
+      <root url="file:///java/javolution-4.0/src.1.5" />
+    </SOURCES>
+  </library>
+</component>

@@ -26,7 +26,6 @@ import com.almworks.restconnector.jql.JqlQuery;
 import com.almworks.util.LogHelper;
 import com.almworks.util.Pair;
 import com.almworks.util.collections.ConvertingList;
-import com.almworks.util.commons.Factory;
 import com.almworks.util.i18n.text.LocalizedAccessor;
 import org.almworks.util.Collections15;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +38,6 @@ public class JqlQueryBuilder {
   private static final LocalizedAccessor.MessageStr EXCLUDED_RIGHT = ConnectorManager.LOCAL.messageStr("remoteQuery.exclude.right");
   private static final LocalizedAccessor.MessageStr DATE_WARNING = ConnectorManager.LOCAL.messageStr("remoteQuery.date");
   private static final LocalizedAccessor.Message2 TEXT_WARNING = ConnectorManager.LOCAL.message2("remoteQuery.text");
-  private static final Factory<String> FALSE_QUERY = ConnectorManager.LOCAL.getFactory("remoteQuery.falseQuery");
 
   private final JiraConnection3 myConnection;
   private final DBReader myReader;
@@ -98,7 +96,7 @@ public class JqlQueryBuilder {
    * @return <b>not null</b> query. Empty string means "no constraint" (all issues)<br>
    *   <b>null</b> if constraint reduces to false - no issue can match the constraint
    */
-  @Nullable
+  @NotNull
   private JqlQuery build(Constraint constraint) {
     Collection<JQLConvertor> convertors = collectConvertors();
     ArrayList<Rule> rules = Collections15.arrayList();
@@ -118,11 +116,8 @@ public class JqlQueryBuilder {
 
   private void filter(List<Pair<String, String>> warnings) {
     if (warnings.isEmpty() || myExcluded.isEmpty()) return;
-    Set<String> excludedFields = Collections15.hashSet(ConvertingList.create(myExcluded, Pair.<String>convertorGetFirst()));
-    for (Iterator<Pair<String, String>> it = warnings.iterator(); it.hasNext(); ) {
-      Pair<String, String> pair = it.next();
-      if (excludedFields.contains(pair.getFirst())) it.remove();
-    }
+    Set<String> excludedFields = Collections15.hashSet(ConvertingList.create(myExcluded, Pair.convertorGetFirst()));
+    warnings.removeIf(pair -> excludedFields.contains(pair.getFirst()));
   }
 
   @Nullable
@@ -133,12 +128,6 @@ public class JqlQueryBuilder {
   public static QueryUrlInfo buildQueryInfo(DBReader reader, Constraint constraint, JiraConnection3 connection) {
     JqlQueryBuilder context = JqlQueryBuilder.create(connection, reader);
     JqlQuery jql = context.build(constraint);
-    if (jql == null) {
-      QueryUrlInfo info = new QueryUrlInfo();
-      info.setValid(false);
-      info.setFatalProblem(FALSE_QUERY.create());
-      return info;
-    }
     String url = connection.getConfigHolder().getBaseUrl() + "/secure/IssueNavigator!executeAdvanced.jspa?jqlQuery=" + HttpUtils.encode(jql.getJqlText()) + "&runQuery=true&clear=true";
     QueryUrlInfo info = new QueryUrlInfo(url);
     info.setWarning(context.createWarningHtml());
@@ -163,9 +152,9 @@ public class JqlQueryBuilder {
     return builder.length() == 0 ? null : builder.toString();
   }
 
-  private StringBuilder append(StringBuilder builder, String message) {
+  private void append(StringBuilder builder, String message) {
     if (builder.length() > 0) builder.append("<br>");
-    return builder.append(message);
+    builder.append(message);
   }
 
   private String listFields(List<Pair<String, String>> idNameList) {
@@ -201,8 +190,8 @@ public class JqlQueryBuilder {
     convertors.add(JqlEnum.generic("fixVersion", Issue.FIX_VERSIONS, Version.ID, "Fix Version/s"));
     convertors.add(JqlEnum.generic("component", Issue.COMPONENTS, Component.ID, "Component/s"));
     convertors.add(JqlEnum.generic("resolution", Issue.RESOLUTION, Resolution.ID, "-1", "Resolution"));
-    convertors.add(JqlEnum.generic("reporter", Issue.REPORTER, User.ID, "Reporter"));
-    convertors.add(JqlEnum.generic("assignee", Issue.ASSIGNEE, User.ID, "Assignee"));
+    convertors.add(JqlEnum.user("reporter", Issue.REPORTER, "Reporter"));
+    convertors.add(JqlEnum.user("assignee", Issue.ASSIGNEE, "Assignee"));
     convertors.add(JqlEnum.generic("level", Issue.SECURITY, Security.ID, "Security Level"));
     convertors.add(new JqlDate("updated", Issue.UPDATED, "Updated"));
     convertors.add(new JqlDate("created", Issue.CREATED, "Created"));

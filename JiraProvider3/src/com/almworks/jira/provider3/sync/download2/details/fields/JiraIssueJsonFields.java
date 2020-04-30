@@ -22,18 +22,23 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class JiraIssueJsonFields {
+  /**
+   * @see LoadDetails#loadWatchersVotes(EntityTransaction, RestSession, ProgressInfo, int, JsonUserParser.LoadedUser)
+   */
+  @SuppressWarnings("JavadocReference")
   public static final ObjectField STATIC_FIELDS;
   static {
     ObjectField.Builder time = new ObjectField.Builder(true) // todo check null values
       .add("remainingEstimateSeconds", ScalarField.integer(ServerIssue.REMAIN_ESTIMATE))
       .add("originalEstimateSeconds", ScalarField.integer(ServerIssue.ORIGINAL_ESTIMATE));
+    // For votes and watches see LoadDetails#loadWatchersVotes
     ObjectField votes = new ObjectField.Builder(true)
-      .add("votes", ScalarField.integer(ServerIssue.VOTES_COUNT))
-      .add("hasVoted", ScalarField.boolNullFalse(ServerIssue.VOTED))
+      .add("votes", JsonIssueField.FilteredValue.integerPositive(ServerIssue.VOTES_COUNT))
+      .add("hasVoted", JsonIssueField.FilteredValue.boolTrueOnly(ServerIssue.VOTED))
       .create();
     ObjectField watchers = new ObjectField.Builder(true)
-      .add("watchCount", ScalarField.integer(ServerIssue.WATCHERS_COUNT))
-      .add("isWatching", ScalarField.boolNullFalse(ServerIssue.WATCHING))
+      .add("watchCount", JsonIssueField.FilteredValue.integerPositive(ServerIssue.WATCHERS_COUNT)) // JIRA REST API reports wrong zero value for watched issues. Only details provide right watches list
+      .add("isWatching", JsonIssueField.FilteredValue.boolTrueOnly(ServerIssue.WATCHING))
       .create();
     ObjectField.Builder builder = new ObjectField.Builder(true)
       .add(ServerFields.TIME_TRACKING.getJiraId(), time.create())

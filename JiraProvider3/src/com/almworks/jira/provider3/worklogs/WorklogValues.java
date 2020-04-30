@@ -1,5 +1,6 @@
 package com.almworks.jira.provider3.worklogs;
 
+import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.collector.transaction.EntityHolder;
 import com.almworks.items.sync.ItemVersion;
 import com.almworks.jira.provider3.remotedata.issue.AddEditSlaveUnit;
@@ -52,8 +53,8 @@ class WorklogValues extends SlaveValues {
   }
 
   @Override
-  public boolean matchesFailure(EntityHolder slave, @NotNull String thisUser) {
-    return thisUser.equals(slave.getScalarFromReference(ServerWorklog.AUTHOR, ServerUser.ID))
+  public boolean matchesFailure(EntityHolder slave, @NotNull Entity thisUser) {
+    return ServerUser.sameUser(thisUser, slave.getReference(ServerWorklog.AUTHOR))
       && Util.equals(slave.getScalarValue(ServerWorklog.START_DATE), myStarted);
   }
 

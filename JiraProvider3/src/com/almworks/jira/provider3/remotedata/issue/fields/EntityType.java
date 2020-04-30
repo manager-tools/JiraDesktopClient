@@ -1,24 +1,19 @@
 package com.almworks.jira.provider3.remotedata.issue.fields;
 
-import com.almworks.items.api.DBAttribute;
+import com.almworks.items.api.DBItemType;
 import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.EntityKey;
 import com.almworks.items.entities.api.collector.transaction.EntityHolder;
 import com.almworks.items.sync.ItemVersion;
-import com.almworks.jira.provider3.services.upload.UploadJsonUtil;
 import com.almworks.jira.provider3.sync.download2.details.JsonIssueField;
 import com.almworks.jira.provider3.sync.download2.details.fields.DependentCollectionField;
 import com.almworks.jira.provider3.sync.download2.details.fields.DependentField;
 import com.almworks.jira.provider3.sync.download2.details.fields.ScalarField;
 import com.almworks.jira.provider3.sync.download2.details.fields.ValueSupplement;
 import com.almworks.jira.provider3.sync.download2.rest.JsonEntityParser;
-import com.almworks.jira.provider3.sync.schema.ServerJira;
-import com.almworks.util.LogHelper;
-import com.almworks.util.Pair;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.util.collections.Convertor;
-import com.almworks.util.commons.Function2;
 import org.almworks.util.Collections15;
-import org.almworks.util.Util;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONObject;
@@ -27,35 +22,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class EntityType<T> {
-  public static final Function2<Pair<?, String>, String, JSONObject> GENERIC_JSON = new Function2<Pair<?, String>, String, JSONObject>() {
-    @Override
-    public JSONObject invoke(Pair<?, String> pair, String idKey) {
-      if (pair == null) return null;
-      Object idValue = pair.getFirst();
-      if (idValue == null) {
-        LogHelper.error("Missing id", pair, this);
-        return null;
-      }
-      return UploadJsonUtil.object(idKey, String.valueOf(idValue));
-    }
-  };
+  public static final Function<LoadedEntity, JSONObject> GENERIC_JSON = LoadedEntity::toJson;
 
-  private final DBAttribute<T> myIdAttribute;
-  private final DBAttribute<String> myNameAttribute;
-  private final JsonEntityParser<T> myParser;
+  private final JsonEntityParser myParser;
   @Nullable
   private final Entity myNullValue;
 
-  private EntityType(JsonEntityParser<T> parser, Entity nullValue) {
+  private EntityType(JsonEntityParser parser, Entity nullValue) {
     myParser = parser;
     myNullValue = nullValue;
-    myIdAttribute = ServerJira.toScalarAttribute(parser.getIdKey());
-    myNameAttribute = ServerJira.toScalarAttribute(parser.getNameKey());
   }
 
-  public static <T> EntityType<T> create(JsonEntityParser<T> parser, @Nullable Entity nullValue) {
+  public static <T> EntityType<T> create(JsonEntityParser parser, @Nullable Entity nullValue) {
     return new EntityType<T>(parser, nullValue);
   }
 
@@ -73,40 +54,31 @@ public class EntityType<T> {
   }
 
   @Nullable
-  public Pair<T, String> readValue(ItemVersion value) {
-    if (value == null || value.getItem() <= 0) return null;
-    return Pair.create(value.getValue(myIdAttribute), value.getValue(myNameAttribute));
+  public LoadedEntity readValue(ItemVersion value) {
+    return myParser.readValue(value);
   }
 
   @Nullable
-  public Pair<T, String> readValue(EntityHolder value) {
-    if (value == null) return null;
-    return Pair.create(value.getScalarValue(myParser.getIdKey()), value.getScalarValue(myParser.getNameKey()));
+  public LoadedEntity readValue(EntityHolder value) {
+    return myParser.readValue(value);
   }
 
-  @NotNull
-  public String getJsonIdKey() {
-    return myParser.getJsonIdKey();
-  }
-
-  public Entity getType() {
+  public DBItemType getType() {
     return myParser.getType();
   }
 
-  public List<Pair<T, String>> readValues(List<ItemVersion> items) {
-    if (items == null || items.isEmpty()) return Collections.emptyList();
-    ArrayList<Pair<T,String>> list = Collections15.arrayList();
-    for (ItemVersion item : items) {
-      Pair<T, String> pair = readValue(item);
-      if (pair != null) list.add(pair);
-    }
-    return list;
+  public List<LoadedEntity> readValues(List<ItemVersion> items) {
+    return readItems(items, this::readValue);
   }
 
-  public static <T> boolean equalValue(Pair<T, String> a, Pair<T, String> b) {
-    if (a == b) return true;
-    T idA = a != null ? a.getFirst() : null;
-    T idB = b != null ? b.getFirst() : null;
-    return Util.equals(idA, idB);
+  @NotNull
+  public static <T> List<T> readItems(List<ItemVersion> items, Function<ItemVersion, T> loadItem) {
+    if (items == null || items.isEmpty()) return Collections.emptyList();
+    ArrayList<T> list = Collections15.arrayList();
+    for (ItemVersion item : items) {
+      T entity = loadItem.apply(item);
+      if (entity != null) list.add(entity);
+    }
+    return list;
   }
 }

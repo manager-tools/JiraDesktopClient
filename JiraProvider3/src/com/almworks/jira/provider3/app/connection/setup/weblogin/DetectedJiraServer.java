@@ -3,6 +3,7 @@ package com.almworks.jira.provider3.app.connection.setup.weblogin;
 import com.almworks.jira.provider3.app.connection.setup.JiraBaseUri;
 import com.almworks.jira.provider3.app.connection.setup.ServerConfig;
 import com.almworks.restconnector.CookieJiraCredentials;
+import com.almworks.restconnector.operations.LoadUserInfo;
 import com.almworks.restconnector.operations.RestServerInfo;
 import org.apache.commons.httpclient.Cookie;
 import org.jetbrains.annotations.NotNull;
@@ -16,15 +17,13 @@ public class DetectedJiraServer {
   private final List<Cookie> myCookies;
   @NotNull
   private final RestServerInfo myServerInfo;
-  private final String myUsername;
-  private final String myDisplayableUsername;
+  private final LoadUserInfo myMyself;
 
-  public DetectedJiraServer(@NotNull JiraBaseUri baseUri, List<Cookie> cookies, @NotNull RestServerInfo serverInfo, String username, String displayableUsername) {
+  public DetectedJiraServer(@NotNull JiraBaseUri baseUri, List<Cookie> cookies, @NotNull RestServerInfo serverInfo, LoadUserInfo myself) {
     myBaseUri = baseUri;
     myCookies = cookies;
     myServerInfo = serverInfo;
-    myUsername = username;
-    myDisplayableUsername = displayableUsername;
+    myMyself = myself;
   }
 
   public List<Cookie> getCookies() {
@@ -42,24 +41,26 @@ public class DetectedJiraServer {
   }
 
   @Nullable("When anonymous")
-  public String getUsername() {
-    return myUsername;
+  public LoadUserInfo getMyself() {
+    return myMyself;
   }
 
   @Nullable("When anonymous")
-  public String getDisplayableUsername() {
-    if (myDisplayableUsername != null) return myDisplayableUsername;
-    return myUsername;
+  public String getAccountId() {
+    return myMyself != null ? myMyself.getAccountId() : null;
   }
 
   @NotNull
   public ServerConfig toServerConfig(boolean ignoreProxy) {
-    CookieJiraCredentials credentials = CookieJiraCredentials.connected(myUsername, myCookies, null, null, null);
+    CookieJiraCredentials credentials;
+    if (myMyself != null)
+      credentials = CookieJiraCredentials.connected(myMyself.getAccountId(), myCookies, null, null, null, myMyself.getDisplayName());
+    else credentials = CookieJiraCredentials.connected(null,myCookies, null, null, null, null);
     return new ServerConfig(myBaseUri.getBaseUri().toString(), credentials, ignoreProxy, true);
   }
 
   @Override
   public String toString() {
-    return String.format("ServerInfo[URL=%s, Name=%s, user=%s, account=%s]", myBaseUri, myServerInfo.getServerTitle(), getDisplayableUsername(), myUsername);
+    return String.format("ServerInfo[URL=%s, Name=%s, user=%s]", myBaseUri, myServerInfo.getServerTitle(), myMyself);
   }
 }

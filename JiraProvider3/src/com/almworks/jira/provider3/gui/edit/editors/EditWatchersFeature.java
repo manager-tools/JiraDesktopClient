@@ -1,7 +1,6 @@
 package com.almworks.jira.provider3.gui.edit.editors;
 
 import com.almworks.api.application.ItemDownloadStageKey;
-import com.almworks.api.application.ItemKey;
 import com.almworks.api.application.ItemWrapper;
 import com.almworks.integers.LongArray;
 import com.almworks.integers.WritableLongList;
@@ -15,12 +14,14 @@ import com.almworks.items.gui.edit.helper.EditFeature;
 import com.almworks.items.gui.edit.util.FieldEditorUtil;
 import com.almworks.items.sync.EditPrepare;
 import com.almworks.items.sync.ItemVersionCreator;
+import com.almworks.items.sync.VersionSource;
 import com.almworks.items.sync.util.BranchSource;
 import com.almworks.jira.provider3.app.connection.JiraConnection3;
 import com.almworks.jira.provider3.gui.MetaSchema;
 import com.almworks.jira.provider3.gui.actions.JiraActions;
 import com.almworks.jira.provider3.gui.edit.EditMetaSchema;
 import com.almworks.jira.provider3.permissions.IssuePermissions;
+import com.almworks.jira.provider3.remotedata.issue.fields.JsonUserParser;
 import com.almworks.jira.provider3.schema.Issue;
 import com.almworks.jira.provider3.schema.User;
 import com.almworks.util.LogHelper;
@@ -45,8 +46,8 @@ import java.util.Set;
 public class EditWatchersFeature implements EditFeature {
   public static final EditFeature INSTANCE = new EditWatchersFeature();
 
-  private final FieldEditor myEditor = new EnumSubsetDiffEditor(NameMnemonic.rawText("Watchers"), Issue.WATCHERS, ConnectionVariants.createStatic(
-    User.ENUM_TYPE, MetaSchema.CONFIG_WATCHERS), User.CREATOR, ItemKey.NAME_ID_RENDERER) {
+  private final EnumSubsetDiffEditor myEditor = new EnumSubsetDiffEditor(NameMnemonic.rawText("Watchers"), Issue.WATCHERS, ConnectionVariants.createStatic(
+    User.ENUM_TYPE, MetaSchema.CONFIG_WATCHERS), User.CREATOR, null) {
     @Override
     public void commit(CommitContext context) throws CancelCommitException {
       super.commit(context);
@@ -55,6 +56,19 @@ public class EditWatchersFeature implements EditFeature {
       issue.setValue(Issue.WATCHERS_COUNT, items.size());
       Long me = EditMetaSchema.getThisUser(context.getReader(), context.getModel());
       issue.setValue(Issue.WATCHING, items.contains(Util.NN(me, -1L)));
+    }
+
+    @Override
+    public void prepareModel(VersionSource source, EditItemModel model, EditPrepare editPrepare) {
+      super.prepareModel(source, model, editPrepare);
+      JiraConnection3 connection = EngineConsts.getConnection(JiraConnection3.class, model);
+      if (connection != null) {
+        JsonUserParser.LoadedUser thisUser = connection.getConfigHolder().getConnectionLoadedUser();
+        if (thisUser != null) {
+          if (thisUser.getAccountId() != null)
+            disableNewItems(model); // This connection identifies uses by AccountID. We cannot expect that JC user will provide AccountID for a new user, so disable "New user" feature.
+        } else LogHelper.error("Missing this user", connection);
+      } else LogHelper.error("Missing connection");
     }
   };
 

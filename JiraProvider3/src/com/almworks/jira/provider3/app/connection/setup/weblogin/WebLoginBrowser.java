@@ -3,6 +3,7 @@ package com.almworks.jira.provider3.app.connection.setup.weblogin;
 import com.almworks.http.errors.SNIErrorHandler;
 import com.almworks.http.errors.SSLProblemHandler;
 import com.almworks.http.errors.URLLoaderExceptionInterceptor;
+import com.almworks.restconnector.operations.LoadUserInfo;
 import com.almworks.util.components.plaf.patches.FontSizeSettingPatch;
 import com.almworks.util.fx.AuthenticatorDialog;
 import com.almworks.util.fx.FXUtil;
@@ -40,7 +41,6 @@ import org.w3c.dom.Document;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
@@ -232,10 +232,8 @@ class WebLoginBrowser {
     myHowConnected.textProperty().bind(Bindings.createStringBinding(() -> {
       DetectedJiraServer server = serverProperty.get();
       if (server == null) return "";
-      String username = server.getUsername();
-      String displayableUsername = server.getDisplayableUsername();
-      if (!Objects.equals(displayableUsername, username) && username != null && displayableUsername != null)
-        displayableUsername = String.format("%s (%s)", displayableUsername, username);
+      LoadUserInfo myself = server.getMyself();
+      String displayableUsername = myself != null ? myself.getDisplayName() : null;
       return displayableUsername == null ? I18N.getString("webLogin.panel.connected.anonymous")
               : I18N.messageStr("webLogin.panel.connected.account").formatMessage(displayableUsername);
     }, serverProperty));

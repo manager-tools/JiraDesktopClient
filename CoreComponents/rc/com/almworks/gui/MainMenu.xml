@@ -152,9 +152,6 @@
       <id>File.EditConnection</id>
     </action>
     <action>
-      <id>File.ResetLoginFailure</id>
-    </action>
-    <action>
       <id>File.RemoveConnection</id>
     </action>
     <separator>

@@ -12,6 +12,7 @@ import com.almworks.integers.LongList;
 import com.almworks.items.api.*;
 import com.almworks.items.dp.DPEquals;
 import com.almworks.items.dp.DPEqualsIdentified;
+import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.collector.transaction.EntityHolder;
 import com.almworks.items.entities.api.collector.transaction.EntityTransaction;
 import com.almworks.items.entities.api.collector.transaction.write.EntityWriter;
@@ -19,10 +20,12 @@ import com.almworks.items.sync.DBDrain;
 import com.almworks.items.sync.DownloadProcedure;
 import com.almworks.items.sync.ItemVersionCreator;
 import com.almworks.items.util.SyncAttributes;
+import com.almworks.jira.provider3.remotedata.issue.fields.JsonUserParser;
 import com.almworks.jira.provider3.schema.Issue;
 import com.almworks.jira.provider3.schema.User;
 import com.almworks.jira.provider3.sync.ServerInfo;
 import com.almworks.jira.provider3.sync.schema.ServerProject;
+import com.almworks.jira.provider3.sync.schema.ServerUser;
 import com.almworks.restconnector.JiraCredentials;
 import com.almworks.restconnector.RestSession;
 import com.almworks.restconnector.login.AuthenticationRegister;
@@ -56,7 +59,7 @@ public class JiraConfigHolder {
   private final Object myLock = new Object();
   private final JiraConnection3 myConnection;
   private final BasicScalarModel<ReadonlyConfiguration> myConfiguration = BasicScalarModel.create(true);
-  private final AtomicReference<ServerSyncPoint>  mySyncPoint = new AtomicReference<ServerSyncPoint>(ServerSyncPoint.unsynchronized());
+  private final AtomicReference<ServerSyncPoint>  mySyncPoint = new AtomicReference<>(ServerSyncPoint.unsynchronized());
   private ConnectionDescriptor myDescriptor;
   private volatile long myLastAskLogin = 0;
   private final FeedbackHandler myFeedbackHandler;
@@ -106,7 +109,7 @@ public class JiraConfigHolder {
 //        });
         return;
       }
-      resetDownloadStatus = !Objects.equals(JiraConfiguration.getJiraUsername(oldConfiguration), JiraConfiguration.getJiraUsername(newConfiguration));
+      resetDownloadStatus = !Objects.equals(JiraConfiguration.getAccountId(oldConfiguration), JiraConfiguration.getAccountId(newConfiguration));
       myConnection.clearSyncRegistry();
     }
     updateDBConnection(resetDownloadStatus, JiraConfiguration.getProjectsFilter(newConfiguration));
@@ -128,9 +131,9 @@ public class JiraConfigHolder {
     return myConnection.getConfiguration();
   }
 
-  private void updateDBConnection(final boolean resetDowloadStatus, Set<Integer> projectsFilter) throws ReadonlyConfiguration.NoSettingException {
+  private void updateDBConnection(final boolean resetDowloadStatus, Set<Integer> projectsFilter) {
     final EntityTransaction transaction = myConnection.getServerInfo().createTransaction();
-    projectsFilter = Util.NN(projectsFilter, Collections.<Integer>emptySet());
+    projectsFilter = Util.NN(projectsFilter, Collections.emptySet());
     final List<EntityHolder> prjFilter = Collections15.arrayList(projectsFilter.size());
     for (Integer prjId : projectsFilter) {
       EntityHolder project = transaction.addEntity(ServerProject.TYPE, ServerProject.ID, prjId);
@@ -171,9 +174,14 @@ public class JiraConfigHolder {
   }
 
   private long updateConnectionUser(ItemVersionCreator connection) {
-    String username = getJiraUsername();
-    if (username == null) return 0;
-    long userItem = User.userById(myConnection.getConnectionObj(), username).findOrCreate(connection);
+    JiraCredentials credentials = getJiraCredentials();
+    if (credentials == null || credentials.isAnonymous()) return 0;
+    String accountId = credentials.getAccountId();
+    assert accountId != null && !accountId.isEmpty();
+    long userItem = User.userByAccountId(myConnection.getConnectionObj(), accountId).findOrCreate(connection);
+    ItemVersionCreator user = connection.changeItem(userItem);
+    user.setValue(User.ACCOUNT_ID, accountId);
+    user.setValue(User.NAME, credentials.getDisplayName());
     connection.setValue(Connection.USER, userItem);
     return userItem;
   }
@@ -214,12 +222,9 @@ public class JiraConfigHolder {
     mySyncPoint.compareAndSet(current, syncPoint);
     final long connectionItem = connection.getItem();
     myProjectFilter.initDB(drain, connectionItem);
-    finishListeners.addStraightListener(new Procedure<Boolean>() {
-      @Override
-      public void invoke(Boolean arg) {
-        myConnectionItem.compareAndSet(0, connectionItem);
-        myConnectionUser.compareAndSet(0, user);
-      }
+    finishListeners.addStraightListener(arg -> {
+      myConnectionItem.compareAndSet(0, connectionItem);
+      myConnectionUser.compareAndSet(0, user);
     });
     return connectionItem;
   }
@@ -281,7 +286,6 @@ public class JiraConfigHolder {
 
   /**
    * @return true if JIRA authentication data is configured
-   * @see #getJiraUsername()
    */
   public boolean isAuthenticated() {
     synchronized (myLock) {
@@ -289,20 +293,20 @@ public class JiraConfigHolder {
     }
   }
 
-  /**
-   * @return This user name on JIRA. Generally it is equal to user login. But may differ if sing sing-on is used.<br>
-   *         Null if connection is anonymous or not yet initialized
-   * @see #isAuthenticated()
-   */
   @Nullable
-  public String getJiraUsername() {
-    synchronized (myLock) {
-      JiraCredentials credentials = myDescriptor != null ? myDescriptor.getCredentials() : null;
-      if (credentials == null || credentials.isAnonymous()) return null;
-      String username = credentials.getUsername();
-      //noinspection ConstantConditions
-      return username != null && !username.isEmpty() ? username : null;
-    }
+  public Entity getConnectionUserEntity() {
+    JiraCredentials credentials = getJiraCredentials();
+    if (credentials == null || credentials.isAnonymous()) return null;
+    Entity entity = ServerUser.create(credentials.getAccountId());
+    if (entity != null) entity.fix();
+    return entity;
+  }
+
+  @Nullable
+  public JsonUserParser.LoadedUser getConnectionLoadedUser() {
+    JiraCredentials credentials = getJiraCredentials();
+    if (credentials == null || credentials.isAnonymous()) return null;
+    return new JsonUserParser.LoadedUser(credentials.getDisplayName(), credentials.getAccountId());
   }
 
   @Nullable("When not configured")

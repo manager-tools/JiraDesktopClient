@@ -9,6 +9,7 @@ import com.almworks.jira.provider3.services.upload.PostUploadContext;
 import com.almworks.jira.provider3.services.upload.UploadContext;
 import com.almworks.jira.provider3.services.upload.UploadProblem;
 import com.almworks.jira.provider3.services.upload.UploadUnit;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.restconnector.RequestPolicy;
 import com.almworks.restconnector.RestResponse;
 import com.almworks.restconnector.RestSession;
@@ -41,8 +42,8 @@ class AssignIssueUnit implements UploadUnit {
     return findNotDoneAssign() == null;
   }
 
-  private EntityFieldDescriptor.MyValue<String> findNotDoneAssign() {
-    EntityFieldDescriptor.MyValue<String> value = IssueFields.ASSIGNEE.findValue(myIssue.getValues());
+  private EntityFieldDescriptor.MyValue findNotDoneAssign() {
+    EntityFieldDescriptor.MyValue value = IssueFields.ASSIGNEE.findValue(myIssue.getValues());
     return value == null || !value.isChanged() || value.isDone() ? null : value;
   }
 
@@ -68,7 +69,7 @@ class AssignIssueUnit implements UploadUnit {
     if (UploadUnitUtils.waitPostEdit(context, myIssue)) return UploadProblem.notNow("Wait for edit issue").toCollection();
     Integer issueId = myIssue.getCreate().getIssueId();
     if (issueId == null) return UploadProblem.notNow("Issue is not submitted").toCollection();
-    EntityFieldDescriptor.MyValue<String> value = findNotDoneAssign();
+    EntityFieldDescriptor.MyValue value = findNotDoneAssign();
     if (value == null) return null; // Nothing to upload
     Object userObj = value.getJsonValue();
     JSONObject user = Util.castNullable(JSONObject.class, userObj);
@@ -80,21 +81,8 @@ class AssignIssueUnit implements UploadUnit {
     if (!response.isSuccessful()) {
       LogHelper.warning("Failed to assign issue", myIssue.getCreate(), user);
       String shortText = M_FAILURE_SHORT.create();
-      Pair<String, String> pair = value.getChange();
-      String displayableUser;
-      if (pair == null)
-        displayableUser = M_USER_UNASSIGNED.create();
-      else {
-        String id = pair.getFirst();
-        if (id == null) {
-          LogHelper.error("Missing user id", pair);
-          displayableUser = M_USER_UNASSIGNED.create();
-        } else {
-          String name = pair.getSecond();
-          if (name == null || name.isEmpty() || name.equals(id)) displayableUser = id;
-          else displayableUser = name + " (" + id + ")";
-        }
-      }
+      LoadedEntity change = value.getChange();
+      String displayableUser = change == null ? M_USER_UNASSIGNED.create() : change.getDisplayableText();
       String longText;
       int statusCode = response.getStatusCode();
       switch (statusCode) {

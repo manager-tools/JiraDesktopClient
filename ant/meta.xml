@@ -320,6 +320,7 @@
     <uselib lib="jna"/>
     <uselib lib="integers"/>
     <uselib lib="gnu.trove"/>
+    <uselib lib="commons-httpclient"/>
   </module>
 
   <module name="ItemEntities">
@@ -365,6 +366,7 @@
     <uselib lib="jdom"/>
     <uselib lib="json-simple"/>
     <uselib lib="integers"/>
+    <uselib lib="commons-httpclient"/>
   </module>
 
   <module name="SpellCheck">

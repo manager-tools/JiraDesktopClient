@@ -28,11 +28,11 @@ public class JiraAccount {
    * null means anonymous<br>
    * empty string means "account is unknown". The instance of unknown account cannot be equal to any other instance
    */
-  private final String myUsername;
+  private final String myAccountId;
 
-  private JiraAccount(String baseUrl, String username) {
+  private JiraAccount(String baseUrl, String accountId) {
     myBaseUrl = baseUrl;
-    myUsername = username;
+    myAccountId = accountId;
   }
 
   public String getBaseUrl() {
@@ -43,18 +43,18 @@ public class JiraAccount {
    * @return true if the object points to a known account or anonymous access
    */
   public boolean isKnow() {
-    return myUsername == null || !myUsername.isEmpty();
+    return myAccountId == null || !myAccountId.isEmpty();
   }
 
   /**
    * Creates new instance with normalized base URL
    * @param baseUrl JIRA base URL. Can be not-normalized
-   * @param username specifies account, anonymous access or unknown authenticated. See {@link #myUsername} for details
+   * @param accountId specifies account, anonymous access or unknown authenticated. See {@link #myAccountId} for details
    * @return new instance
    */
-  public static JiraAccount create(String baseUrl, String username) {
+  public static JiraAccount create(String baseUrl, String accountId) {
     String normalized = normalize(baseUrl);
-    return new JiraAccount(normalized, username);
+    return new JiraAccount(normalized, accountId);
   }
 
   public static String normalize(String baseUrl) {
@@ -71,18 +71,18 @@ public class JiraAccount {
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
-    if (myUsername != null && myUsername.length() == 0) return false;
+    if (myAccountId != null && myAccountId.length() == 0) return false;
     JiraAccount other = Util.castNullable(JiraAccount.class, obj);
-    return other != null && Objects.equals(myBaseUrl, other.myBaseUrl) && Objects.equals(myUsername, other.myUsername);
+    return other != null && Objects.equals(myBaseUrl, other.myBaseUrl) && Objects.equals(myAccountId, other.myAccountId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(myBaseUrl, myUsername);
+    return Objects.hash(myBaseUrl, myAccountId);
   }
 
   @Override
   public String toString() {
-    return String.format("JiraAccount[%s at %s]", isKnow() ? (myUsername == null ? "<anonymous>" : myUsername) : "<Unknown>", myBaseUrl);
+    return String.format("JiraAccount[%s at %s]", isKnow() ? (myAccountId == null ? "<anonymous>" : myAccountId) : "<Unknown>", myBaseUrl);
   }
 }

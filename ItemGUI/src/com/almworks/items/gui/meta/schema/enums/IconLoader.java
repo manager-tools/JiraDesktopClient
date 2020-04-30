@@ -83,6 +83,11 @@ public interface IconLoader {
     @Override
     protected Icon loadIcon(DBReader reader, long item, String iconUrl) {
       if (iconUrl == null) return null;
+      try {
+        iconUrl = new org.apache.commons.httpclient.URI(iconUrl, false, "UTF-8").getEscapedURI();
+      } catch (org.apache.commons.httpclient.URIException e) {
+        LogHelper.error("Failed to escape icon URL", iconUrl, e);
+      }
       ConnectionIconsManager icons = reader.getDatabaseUserData().getUserData(ConnectionIconsManager.ROLE);
       if (icons == null) {
         LogHelper.error();

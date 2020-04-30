@@ -1,5 +1,5 @@
 Client for Jira Readme
-Document version: 3.8.5 (26 April 2020)
+Document version: 3.9.0 (26 April 2020)
 http://almworks.com/jiraclient
 https://bitbucket.org/almworks/jiraclient/src/cloud/
 

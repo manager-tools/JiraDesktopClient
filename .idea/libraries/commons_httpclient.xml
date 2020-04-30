@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="commons-httpclient">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/commons-httpclient.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://C:/PATCHED/commons-httpclient-3.0/src/java" />
+      <root url="file://$PROJECT_DIR$/lib/src/commons-httpclient-3.0/src/java" />
+    </SOURCES>
+  </library>
+</component>

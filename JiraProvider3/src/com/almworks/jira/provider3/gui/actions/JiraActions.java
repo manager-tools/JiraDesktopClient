@@ -222,7 +222,6 @@ public class JiraActions {
     registry.registerAction(EDITOR_ATTACH_TEXT, AttachmentsEditor.EDITOR_ATTACH_TEXT);
     registry.registerAction(EDITOR_DELETE_ATTACHMENT, AttachmentsEditor.EDITOR_DELETE_ATTACHMENT);
     registry.registerAction(EDITOR_RENAME_ATTACHMENT, AttachmentsEditor.EDITOR_RENAME_ATTACHMENT);
-    registry.registerAction(MainMenu.File.RESET_LOGIN_FAILURE, new ResetLoginFailure());
     registry.registerAction(VIEW_TIME_REPORT, new ViewTimeReportAction());
   }
 

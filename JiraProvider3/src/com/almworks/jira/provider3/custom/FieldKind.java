@@ -1,6 +1,7 @@
 package com.almworks.jira.provider3.custom;
 
 import com.almworks.items.api.DBAttribute;
+import com.almworks.items.api.DBItemType;
 import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.EntityKey;
 import com.almworks.items.entities.api.collector.transaction.EntityHolder;
@@ -15,6 +16,7 @@ import com.almworks.jira.provider3.remotedata.issue.fields.IssueFieldDescriptor;
 import com.almworks.jira.provider3.sync.download2.details.JsonIssueField;
 import com.almworks.jira.provider3.sync.jql.JQLConvertor;
 import com.almworks.jira.provider3.sync.schema.ServerCustomField;
+import com.almworks.jira.provider3.sync.schema.ServerJira;
 import org.almworks.util.TypedKey;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,9 +88,9 @@ public interface FieldKind {
     private final Entity myEnumType;
     private JsonIssueField myField; // Just a cache, needs no synchronization
 
-    public Field(IssueFieldDescriptor descriptor, @Nullable Entity enumType) {
+    public Field(IssueFieldDescriptor descriptor, @Nullable DBItemType enumType) {
       myDescriptor = descriptor;
-      myEnumType = enumType;
+      myEnumType = ServerJira.dbTypeToEntity(enumType);
     }
 
     public void setupField(EntityTransaction transaction, String fieldClass) {

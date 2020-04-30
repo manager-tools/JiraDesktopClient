@@ -1,0 +1,27 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JC-3" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8_112" />
+    <option name="MAIN_CLASS_NAME" value="com.almworks.launcher.Launcher" />
+    <module name="Idea.JiraClient" />
+    <option name="PROGRAM_PARAMETERS" value="$TEST_AREA$/JiraClient/Cloud-temp1" />
+    <option name="VM_PARAMETERS" value="-Xmx512m -Di.a=true -Djiraclient.debug=true -Djira.dump=all -Djiraclient.home=. -Ddebug.components=com/almworks/rc/DebugComponents-JIRAClient3.xml -Ddebug.context=true -Ddebug.allows.kleval=true -Dis.debugging=true" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/env/debug" />
+    <extension name="coverage" merge="true">
+      <pattern>
+        <option name="PATTERN" value="com.almworks.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <RunnerSettings RunnerId="Debug">
+      <option name="DEBUG_PORT" value="" />
+      <option name="TRANSPORT" value="0" />
+      <option name="LOCAL" value="true" />
+    </RunnerSettings>
+    <RunnerSettings RunnerId="Profile " />
+    <ConfigurationWrapper RunnerId="Debug" />
+    <ConfigurationWrapper RunnerId="Profile " />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

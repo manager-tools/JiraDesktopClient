@@ -42,9 +42,9 @@ import com.almworks.jira.provider3.services.upload.JiraUploadComponent;
 import com.almworks.jira.provider3.sync.ServerFields;
 import com.almworks.jira.provider3.worklogs.PrepareWorklogsUpload;
 import com.almworks.platform.DiagnosticRecorder;
+import com.almworks.restconnector.JiraCredentials;
 import com.almworks.restconnector.RestSession;
 import com.almworks.restconnector.login.JiraLoginInfo;
-import com.almworks.restconnector.login.LoginJiraCredentials;
 import com.almworks.restconnector.operations.RestServerInfo;
 import com.almworks.spi.provider.AbstractItemProvider;
 import com.almworks.spi.provider.wizard.ConnectionWizard;
@@ -280,7 +280,7 @@ public class JiraProvider3 extends AbstractItemProvider implements Startable {
       @CanBlock
       public String isUrlAccessible(String useUrl, ScalarModel<Boolean> cancelFlag) {
         HttpMaterial material = Context.require(HttpMaterialFactory.ROLE).create(null, false, JiraProvider3.getUserAgent());
-        RestSession session = RestSession.create(useUrl, LoginJiraCredentials.anonymous(null), material, null, getActor(SSLProblemHandler.ROLE).getSNIErrorHandler());
+        RestSession session = RestSession.create(useUrl, JiraCredentials.ANONYMOUS, material, null, getActor(SSLProblemHandler.ROLE).getSNIErrorHandler());
         try {
           RestServerInfo.get(session);
           return null;

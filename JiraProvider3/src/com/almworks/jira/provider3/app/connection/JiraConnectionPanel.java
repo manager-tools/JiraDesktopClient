@@ -4,6 +4,7 @@ import com.almworks.api.container.ComponentContainer;
 import com.almworks.api.syncreg.ItemHypercubeUtils;
 import com.almworks.items.gui.meta.LoadedItemKey;
 import com.almworks.jira.provider3.schema.Project;
+import com.almworks.restconnector.JiraCredentials;
 import com.almworks.restconnector.login.JiraLoginInfo;
 import com.almworks.spi.provider.DefaultInformationPanel;
 import com.almworks.util.config.ReadonlyConfiguration;
@@ -36,11 +37,12 @@ class JiraConnectionPanel extends DefaultInformationPanel  {
     if (!baseURL.endsWith("/")) baseURL = baseURL + "/";
     if (JiraConfiguration.isWebLogin(config)) {
       loginLabel = "Jira Account:";
-      String username = JiraConfiguration.getJiraUsername(config);
-      loginValue = "<html>" + (username != null ? username : "<i>Anonymous access</i>") + " <i style=\"font-size: 80%; color: #888888\">(Connected with web browser)</i>";
+      String displayName = JiraConfiguration.getDisplayName(config);
+      loginValue = "<html>" + (displayName != null ? displayName : "<i>Anonymous access</i>") + " <i style=\"font-size: 80%; color: #888888\">(Connected with web browser)</i>";
     } else {
       loginLabel = "Login:";
-      loginValue = holder.getJiraUsername();
+      JiraCredentials credentials = holder.getJiraCredentials();
+      loginValue = credentials != null && !credentials.isAnonymous() ? credentials.getDisplayName() : null;
       if (loginValue == null || loginValue.isEmpty()) {
         JiraLoginInfo loginInfo = JiraConfiguration.getLoginInfo(config);
         loginValue = loginInfo.isAnonymous() ? "<html><i>Anonymous access</i>" : loginInfo.getLogin();

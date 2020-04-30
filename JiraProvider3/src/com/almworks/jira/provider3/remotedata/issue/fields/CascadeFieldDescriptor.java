@@ -26,10 +26,10 @@ import org.json.simple.JSONObject;
 
 public class CascadeFieldDescriptor extends IssueFieldDescriptor {
   private final EntityKey<Entity> myKey;
-  private final JsonEntityParser<Integer> myParser;
+  private final JsonEntityParser myParser;
   private final DBAttribute<Long> myAttribute;
 
-  public CascadeFieldDescriptor(String fieldId, @Nullable String displayName, EntityKey<Entity> key, JsonEntityParser<Integer> parser) {
+  public CascadeFieldDescriptor(String fieldId, @Nullable String displayName, EntityKey<Entity> key, JsonEntityParser parser) {
     super(fieldId, displayName);
     myKey = key;
     myParser = parser;

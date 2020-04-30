@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="xmlrpc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/xmlrpc.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://C:/java/xmlrpc-2.0/docs/apidocs" />
+      <root url="file:///java/xmlrpc-2.0/docs/apidocs" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://C:/java/xmlrpc-2.0.1/xmlrpc-2.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

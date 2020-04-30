@@ -7,14 +7,16 @@ import com.almworks.jira.provider3.remotedata.issue.fields.IssueFieldValue;
 import com.almworks.jira.provider3.remotedata.issue.fields.IssueFields;
 import com.almworks.jira.provider3.services.JiraPatterns;
 import com.almworks.jira.provider3.services.upload.UploadProblem;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.restconnector.RestResponse;
 import com.almworks.restconnector.operations.RestServerInfo;
 import com.almworks.util.LocalLog;
-import com.almworks.util.Pair;
+import com.almworks.util.LogHelper;
 import com.almworks.util.i18n.text.LocalizedAccessor;
 import com.almworks.util.text.TextUtil;
 import com.almworks.util.xml.JDOMUtils;
 import org.almworks.util.Collections15;
+import org.almworks.util.Util;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -112,12 +114,12 @@ class MoveWizard {
   public void maybeUpdateStatus(HtmlWizard wizard, ArrayList<IssueFieldValue> values, RestServerInfo serverInfo) throws UploadProblem.Thrown, ConnectorException {
     FormWrapper form = wizard.findForm(myUpdateWorkflow);
     if (form != null) {
-      EntityFieldDescriptor.MyValue<Integer> status = IssueFields.STATUS.findValue(values);
+      EntityFieldDescriptor.MyValue status = IssueFields.STATUS.findValue(values);
       if (status == null) throw UploadProblem.fatal(M_NO_STATUS_SHORT.create(), M_NO_STATUS_FULL.create()).toException();
       if (!status.isChanged()) addWarning(M_STATUS_NOT_CHANGED.create());
       checkStatus(status, form.getParameterElement(myStatusParam));
       form.setValues(myStatusParam, status.getFormValue(serverInfo));
-      log.debug("Uploading status", status.getChangeId());
+      log.debug("Uploading status", status.getChange());
       wizard.submit(form);
     } else log.debug("No change status form");
   }
@@ -126,9 +128,15 @@ class MoveWizard {
     return myWarnings.add(warning);
   }
 
-  private void checkStatus(EntityFieldDescriptor.MyValue<Integer> status, Element statusSelect) throws UploadProblem.Thrown {
-    Pair<Integer,String> change = status.getChange();
-    Integer setStatusId = change != null ? change.getFirst() : null;
+  private void checkStatus(EntityFieldDescriptor.MyValue status, Element statusSelect) throws UploadProblem.Thrown {
+    LoadedEntity changeEntity = status.getChange();
+    //noinspection unchecked
+    LoadedEntity.Simple<Integer> change = (LoadedEntity.Simple<Integer>) Util.castNullable(LoadedEntity.Simple.class, changeEntity);
+    if (changeEntity != null && change == null) {
+      LogHelper.error("Wrong status change class", changeEntity);
+      throw UploadProblem.fatal(M_NO_STATUS_SHORT.create(), M_NO_STATUS_FULL.create()).toException();
+    }
+    Integer setStatusId = change != null ? change.getId() : null;
     if (setStatusId == null) {
       log.warning("Missing issue status");
       throw UploadProblem.fatal(M_NO_STATUS_SHORT.create(), M_NO_STATUS_FULL.create()).toException();
@@ -148,7 +156,7 @@ class MoveWizard {
       if (validStatuses.length() > 0) validStatuses.append(", ");
       validStatuses.append(JDOMUtils.getText(option).trim());
     }
-    addWarning(M_WRONG_STATUS.formatMessage(change.getSecond(), validStatuses.toString()));
+    addWarning(M_WRONG_STATUS.formatMessage(change.getDisplayableText(), validStatuses.toString()));
   }
 
   public void updateFields(HtmlWizard wizard, ArrayList<IssueFieldValue> values, EditIssue edit, RestServerInfo serverInfo) throws UploadProblem.Thrown, ConnectorException {

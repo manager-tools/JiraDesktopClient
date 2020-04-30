@@ -11,7 +11,6 @@ import org.almworks.util.Util;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 
 class EntityValueTable {
   private final List<KeyInfo> myColumns = Collections15.arrayList();
@@ -53,7 +52,8 @@ class EntityValueTable {
 
   private void reportDifferentValues(Object prev, Object update, KeyInfo column) {
     if (!isSignificantChange(prev, update)) return;
-    LogHelper.log(isIdentity(column) ? Level.SEVERE : Level.WARNING, new Throwable(), "Different values", column, update, prev, myColumns);
+    if (isIdentity(column)) LogHelper.error("Different values", column, update, prev, myColumns);
+    else LogHelper.warning("Different values", column, update, prev, myColumns);
   }
 
   private boolean isSignificantChange(Object prev, Object update) {

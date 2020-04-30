@@ -24,12 +24,14 @@ import com.almworks.jira.provider3.remotedata.issue.fields.EntityFieldDescriptor
 import com.almworks.jira.provider3.remotedata.issue.fields.EntityType;
 import com.almworks.jira.provider3.schema.CustomField;
 import com.almworks.jira.provider3.sync.download2.meta.OptionsLoader;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.jira.provider3.sync.jql.JQLConvertor;
 import com.almworks.jira.provider3.sync.schema.ServerCustomField;
 import com.almworks.util.LogHelper;
 import com.almworks.util.Pair;
-import com.almworks.util.commons.Function2;
 import org.almworks.util.TypedKey;
+
+import java.util.function.Function;
 
 class SingleSelectKind implements FieldKind {
   private final EnumKind myEnumInfo;
@@ -39,10 +41,10 @@ class SingleSelectKind implements FieldKind {
   private final ConvertorFactory myConstraintFactory;
   private final SingleEnumEditorType myEditorType;
   private final EnumItemCreator myCreator;
-  private final Function2<Pair<?,String>,String,?> myToJson;
+  private final Function<LoadedEntity, ?> myToJson;
 
   public SingleSelectKind(EnumKind enumInfo, String constraintNullId, String constraintNullName, String attributeTypePrefix,
-    ConvertorFactory constraintFactory, SingleEnumEditorType editorType, EnumItemCreator creator, Function2<Pair<?, String>, String, ?> toJson) {
+    ConvertorFactory constraintFactory, SingleEnumEditorType editorType, EnumItemCreator creator, Function<LoadedEntity, ?> toJson) {
     if (editorType == null) {
       LogHelper.assertError(toJson == null, "Upload of not editable field", attributeTypePrefix, toJson);
       toJson = null;
@@ -93,7 +95,7 @@ class SingleSelectKind implements FieldKind {
     EntityType<?> type = myEnumInfo.createEnumType(fieldId, connectionId);
     EntityFieldDescriptor<?> descriptor =
       editable ? EntityFieldDescriptor.customJson(fieldId, fieldName, key, type, myToJson) : EntityFieldDescriptor.special(fieldId, fieldName, key, type, myToJson);
-    return new Field(descriptor, type.getType()) ;
+    return new Field(descriptor, type.getType());
   }
 
   @Override

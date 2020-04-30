@@ -10,6 +10,6 @@
     <orderEntry type="module" module-name="ItemWrite" exported="" />
     <orderEntry type="module" module-name="Engine" exported="" />
     <orderEntry type="module" module-name="Services" exported="" />
+    <orderEntry type="library" name="commons-httpclient" level="project" />
   </component>
 </module>
-

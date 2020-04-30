@@ -2,19 +2,59 @@ package com.almworks.restconnector;
 
 import com.almworks.api.connector.ConnectorException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface JiraCredentials {
-  /**
-   * @return expected server username of the user associated with this credentials.
-   *    Returns "" (empty string) if username is not known or anonymous (no JIRA user is associated)
-   * @see #isAnonymous()
-   */
-  @NotNull
-  String getUsername();
+  JiraCredentials ANONYMOUS = new JiraCredentials() {
+
+    @Nullable("When anonymous")
+    @Override
+    public String getDisplayName() {
+      return null;
+    }
+
+    @Override
+    public String getAccountId() {
+      return null;
+    }
+
+    @Override
+    public boolean isAnonymous() {
+      return true;
+    }
+
+    @Override
+    public void initNewSession(RestSession session) {
+    }
+
+    @Override
+    public void ensureLoggedIn(RestSession restSession, boolean fastCheck) {
+    }
+
+    @NotNull
+    @Override
+    public ResponseCheck checkResponse(RestSession session, RestSession.Job job, @NotNull RestResponse response) {
+      return ResponseCheck.success("Anonymous");
+    }
+
+    @Override
+    public JiraCredentials createUpdated(RestSession session) {
+      return this;
+    }
+  };
+
+  @Nullable("When anonymous")
+  String getDisplayName();
 
   /**
+   * @return AccountID of the user which is associated with this credentials
+   * Returns null for anonymous credentials, when the AccountID is not known or not supported by the Jira server
+   * @see com.almworks.restconnector.operations.LoadUserInfo#getAccountId()
+   */
+  String getAccountId();
+  /**
    * @return true if expected anonymous JIRA connection.
-   * @see #getUsername()
+   * @see #getAccountId()
    */
   boolean isAnonymous();
 

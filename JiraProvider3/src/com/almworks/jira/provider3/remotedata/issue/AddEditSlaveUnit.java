@@ -6,7 +6,7 @@ import com.almworks.items.entities.api.collector.transaction.EntityTransaction;
 import com.almworks.items.sync.ItemVersion;
 import com.almworks.jira.provider3.remotedata.issue.edit.CreateIssueUnit;
 import com.almworks.jira.provider3.remotedata.issue.edit.EditIssue;
-import com.almworks.jira.provider3.schema.User;
+import com.almworks.jira.provider3.remotedata.issue.fields.JsonUserParser;
 import com.almworks.jira.provider3.services.upload.PostUploadContext;
 import com.almworks.jira.provider3.services.upload.UploadContext;
 import com.almworks.jira.provider3.services.upload.UploadProblem;
@@ -119,10 +119,8 @@ public abstract class AddEditSlaveUnit<V extends SlaveValues> implements UploadU
 
   public static String loadAuthor(ItemVersion author) {
     String authorName = null;
-    if (author != null) {
-      authorName = author.getValue(User.NAME);
-      if (authorName == null) authorName = author.getValue(User.ID);
-    }
+    if (author != null)
+      authorName = JsonUserParser.INSTANCE.readValue(author).getDisplayableText();
     if (authorName == null) authorName = "Unknown Author";
     return authorName;
   }

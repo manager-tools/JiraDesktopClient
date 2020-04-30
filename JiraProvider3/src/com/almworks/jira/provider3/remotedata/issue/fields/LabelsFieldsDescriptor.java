@@ -55,25 +55,25 @@ public class LabelsFieldsDescriptor extends IssueFieldDescriptor {
   @Override
   public IssueFieldValue load(ItemVersion trunk, ItemVersion base) {
     Pair<LongSet, LongSet> addRemove = EnumDifferenceValue.readAddRemove(myAttribute, trunk, base);
-    List<Pair<String,String>> toAdd = readValues(trunk.readItems(addRemove.getFirst()));
-    List<Pair<String,String>> toRemove = readValues(trunk.readItems(addRemove.getSecond()));
-    List<Pair<String, String>> newValue = readValues(trunk.readItems(LongArray.create(trunk.getValue(myAttribute))));
+    List<String> toAdd = readValues(trunk.readItems(addRemove.getFirst()));
+    List<String> toRemove = readValues(trunk.readItems(addRemove.getSecond()));
+    List<String> newValue = readValues(trunk.readItems(LongArray.create(trunk.getValue(myAttribute))));
     return new MyValue(this, toAdd, toRemove, newValue);
   }
 
-  private List<Pair<String, String>> readValues(List<ItemVersion> items) {
-    List<Pair<String,String>> pairs = Collections15.arrayList(items.size());
+  private List<String> readValues(List<ItemVersion> items) {
+    List<String> pairs = Collections15.arrayList(items.size());
     for (ItemVersion item : items) {
       String id = item.getValue(ID_ATTRIBUTE);
-      if (id != null) pairs.add(Pair.create(id, id));
+      if (id != null) pairs.add(id);
     }
     return pairs;
   }
 
-  private static class MyValue extends EnumDifferenceValue<String> {
+  private static class MyValue extends DifferenceValue<String> {
     private final LabelsFieldsDescriptor myDescriptor;
 
-    private MyValue(LabelsFieldsDescriptor descriptor, List<Pair<String, String>> add, List<Pair<String, String>> remove, List<Pair<String, String>> newValue) {
+    private MyValue(LabelsFieldsDescriptor descriptor, List<String> add, List<String> remove, List<String> newValue) {
       super(add, remove, newValue);
       myDescriptor = descriptor;
     }
@@ -84,28 +84,30 @@ public class LabelsFieldsDescriptor extends IssueFieldDescriptor {
     }
 
     @Override
+    protected String extractFormId(@NotNull String value) {
+      return value;
+    }
+
+    @Override
+    protected void addChanges(EditIssueRequest edit, JSONArray target, List<String> change, String operation) {
+      if (change.isEmpty()) return;
+      String fieldId = myDescriptor.getFieldId();
+      if (!edit.hasOperation(fieldId, operation)) LogHelper.error("Operation not supported:", operation, this);
+      else
+        for (String label : change) {
+          //noinspection unchecked
+          target.add(UploadJsonUtil.object(operation, label));
+        }
+    }
+
+    @Override
     protected String getFieldId() {
       return myDescriptor.getFieldId();
     }
 
     @Override
-    protected void addChanges(EditIssueRequest edit, JSONArray target, List<Pair<String, String>> change, String operation) {
-      if (change.isEmpty()) return;
-      String fieldId = myDescriptor.getFieldId();
-      if (!edit.hasOperation(fieldId, operation)) LogHelper.error("Operation not supported:", operation, this);
-      else
-        for (Pair<String, String> pair : change) {
-          String idValue = pair.getFirst();
-          if (idValue == null) LogHelper.error("Missing id", pair, this);
-          else //noinspection unchecked
-            target.add(UploadJsonUtil.object(operation, idValue));
-        }
-    }
-
-    @Override
-    protected Pair<String, String> readValue(EntityHolder holder) {
-      String id = holder.getScalarValue(ID_KEY);
-      return Pair.create(id, id);
+    protected String readValue(EntityHolder holder) {
+      return holder.getScalarValue(ID_KEY);
     }
 
     @Override

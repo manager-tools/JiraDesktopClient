@@ -2,7 +2,37 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/jiraclient.iml" filepath="$PROJECT_DIR$/.idea/jiraclient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AppInit/AppInit.iml" filepath="$PROJECT_DIR$/AppInit/AppInit.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/Application/Application.iml" filepath="$PROJECT_DIR$/Application/Application.iml" group="PLATFORM" />
+      <module fileurl="file://$PROJECT_DIR$/BuildTools/BuildTools.iml" filepath="$PROJECT_DIR$/BuildTools/BuildTools.iml" group="TOOLS" />
+      <module fileurl="file://$PROJECT_DIR$/CommonUtils/CommonUtils.iml" filepath="$PROJECT_DIR$/CommonUtils/CommonUtils.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/ConnectorSupport/ConnectorSupport.iml" filepath="$PROJECT_DIR$/ConnectorSupport/ConnectorSupport.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/CoreComponents/CoreComponents.iml" filepath="$PROJECT_DIR$/CoreComponents/CoreComponents.iml" group="PLATFORM" />
+      <module fileurl="file://$PROJECT_DIR$/Engine/Engine.iml" filepath="$PROJECT_DIR$/Engine/Engine.iml" group="PLATFORM" />
+      <module fileurl="file://$PROJECT_DIR$/ExternalApi/ExternalApi.iml" filepath="$PROJECT_DIR$/ExternalApi/ExternalApi.iml" group="API" />
+      <module fileurl="file://$PROJECT_DIR$/ExternalApiService/ExternalApiService.iml" filepath="$PROJECT_DIR$/ExternalApiService/ExternalApiService.iml" group="API" />
+      <module fileurl="file://$PROJECT_DIR$/FXUtils/FXUtils.iml" filepath="$PROJECT_DIR$/FXUtils/FXUtils.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/Idea.JiraClient/Idea.JiraClient.iml" filepath="$PROJECT_DIR$/Idea.JiraClient/Idea.JiraClient.iml" group="_SPECIAL" />
+      <module fileurl="file://$PROJECT_DIR$/ItemEntities/ItemEntities.iml" filepath="$PROJECT_DIR$/ItemEntities/ItemEntities.iml" group="_REFACTORING" />
+      <module fileurl="file://$PROJECT_DIR$/ItemGUI/ItemGUI.iml" filepath="$PROJECT_DIR$/ItemGUI/ItemGUI.iml" group="_REFACTORING" />
+      <module fileurl="file://$PROJECT_DIR$/ItemStorage/ItemStorage.iml" filepath="$PROJECT_DIR$/ItemStorage/ItemStorage.iml" group="_REFACTORING" />
+      <module fileurl="file://$PROJECT_DIR$/ItemSync/ItemSync.iml" filepath="$PROJECT_DIR$/ItemSync/ItemSync.iml" group="_REFACTORING" />
+      <module fileurl="file://$PROJECT_DIR$/ItemWrite/ItemWrite.iml" filepath="$PROJECT_DIR$/ItemWrite/ItemWrite.iml" group="_REFACTORING" />
+      <module fileurl="file://$PROJECT_DIR$/JiraProvider3/JiraProvider3.iml" filepath="$PROJECT_DIR$/JiraProvider3/JiraProvider3.iml" group="JIRACLIENT" />
+      <module fileurl="file://$PROJECT_DIR$/Launcher/Launcher.iml" filepath="$PROJECT_DIR$/Launcher/Launcher.iml" group="PLATFORM" />
+      <module fileurl="file://$PROJECT_DIR$/Launcher.JiraClient/Launcher.JiraClient.iml" filepath="$PROJECT_DIR$/Launcher.JiraClient/Launcher.JiraClient.iml" group="JIRACLIENT" />
+      <module fileurl="file://$PROJECT_DIR$/Resources.Common/Resources.Common.iml" filepath="$PROJECT_DIR$/Resources.Common/Resources.Common.iml" group="PLATFORM" />
+      <module fileurl="file://$PROJECT_DIR$/Resources.JiraClient/Resources.JiraClient.iml" filepath="$PROJECT_DIR$/Resources.JiraClient/Resources.JiraClient.iml" group="JIRACLIENT" />
+      <module fileurl="file://$PROJECT_DIR$/RestConnector/RestConnector.iml" filepath="$PROJECT_DIR$/RestConnector/RestConnector.iml" group="JIRACLIENT" />
+      <module fileurl="file://$PROJECT_DIR$/Screenshot/Screenshot.iml" filepath="$PROJECT_DIR$/Screenshot/Screenshot.iml" group="PLATFORM" />
+      <module fileurl="file://$PROJECT_DIR$/Services/Services.iml" filepath="$PROJECT_DIR$/Services/Services.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/SpellCheck/SpellCheck.iml" filepath="$PROJECT_DIR$/SpellCheck/SpellCheck.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/TRACKER.iml" filepath="$PROJECT_DIR$/TRACKER.iml" group="_REFACTORING" />
+      <module fileurl="file://$PROJECT_DIR$/TagExporter.Base/TagExporter.Base.iml" filepath="$PROJECT_DIR$/TagExporter.Base/TagExporter.Base.iml" group="TOOLS" />
+      <module fileurl="file://$PROJECT_DIR$/TagExporter3/TagExporter3.iml" filepath="$PROJECT_DIR$/TagExporter3/TagExporter3.iml" group="TOOLS" />
+      <module fileurl="file://$PROJECT_DIR$/twocents/TwoCents.iml" filepath="$PROJECT_DIR$/twocents/TwoCents.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/Utils/Utils.iml" filepath="$PROJECT_DIR$/Utils/Utils.iml" group="REUSABLE" />
+      <module fileurl="file://$PROJECT_DIR$/widgets/widgets.iml" filepath="$PROJECT_DIR$/widgets/widgets.iml" group="REUSABLE" />
     </modules>
   </component>
 </project>

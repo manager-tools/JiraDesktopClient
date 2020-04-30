@@ -16,6 +16,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @see com.almworks.jira.provider3.sync.download2.details.JsonIssueField.FilteredValue
+ */
 public class ScalarField<T> implements JsonIssueField {
   private final Convertor<Object, T> myConvertor;
   private final EntityKey<T> myKey;
@@ -61,10 +64,6 @@ public class ScalarField<T> implements JsonIssueField {
     return independent(key, convertor);
   }
 
-  public static JsonIssueField dateTime(EntityKey<Date> key) {
-    return independent(key, JSONKey.DATE_TIME);
-  }
-
   public static <T> JsonIssueField collection(EntityKey<Collection<T>> key, Convertor<Object, T> elementConvertor) {
     return independent(key, new Collect<T>(elementConvertor));
   }
@@ -75,10 +74,6 @@ public class ScalarField<T> implements JsonIssueField {
 
   public static JsonIssueField date(EntityKey<Date> key) {
     return independent(key, JSONKey.DATE);
-  }
-
-  public static JsonIssueField daysDate(EntityKey<Integer> key) {
-    return independent(key, JSONKey.DAYS_DATE);
   }
 
   private static class Collect<T> extends Convertor<Object, Collection<T>> {

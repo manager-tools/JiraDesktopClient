@@ -25,7 +25,7 @@ class TypeResolution extends SpecialTable{
 
   @Override
   protected DBIdentifiedObject createIdentifiedObject(DBNamespace namespace, SpecialPlace keyPlace) {
-    return StoreBridge.toDBType(keyPlace.getEntity(), namespace);
+    return StoreBridge.toDBType(keyPlace.createEntity(), namespace);
   }
 
   @Override

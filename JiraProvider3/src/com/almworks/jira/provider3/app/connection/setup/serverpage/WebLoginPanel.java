@@ -58,12 +58,12 @@ class WebLoginPanel implements UrlPage.PagePanel {
       myWebComment.setText(I18N.messageStr("panel.comment.editConnection").formatMessage(Wizard.NEXT_TEXT));
       myConnectionInfoPanel.setVisible(true);
       myConnectionURL.setText(JiraConfiguration.getBaseUrl(config));
-      String account = JiraConfiguration.getJiraUsername(config);
-      if (account == null) {
-        account = "Anonymous";
+      String displayName = JiraConfiguration.getDisplayName(config);
+      if (displayName == null) {
+        displayName = "Anonymous";
         myConnectionAccount.setFont(myConnectionAccount.getFont().deriveFont(Font.ITALIC));
       } else myConnectionAccount.setFont(myConnectionAccount.getFont().deriveFont(Font.PLAIN));
-      myConnectionAccount.setText(account);
+      myConnectionAccount.setText(displayName);
       myLearMore.setUrl(I18N.getString("panel.learnMore.url.editConnection"));
     }
     myWebLoginButton.addActionListener(e -> {
@@ -91,7 +91,7 @@ class WebLoginPanel implements UrlPage.PagePanel {
             .config(webLogin)
             .serverFilter(serverFilter)
             .setConnectHint(I18N.getString("browser.canConnect.popup"))
-            .setConnectPopup(server -> server.getUsername() != null)
+            .setConnectPopup(server -> server.getAccountId() != null)
             .showBrowser(
               window -> {
                 if (window != null) urlPage.getWizard().getWindowController().hide();
@@ -116,12 +116,12 @@ class WebLoginPanel implements UrlPage.PagePanel {
     if (wizard.getEditedConnection() == null) return;
     Configuration config = wizard.getWizardConfig();
     WebLoginConfig webLogin = JiraConfiguration.getWebLogin(config);
-    String username = JiraConfiguration.getJiraUsername(config);
+    String accountId = JiraConfiguration.getAccountId(config);
     String baseUrl = JiraConfiguration.getBaseUrl(config);
     if (webLogin == null || baseUrl == null) {
       myUrlPage.setServerConfig(null, UrlPage.M_WEB_LOGIN);
     } else {
-      CookieJiraCredentials credentials = CookieJiraCredentials.connected(username, webLogin.getCookies().getAllCookies(), null, null, null);
+      CookieJiraCredentials credentials = CookieJiraCredentials.connected(accountId, webLogin.getCookies().getAllCookies(), null, null, null, null);
       ServerConfig serverConfig = new ServerConfig(baseUrl, credentials, wizard.isIgnoreProxy(), true);
       myUrlPage.setServerConfig(serverConfig, UrlPage.M_WEB_LOGIN);
     }

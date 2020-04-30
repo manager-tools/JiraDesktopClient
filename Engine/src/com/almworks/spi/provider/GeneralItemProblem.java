@@ -1,6 +1,5 @@
 package com.almworks.spi.provider;
 
-import com.almworks.api.engine.SyncProblem;
 import com.almworks.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,9 +33,4 @@ public class GeneralItemProblem extends AbstractItemProblem {
     return myCause;
   }
 
-  public static SyncProblem createNow(long item, String displayableId, ConnectionContext context, Pair<String, Boolean> credentialState,
-    @NotNull String shortDescription, @NotNull String longDescription, Cause cause) {
-    return new GeneralItemProblem(item, displayableId, System.currentTimeMillis(), context, credentialState, shortDescription, longDescription,
-      cause);
-  }
 }

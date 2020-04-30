@@ -2,7 +2,6 @@ package com.almworks.jira.provider3.app.connection.setup;
 
 import com.almworks.api.container.ComponentContainer;
 import com.almworks.api.engine.EngineUtils;
-import com.almworks.api.engine.GlobalLoginController;
 import com.almworks.jira.provider3.app.connection.JiraConfiguration;
 import com.almworks.jira.provider3.app.connection.JiraConnection3;
 import com.almworks.jira.provider3.app.connection.setup.serverpage.UrlPage;
@@ -11,7 +10,6 @@ import com.almworks.jira.provider3.app.connection.setup.weblogin.WebLoginParams;
 import com.almworks.restconnector.BasicAuthCredentials;
 import com.almworks.restconnector.CookieJiraCredentials;
 import com.almworks.restconnector.JiraCredentials;
-import com.almworks.restconnector.login.LoginJiraCredentials;
 import com.almworks.spi.provider.NewConnectionSink;
 import com.almworks.spi.provider.wizard.ConnectionWizard;
 import com.almworks.util.LogHelper;
@@ -59,8 +57,7 @@ public class JiraConnectionWizard extends ConnectionWizard {
     super(title, container, connection);
 
     myOldConfig = connection != null ? ConfigurationUtil.copy(connection.getConfiguration()) : null;
-    myUrlPage = new UrlPage(this, myContainer.getActor(GlobalLoginController.ROLE),
-      WebLoginParams.Dependencies.fromContainer(myContainer));
+    myUrlPage = new UrlPage(this, WebLoginParams.Dependencies.fromContainer(myContainer));
     myTestPage = new TestPage();
     myProjPage = new ProjectsPage();
     myNamePage = new NamePage();
@@ -92,10 +89,6 @@ public class JiraConnectionWizard extends ConnectionWizard {
 
   public void setExtConfig(@Nullable ServerConfig extConfig) {
     myExtConfig = extConfig;
-  }
-
-  public boolean hasExtConfig() {
-    return myExtConfig != null;
   }
 
   @Override
@@ -210,13 +203,11 @@ public class JiraConnectionWizard extends ConnectionWizard {
       else {
         JiraConfiguration.setBaseUrl(myWizardConfig, serverInfo.getBaseUrl());
         JiraCredentials credentials = serverInfo.getCredentials();
-        if (credentials instanceof LoginJiraCredentials) {
-          JiraConfiguration.setLoginPassword(myWizardConfig, ((LoginJiraCredentials) credentials).toLoginInfo());
-        } else if (credentials instanceof BasicAuthCredentials) {
+        if (credentials instanceof BasicAuthCredentials) {
           JiraConfiguration.setBasicAuth(myWizardConfig, ((BasicAuthCredentials) credentials).toLoginInfo());
         } else if (credentials instanceof CookieJiraCredentials){
           CookieJiraCredentials cookie = (CookieJiraCredentials) credentials;
-          JiraConfiguration.setJiraUsername(myWizardConfig, cookie.getUsername());
+          JiraConfiguration.setJiraUsername(myWizardConfig, cookie.getAccountId());
           JiraConfiguration.setWebLogin(myWizardConfig, WebLoginConfig.create(cookie.getCookies()));
         } else LogHelper.error("Unknown credentials", credentials);
       }
@@ -225,7 +216,7 @@ public class JiraConnectionWizard extends ConnectionWizard {
     public List<String> getSelectedProjectNames() {
       return isFiltering()
         ? Convertors.TO_STRING.collectList(getSelectedUnits())
-        : Collections15.<String>emptyList();
+        : Collections15.emptyList();
     }
   }
 
@@ -248,14 +239,8 @@ public class JiraConnectionWizard extends ConnectionWizard {
       if (serverInfo != null) {
         JiraCredentials credentials = serverInfo.getCredentials();
         String displayName = serverInfo.getUserDisplayName();
-        if ((credentials != null && !credentials.isAnonymous()) || displayName != null) {
-          if (credentials == null) return displayName;
-          String text = displayName;
-          String username = credentials.getUsername();
-          if (text == null) text = username;
-          else if (username.length() > 0) text += " (" + username + ")";
-          return text;
-        }
+        if ((credentials != null && !credentials.isAnonymous()) || displayName != null)
+          return displayName;
       }
       return super.getUsernameText();
     }

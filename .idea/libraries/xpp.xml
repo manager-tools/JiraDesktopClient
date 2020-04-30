@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="xpp">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/pullparser.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://C:/java/PullParser2.1.10/src/java/impl/format" />
+      <root url="file://C:/java/PullParser2.1.10/src/java/impl/node" />
+      <root url="file://C:/java/PullParser2.1.10/src/java/impl/tag" />
+      <root url="file://C:/java/PullParser2.1.10/src/java/impl/pullparser" />
+      <root url="file://C:/java/PullParser2.1.10/src/java/intf" />
+      <root url="file://C:/java/PullParser2.1.10/src/java/impl/small" />
+      <root url="file://C:/java/PullParser2.1.10/src/java/impl/factory" />
+      <root url="file:///java/PullParser2.1.10/src/java/impl/format" />
+      <root url="file:///java/PullParser2.1.10/src/java/impl/node" />
+      <root url="file:///java/PullParser2.1.10/src/java/impl/tag" />
+      <root url="file:///java/PullParser2.1.10/src/java/impl/pullparser" />
+      <root url="file:///java/PullParser2.1.10/src/java/intf" />
+      <root url="file:///java/PullParser2.1.10/src/java/impl/small" />
+      <root url="file:///java/PullParser2.1.10/src/java/impl/factory" />
+    </SOURCES>
+  </library>
+</component>

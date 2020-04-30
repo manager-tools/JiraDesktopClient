@@ -41,9 +41,7 @@ class CredentialsPanel {
   private JPasswordField myPassword;
   private JCheckBox myAnonymous;
   private JPanel myMessagePlace;
-  private JCheckBox myJiraCloud;
   private Link myApiTokenLink;
-  private JPanel myPasswordLabelPanel;
   private Link myLearnMoreCloud;
 
   private final ATextAreaWithExplanation myInfo;
@@ -73,18 +71,8 @@ class CredentialsPanel {
 
     showInfo(null, null);
     showError(null, null);
-    UIUtil.addChangeListeners(Lifespan.FOREVER, e -> onCloudChanged(), myJiraCloud);
-    myLearnMoreCloud.setAction(new OpenBrowserAction("https://wiki.almworks.com/display/kb/JIRA+Client+Jira+Cloud+Authentication", true, "Learn more…"));
+    myLearnMoreCloud.setAction(new OpenBrowserAction("https://wiki.almworks.com/display/kb/JIRA+Client+Jira+Cloud+Authentication", true, "How to connect to Jira Cloud"));
     myApiTokenLink.setAction(new OpenBrowserAction("https://id.atlassian.com/manage/api-tokens", true, "API Token:"));
-    onCloudChanged();
-  }
-
-  private void onCloudChanged() {
-    boolean isCloud = myJiraCloud.isSelected();
-    CardLayout passwordLayout = (CardLayout) myPasswordLabelPanel.getLayout();
-    passwordLayout.show(myPasswordLabelPanel, isCloud ? "CardToken" : "CardPassword");
-    myAnonymous.setEnabled(!isCloud);
-    if (isCloud) myAnonymous.setSelected(false);
   }
 
   public CompletingComboBox<String> getUrl() {
@@ -115,14 +103,9 @@ class CredentialsPanel {
     return myAnonymous.isSelected();
   }
 
-  public boolean isBasicAuth() {
-    return myJiraCloud.isSelected();
-  }
-
   public void loadValuesFromConfiguration(ReadonlyConfiguration config) {
     myUrl.setSelectedItem(Util.NN(JiraConfiguration.getBaseUrl(config)));
     JiraLoginInfo loginInfo = JiraConfiguration.getLoginInfo(config);
-    myJiraCloud.setSelected(JiraConfiguration.isBasicAuth(config));
     if (loginInfo != null) {
       boolean anonymous = loginInfo.isAnonymous();
       String loginName = Util.NN(loginInfo.getLogin());
@@ -153,17 +136,12 @@ class CredentialsPanel {
     DocumentUtil.addChangeListener(Lifespan.FOREVER, myUsername.getDocument(), listener);
     DocumentUtil.addChangeListener(Lifespan.FOREVER, myPassword.getDocument(), listener);
     UIUtil.addChangeListener(Lifespan.FOREVER, listener, myAnonymous.getModel());
-    UIUtil.addChangeListener(Lifespan.FOREVER, listener, myJiraCloud.getModel());
   }
 
   private void updateCredentialsState() {
     JCheckBox anonymous = myAnonymous;
     JTextField username = myUsername;
     JPasswordField password = myPassword;
-    if (myJiraCloud.isSelected()) {
-      anonymous.setEnabled(false);
-      anonymous.setSelected(false);
-    } else anonymous.setEnabled(true);
     boolean isAnonymous = anonymous.isSelected();
     if (isAnonymous) {
       username.setEnabled(false);

@@ -10,6 +10,7 @@ import com.almworks.jira.connector2.JiraInternalException;
 import com.almworks.jira.provider3.app.connection.JiraConnection3;
 import com.almworks.jira.provider3.custom.FieldKind;
 import com.almworks.jira.provider3.permissions.IssuePermissions;
+import com.almworks.jira.provider3.remotedata.issue.fields.JsonUserParser;
 import com.almworks.jira.provider3.sync.ConnectorManager;
 import com.almworks.jira.provider3.sync.download2.details.fields.AttachmentsField;
 import com.almworks.jira.provider3.sync.download2.details.fields.JiraIssueJsonFields;
@@ -94,7 +95,7 @@ public class LoadDetails {
       if (issue == null) return null;
       connection.getActor(IssuePermissions.ROLE).loadIssuePermissions(transaction, session, issueId);
       new LoadTransitions(session, issue, connection.getCustomFields()).perform(progress.spawn(0.2));
-      loadWatchersVotes(transaction, session, progress.spawnAll(), issueId);
+      loadWatchersVotes(transaction, session, progress.spawnAll(), issueId, connection.getConfigHolder().getConnectionLoadedUser());
       return issue;
     } finally {
       progress.setDone();
@@ -102,9 +103,9 @@ public class LoadDetails {
   }
 
   @Nullable("When server returned failure status code")
-  private static Trio<Boolean, Integer, ServerUser.CollectFromJson> loadUsers(final EntityTransaction transaction, RestSession session, ProgressInfo progress, String path,
-    String isKey, String countKey,
-    String usersKey) throws ConnectorException {
+  private static Trio<Boolean, Integer, ServerUser.CollectFromJson> loadUsers
+    (final EntityTransaction transaction, RestSession session, ProgressInfo progress, JsonUserParser.LoadedUser thisUser,
+     String path, String isKey, String countKey, String usersKey) throws ConnectorException {
     RestResponse response = session.restGet(path, RequestPolicy.SAFE_TO_RETRY);
     if (!response.isSuccessful()) {
       int statusCode = response.getStatusCode();
@@ -127,25 +128,37 @@ public class LoadDetails {
       LogHelper.warning("Failed to parse", path, e.getMessage());
       return null;
     }
+    boolean thisIncluded = isWatching.cast(Boolean.class);
+    Integer userCount = count.getInteger();
+    if (users.getCount() != 0) {
+      userCount = users.getCount();
+      thisIncluded = thisUser != null && users.getUsers().stream()
+        .anyMatch(thisUser::sameUser);
+    }
+    if (thisUser == null) thisIncluded = false;
     return Trio.create(
-      isWatching.cast(Boolean.class),
-      count.getInteger(),
+      thisIncluded,
+      userCount,
       users
     );
   }
 
-  private static void loadWatchersVotes(final EntityTransaction transaction, RestSession session, ProgressInfo progress, int issueId) throws ConnectorException {
+  /**
+   * @see JiraIssueJsonFields#STATIC_FIELDS
+   */
+  private static void loadWatchersVotes(final EntityTransaction transaction, RestSession session, ProgressInfo progress, int issueId,
+                                        JsonUserParser.LoadedUser thisUser) throws ConnectorException {
     EntityHolder issue = ServerIssue.create(transaction, issueId, null);
     if (issue == null) return;
     progress.startActivity(M_LOADING_WATCHERS.create());
-    Trio<Boolean, Integer,ServerUser.CollectFromJson> trio = loadUsers(transaction, session, progress.spawn(0.5), "api/2/issue/" + issueId + "/watchers", "isWatching", "watchCount", "watchers");
+    Trio<Boolean, Integer,ServerUser.CollectFromJson> trio = loadUsers(transaction, session, progress.spawn(0.5), thisUser, "api/2/issue/" + issueId + "/watchers", "isWatching", "watchCount", "watchers");
     if (trio != null) {
       issue.setReferenceCollection(ServerIssue.WATCHERS, trio.getThird().getUsers());
       issue.setNNValue(ServerIssue.WATCHERS_COUNT, trio.getSecond());
 //      issue.setNNValue(ServerIssue.WATCHING, trio.getFirst());  // set this via general issue download (to avoid different values in the transaction)
     }
     progress.startActivity(M_LOADING_VOTERS.create());
-    trio = loadUsers(transaction, session, progress.spawnAll(), "api/2/issue/" + issueId + "/votes", "hasVoted", "votes", "voters");
+    trio = loadUsers(transaction, session, progress.spawnAll(), thisUser, "api/2/issue/" + issueId + "/votes", "hasVoted", "votes", "voters");
     if (trio != null) {
       issue.setReferenceCollection(ServerIssue.VOTERS, trio.getThird().getUsers());
       issue.setNNValue(ServerIssue.VOTES_COUNT, trio.getSecond());

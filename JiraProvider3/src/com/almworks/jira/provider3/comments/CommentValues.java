@@ -1,5 +1,6 @@
 package com.almworks.jira.provider3.comments;
 
+import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.collector.transaction.EntityHolder;
 import com.almworks.items.entities.api.collector.transaction.EntityTransaction;
 import com.almworks.items.sync.ItemVersion;
@@ -97,7 +98,8 @@ class CommentValues extends SlaveValues {
   }
 
   @Override
-  public boolean matchesFailure(EntityHolder slave, @NotNull String thisUser) {
-    return thisUser.equals(slave.getScalarFromReference(ServerComment.AUTHOR, ServerUser.ID)) && Util.equals(slave.getScalarValue(ServerComment.TEXT), myText);
+  public boolean matchesFailure(EntityHolder slave, @NotNull Entity thisUser) {
+    return ServerUser.sameUser(thisUser, slave.getReference(ServerComment.AUTHOR))
+      && Util.equals(slave.getScalarValue(ServerComment.TEXT), myText);
   }
 }

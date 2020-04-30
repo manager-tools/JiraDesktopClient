@@ -8,12 +8,13 @@ import com.almworks.jira.provider3.remotedata.issue.fields.IssueFields;
 import com.almworks.jira.provider3.services.upload.UploadContext;
 import com.almworks.jira.provider3.services.upload.UploadProblem;
 import com.almworks.jira.provider3.services.upload.UploadUnit;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.restconnector.RestSession;
 import com.almworks.util.LocalLog;
-import com.almworks.util.Pair;
 import com.almworks.util.i18n.text.LocalizedAccessor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 class GenericMove extends BaseMoveUnit {
   private static final LocalLog log = LocalLog.topLevel("GenericMove");
@@ -28,10 +29,10 @@ class GenericMove extends BaseMoveUnit {
 
   @Override
   protected Collection<? extends UploadProblem> doPerform(RestSession session, UploadContext context, int issueId) throws ConnectorException, UploadProblem.Thrown {
-    EntityFieldDescriptor.MyValue<Integer> projectValue = IssueFields.PROJECT.findValue(myValues);
-    EntityFieldDescriptor.MyValue<Integer> typeValue = IssueFields.ISSUE_TYPE.findValue(myValues);
-    Integer pid = projectValue == null ? null : projectValue.getChangeId();
-    Integer typeId = typeValue == null ? null : typeValue.getChangeId();
+    LoadedEntity.Simple<Integer> project = CreateIssueUnit.findChange(IssueFields.PROJECT, myValues);
+    LoadedEntity.Simple<Integer> type = CreateIssueUnit.findChange(IssueFields.ISSUE_TYPE, myValues);
+    Integer pid = project == null ? null : project.getId();
+    Integer typeId = type == null ? null : type.getId();
     if (pid == null && typeId == null) {
       log.warning("No actual move");
       markSuccess();
@@ -51,24 +52,12 @@ class GenericMove extends BaseMoveUnit {
     wizard.submit(form);
 
     if (wizard.findForm(START_MOVE) != null) {
-      log.warning("Move has not moved to next form", projectValue, typeValue);
-      addWarning(M_PROJECT_TYPE_FAILURE.formatMessage(getValueDisplayName(projectValue), getValueDisplayName(typeValue)));
+      log.warning("Move has not moved to next form", project, type);
+      addWarning(M_PROJECT_TYPE_FAILURE.formatMessage(EntityFieldDescriptor.getDisplayableValue(project), EntityFieldDescriptor.getDisplayableValue(type)));
     }
     finishMove(wizard, myValues, context);
     markSuccess();
     return null;
-  }
-
-  private String getValueDisplayName(EntityFieldDescriptor.MyValue<?> value) {
-    List<Pair<?, String>> values = value == null ? Collections.emptyList()
-      : Arrays.asList(value.getChange(), value.getExpected());
-    for (Pair<?, String> p : values) {
-      if (p == null) continue;
-      String name = p.getSecond();
-      if (name != null) return name;
-      else break;
-    }
-    return "-";
   }
 
   @Override

@@ -34,22 +34,41 @@ public class EnumKind {
   public static final TypedKey<String> JSON_ENUM_PARSER = TypedKey.create("jsonParser", String.class);
 
   private final EnumTypeKind myEnumTypeKind;
-  private final JsonEntityParser<?> myParserTemplate;
+  private final JsonEntityParser myParserTemplate;
 
-  public EnumKind(EnumTypeKind enumKind, JsonEntityParser<?> parserTemplate) {
+  private EnumKind(EnumTypeKind enumKind, JsonEntityParser parserTemplate) {
     assert parserTemplate != null;
     myEnumTypeKind = enumKind;
     myParserTemplate = parserTemplate;
   }
 
+  /**
+   * Construct EnumKind for parsers those have predefined type
+   * @see #withoutType(EnumTypeKind, JsonEntityParser.Impl)
+   */
+  public static EnumKind withType(EnumTypeKind enumKind, JsonEntityParser parser) {
+    assert parser.getType() != null;
+    return new EnumKind(enumKind, parser);
+  }
+
+  /**
+   * Constructs EnumKind for parsers those have no predefined type (are parser templates)
+   * @see #withType(EnumTypeKind, JsonEntityParser)
+   */
+  public static EnumKind withoutType(EnumTypeKind enumKind, JsonEntityParser.Impl<?> parserTemplate) {
+    DBItemType type = parserTemplate.getType();
+    if (type != null) return new EnumKind(enumKind, parserTemplate);
+    return new EnumKind(enumKind, parserTemplate) {
+      @Override
+      public EntityType<?> createEnumType(String fieldId, String connectionId) {
+        JsonEntityParser parser = parserTemplate.withType(enumKind.createType(connectionId, fieldId));
+        return EntityType.create(parser, null);
+      }
+    };
+  }
+
   public EntityType<?> createEnumType(String fieldId, String connectionId) {
-    JsonEntityParser<?> parser = myParserTemplate;
-    Entity type = parser.getType();
-    if (type == null) {
-      type = myEnumTypeKind.createType(connectionId, fieldId);
-      parser = parser.withType(type);
-    }
-    return EntityType.create(parser, null);
+    return EntityType.create(myParserTemplate, null);
   }
 
   public void setEnumType(BaseEnumInfo info, DBItemType type) {
@@ -72,7 +91,7 @@ public class EnumKind {
       .create(SupplyReference.supplyProject(ServerCustomField.PROJECT)));
     map.put("tempoAccount", new EntityParser.Builder()
       .map(JSONKey.textTrim("name"), ServerCustomField.ENUM_DISPLAY_NAME)
-      .map(new JSONKey<String>("id", JSONKey.TEXT_INTEGER), ServerCustomField.ENUM_STRING_ID)
+      .map(new JSONKey<>("id", JSONKey.TEXT_INTEGER), ServerCustomField.ENUM_STRING_ID)
       .create(null));
     JSON_PARSERS = map;
   }
@@ -117,7 +136,7 @@ public class EnumKind {
           userId = idNum;
         }
       }
-      entity.put(ServerUser.ID, userId).fix();
+      entity.put(ServerUser.ACCOUNT_ID, userId).fix();
       return true;
     }
 

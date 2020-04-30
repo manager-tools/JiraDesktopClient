@@ -35,9 +35,10 @@ public class JiraConfiguration {
   public static final String IGNORE_PROXY = "ignoreProxy";
   /** Credentials mode. Type: string. JIRA or SSO login */
   private static final String USERNAME = "username";
-  /** Type: string. Expected JIRA username. Mandatory for WebLogin and SSO: null means anonymous connection.
-   * In credentials mode usually equal to {@link #USERNAME login} */
-  private static final String JIRA_USERNAME = "jiraUsername";
+  /** Credentials mode. Type: string. Jira Account ID for new Jiras */
+  private static final String ACCOUNT_ID = "accountId";
+  /** Credentials mode. Type: string. Jira display name of the user */
+  private static final String DISPLAY_NAME = "displayName";
   /** WebLogin mode. Type: string. JSON-serialized {@link WebLoginConfig WebLogin configuration} */
   private static final String WEB_LOGIN = "webLogin";
   /** Type: integer ({@link #M_CREDENTIALS}, {@link #M_WEB_LOGIN}.
@@ -83,12 +84,8 @@ public class JiraConfiguration {
     return WebLoginConfig.fromJson(json);
   }
 
-  /**
-   * @param jiraUsername JIRA username for authenticated connections, or null for anonymous
-   * @see #getJiraUsername(ReadonlyConfiguration) */
-  public static void setJiraUsername(Configuration config, String jiraUsername) {
-    if (jiraUsername != null && jiraUsername.isEmpty()) jiraUsername = null;
-    config.setSetting(JIRA_USERNAME, jiraUsername);
+  public static void setJiraUsername(Configuration config, String accountId) {
+    config.setSetting(ACCOUNT_ID, accountId);
   }
 
   /**
@@ -134,13 +131,9 @@ public class JiraConfiguration {
     if (!auth) return JiraLoginInfo.ANONYMOUS;
     String login = config.getSetting(USERNAME, null);
     String password = PasswordUtil.getPassword(config);
-    String username = config.getSetting(JIRA_USERNAME, ""); // Get empty username: Prevent startup failure caused by a Cloud connection config
-    return new JiraLoginInfo(login, password, false, username);
-  }
-
-  @Nullable
-  private static String getLogin(ReadonlyConfiguration config) {
-    return config != null ? config.getSetting(USERNAME, null) : null;
+    String accountId = config.getSetting(ACCOUNT_ID, null);
+    String displayName = config.getSetting(DISPLAY_NAME, null);
+    return new JiraLoginInfo(login, password, false, accountId, displayName);
   }
 
   public static boolean isIgnoreProxy(ReadonlyConfiguration config) {
@@ -179,40 +172,37 @@ public class JiraConfiguration {
     config.setSetting(JiraConfiguration.AUTHENTICATE, !userInfo.isAnonymous());
     config.setSetting(JiraConfiguration.USERNAME, userInfo.getLogin());
     PasswordUtil.setPassword(config, userInfo.getPassword());
-    config.setSetting(JIRA_USERNAME, userInfo.getJiraUsername());
+    config.setSetting(ACCOUNT_ID, userInfo.getAccountId());
     config.setSetting(MODE, M_CREDENTIALS);
   }
 
   public static void setBasicAuth(Configuration config, JiraLoginInfo info) {
-    if (info.isAnonymous() || info.getJiraUsername().isEmpty()) {
+    if (info.isAnonymous() || info.getAccountId() == null) {
       LogHelper.error("Wrong BasicAuth info:", info);
       setLoginPassword(config, JiraLoginInfo.ANONYMOUS);
     } else {
       config.setSetting(JiraConfiguration.USERNAME, info.getLogin());
       PasswordUtil.setPassword(config, info.getPassword());
-      config.setSetting(JIRA_USERNAME, info.getJiraUsername());
+      config.setSetting(ACCOUNT_ID, info.getAccountId());
       config.setSetting(MODE, M_BASIC_AUTH);
     }
   }
 
-  /**
-   * Extracts expected JIRA username if it is specified.
-   * @param config connection configuration
-   * @return JIRA username if the connection is authenticated and username is specified, otherwise null
-   */
-  @Nullable
-  public static String getJiraUsername(ReadonlyConfiguration config) {
+  public static String getDisplayName(ReadonlyConfiguration config) {
     if (config == null) return null;
-    String username = config.getSetting(JIRA_USERNAME, null);
-    if (username == null) username = Util.NN(getLogin(config));
-    return username.isEmpty() ? null : username;
+    return config.getSetting(DISPLAY_NAME, null);
   }
 
+  @Nullable
+  public static String getAccountId(ReadonlyConfiguration config) {
+    if (config == null) return null;
+    String accountId = Util.NN(config.getSetting(ACCOUNT_ID, null)).trim();
+    return accountId.isEmpty() ? null : accountId;
+  }
   /**
    * Compares synchronization settings of two configurations. Takes into account only settings which affects synchronization.<br>
    * Synchronization can be affected by these settings:
    * <ul>
-   *   <li>{@link #JIRA_USERNAME JIRA username}</li>
    *   <li>{@link #FILTERED_PROJECTS}</li>
    * </ul>
    * @param config1 configuration 1
@@ -223,7 +213,7 @@ public class JiraConfiguration {
     if (config1 == config2) return true;
     if (config1 == null || config2 == null) return false;
     if (!Objects.equals(getBaseUrl(config1), getBaseUrl(config2))) return false;
-    if (!Objects.equals(getJiraUsername(config1), getJiraUsername(config2))) return false;
+    if (!Objects.equals(getAccountId(config1), getAccountId(config2))) return false;
     Set<Integer> projects1 = getProjectsFilter(config1);
     Set<Integer> projects2 = getProjectsFilter(config2);
     return Objects.equals(projects1, projects2);

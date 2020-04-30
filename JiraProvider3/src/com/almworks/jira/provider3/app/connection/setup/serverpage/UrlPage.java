@@ -1,6 +1,5 @@
 package com.almworks.jira.provider3.app.connection.setup.serverpage;
 
-import com.almworks.api.engine.GlobalLoginController;
 import com.almworks.api.gui.DialogBuilder;
 import com.almworks.jira.provider3.app.connection.JiraConfiguration;
 import com.almworks.jira.provider3.app.connection.setup.JiraConnectionWizard;
@@ -46,13 +45,13 @@ public class UrlPage extends BasePage {
   private ServerConfig myServerConfig;
   private JPanel mySwitchPanel;
 
-  public UrlPage(JiraConnectionWizard wizard, GlobalLoginController loginController, WebLoginParams.Dependencies dependencies) {
+  public UrlPage(JiraConnectionWizard wizard, WebLoginParams.Dependencies dependencies) {
     super(ConnectionWizard.URL_PAGE_ID, ConnectionWizard.CANCEL_ID, ConnectionWizard.TEST_PAGE_ID);
     myWizard = wizard;
     myWebLoginDependencies = dependencies;
     myMode = detectPageMode();
     myWebLogin = new WebLoginPanel(this);
-    myCredentials = new CredentialsPanelController(this, loginController);
+    myCredentials = new CredentialsPanelController(this);
     myWholePanel.setBorder(UIUtil.EDITOR_PANEL_BORDER);
     JPanel initialPanel;
     JPanel switchPanel;
@@ -128,32 +127,6 @@ public class UrlPage extends BasePage {
     label.setForeground(ColorUtil.between(label.getForeground(), wholePanel.getBackground(), 0.5f));
     Font font = label.getFont();
     label.setFont(font.deriveFont(Font.PLAIN, font.getSize() * 0.9f));
-  }
-
-  private void switchMode(int newMode) {
-    if (myMode == M_BOTH || (newMode != M_CREDENTIALS && newMode != M_WEB_LOGIN) || newMode == myMode) return;
-    myMode = newMode;
-    myWholePanel.remove(myWebLogin.getWholePanel());
-    myWholePanel.remove(myCredentials.getWholePanel());
-    PagePanel panel = newMode == M_CREDENTIALS ? myCredentials : myWebLogin;
-    myWholePanel.add(panel.getWholePanel());
-    myWholePanel.invalidate();
-    myWholePanel.revalidate();
-    myWholePanel.repaint();
-    myWizard.setExtConfig(null);
-    clearServerConfig();
-    panel.onAboutToDisplay();
-    myWholePanel.remove(mySwitchPanel);
-    mySwitchPanel = null;
-  }
-
-  private JPanel createSwitchToCredentials() {
-    JPanel panel = new JPanel(new BorderLayout());
-    Link link = new Link();
-    link.setText("Configure Jira URL and credentials");
-    link.addActionListener(e -> switchMode(M_CREDENTIALS));
-    panel.add(link, BorderLayout.EAST);
-    return panel;
   }
 
   @Override

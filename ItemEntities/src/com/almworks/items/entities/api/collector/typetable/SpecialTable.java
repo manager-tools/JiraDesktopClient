@@ -66,10 +66,10 @@ abstract class SpecialTable implements PriEntityTable {
   }
 
   @Override
-  public void setValues(EntityPlace place, ValueRow row) {
-    SpecialPlace keyPlace = Util.castNullable(SpecialPlace.class, place);
-    if (keyPlace == null) {
-      LogHelper.error("Wrong place", place, row);
+  public void setValues(EntityPlace p, ValueRow row) {
+    SpecialPlace place = Util.castNullable(SpecialPlace.class, p);
+    if (place == null) {
+      LogHelper.error("Wrong place", p, row);
       return;
     }
     List<KeyInfo> columns = row.getColumns();
@@ -82,8 +82,10 @@ abstract class SpecialTable implements PriEntityTable {
         continue;
       }
       if (value == null) continue;
-      Object hintValue = keyPlace.getHint(hint);
-      LogHelper.assertError(value.equals(hintValue), "Not supported", hint, value, hintValue);
+      Object hintValue = place.getHint(hint);
+      if (value.equals(hintValue)) continue;
+      if (hintValue == null) place.setValue(hint, value);
+      else LogHelper.error("Not supported", hint, value, hintValue);
     }
   }
 
@@ -137,28 +139,40 @@ abstract class SpecialTable implements PriEntityTable {
 
   @Override
   public Entity restoreIdentified(int placeIndex) {
-    for (SpecialPlace place : getPlaces()) if (place.getIndex() == placeIndex) return place.getEntity();
+    for (SpecialPlace place : getPlaces()) if (place.getIndex() == placeIndex) return place.createEntity();
     LogHelper.error("Place not found", placeIndex, this);
     return null;
   }
 
   static class SpecialPlace extends EntityPlace {
-    private final Entity myEntity;
+    private Entity myEntity;
 
     SpecialPlace(SpecialTable table, int index, Entity entity) {
       super(table, index);
       myEntity = entity;
     }
 
-    public Object getHint(KeyInfo.HintInfo hint) {
+    public Object getHint(KeyInfo.HintInfo<?> hint) {
       EntityKey<?> key = hint.getKey();
       if (!myEntity.hasValue(key)) return null;
       Object value = myEntity.get(key);
       return value != null ? value : ValueRow.NULL_VALUE;
     }
 
-    public Entity getEntity() {
+    public Entity createEntity() {
       return myEntity;
+    }
+
+    public void setValue(KeyInfo.HintInfo<?> hint, Object value) {
+      //noinspection unchecked
+      EntityKey<Object> key = (EntityKey<Object>) hint.getKey();
+      if (myEntity.hasValue(key)) LogHelper.error("Cannot override known value", key, myEntity.get(key), value);
+      else {
+        Entity copy = Entity.copy(myEntity);
+        copy.put(key, value);
+        copy.fix();
+        myEntity = copy;
+      }
     }
   }
 }

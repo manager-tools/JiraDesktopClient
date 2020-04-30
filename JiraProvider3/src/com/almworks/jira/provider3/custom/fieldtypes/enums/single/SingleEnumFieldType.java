@@ -9,9 +9,8 @@ import com.almworks.jira.provider3.custom.fieldtypes.enums.EnumDescriptor;
 import com.almworks.jira.provider3.custom.fieldtypes.enums.EnumKind;
 import com.almworks.jira.provider3.custom.loadxml.ConfigKeys;
 import com.almworks.jira.provider3.remotedata.issue.fields.EntityType;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.util.LogHelper;
-import com.almworks.util.Pair;
-import com.almworks.util.commons.Function2;
 import org.almworks.util.Collections15;
 import org.almworks.util.TypedKey;
 import org.almworks.util.Util;
@@ -19,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class SingleEnumFieldType extends FieldType {
   private static final SingleEnumEditorType RADIO_BUTTONS = new SingleEnumEditorType(true, false) {
@@ -37,41 +37,26 @@ public class SingleEnumFieldType extends FieldType {
     EDITORS = map;
   }
 
-  private static final Map<String, Function2<Pair<?,String>,String,Object>> TO_JSON;
+  private static final Map<String, Function<LoadedEntity, Object>> TO_JSON;
   static {
-    HashMap<String, Function2<Pair<?,String>,String,Object>> map = Collections15.hashMap();
-    map.put("rawTextId", new Function2<Pair<?, String>, String, Object>() {
-      @Override
-      public Object invoke(Pair<?, String> pair, String s) {
-        if (pair == null) return null;
-        Object id = pair.getFirst();
-        if (id == null) LogHelper.error("Missing id", pair, s);
-        else {
-          String strId = Util.castNullable(String.class, id);
-          if (strId == null) LogHelper.error("Wrong id class", pair, s);
-          return strId;
-        }
-        return null;
-      }
+    HashMap<String, Function<LoadedEntity, Object>> map = Collections15.hashMap();
+    map.put("rawTextId", entity -> {
+      if (entity == null) return null;
+      String id = entity.getFormValueId();  // Assume that this ID is the most applicable, even when the entity has other identities
+      return id.isEmpty() ? null : id;
     });
-    map.put("intId", new Function2<Pair<?,String>, String, Object>() {
-      @Override
-      public Object invoke(Pair<?, String> pair, String s) {
-        if (pair == null) return null;
-        Object id = pair.getFirst();
-        if (id == null) LogHelper.error("Missing id", pair, s);
-        else {
-          String strId = Util.castNullable(String.class, id);
-          if (strId == null) LogHelper.error("Wrong id class", pair, s);
-          else
-            try {
-              return Integer.parseInt(strId);
-            } catch (NumberFormatException e) {
-              LogHelper.warning("Wrong ID, expected int", strId, s);
-            }
+    map.put("intId", entity -> {
+      if (entity == null) return null;
+      String id = entity.getFormValueId();  // Assume that this ID is the most applicable, even when the entity has other identities
+      if (id.isEmpty()) LogHelper.error("Missing id", entity);
+      else {
+        try {
+          return Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+          LogHelper.warning("Wrong ID, expected int", id, entity);
         }
-        return null;
       }
+      return null;
     });
     TO_JSON = map;
   }
@@ -85,7 +70,7 @@ public class SingleEnumFieldType extends FieldType {
   public FieldKind createKind(Map<TypedKey<?>, ?> map) throws CreateProblem{
     EnumDescriptor descriptor = EnumDescriptor.getEnumDescriptor(map);
     SingleEnumEditorType editorType;
-    Function2<Pair<?,String>,String,?> toJson;
+    Function<LoadedEntity, ?> toJson;
     Map<TypedKey<?>, ?> editableMap = ConfigKeys.EDITABLE.getFrom(map);
     if (editableMap == null) {
       editorType = null;

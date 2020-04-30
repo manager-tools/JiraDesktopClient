@@ -67,8 +67,7 @@ class WriteTable {
   }
 
   private static ArrayList<KeyInfo> filterCreateIdentities(WriteState writeState, EntityTable table, Map<DBAttribute<?>, IntArray> clearNotSetAttributes,
-    ArrayList<KeyInfo> allColumns)
-  {
+                                                           ArrayList<KeyInfo> allColumns) {
     AttributeCache cache = writeState.getAttributeCache();
     ArrayList<KeyInfo> createIdentities = Collections15.arrayList();
     for (Iterator<KeyInfo> it = allColumns.iterator(); it.hasNext(); ) {

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sqlite4java">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/sqlite4java/sqlite4java.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/sqlite4java/sqlite4java-src.zip!/" />
+    </SOURCES>
+  </library>
+</component>

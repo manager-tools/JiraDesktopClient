@@ -11,16 +11,17 @@ import com.almworks.jira.provider3.services.upload.PostUploadContext;
 import com.almworks.jira.provider3.services.upload.UploadJsonUtil;
 import com.almworks.jira.provider3.services.upload.UploadProblem;
 import com.almworks.jira.provider3.sync.download2.details.JsonIssueField;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.jira.provider3.sync.schema.ServerJira;
 import com.almworks.restconnector.operations.RestServerInfo;
 import com.almworks.util.LogHelper;
-import com.almworks.util.Pair;
-import com.almworks.util.commons.Function2;
 import org.almworks.util.Util;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Objects;
+import java.util.function.Function;
 
 public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
   private static final int UPLOAD_GENERIC = 0;
@@ -30,10 +31,11 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
   private final EntityKey<Entity> myKey;
   private final EntityType<T> myType;
   private final DBAttribute<Long> myAttribute;
-  private final Function2<? super Pair<? super T, String>, String, ?> myToJson;
+  private final Function<LoadedEntity, ?> myToJson;
   private final int myUpload;
 
-  private EntityFieldDescriptor(String fieldId, @Nullable String displayName, EntityKey<Entity> key, EntityType<T> type, int upload, Function2<Pair<?, String>, String, ?> toJson) {
+  private EntityFieldDescriptor(String fieldId, @Nullable String displayName, EntityKey<Entity> key, EntityType<T> type, int upload,
+                                Function<LoadedEntity, ?> toJson) {
     super(fieldId, displayName);
     myKey = key;
     myType = type;
@@ -50,7 +52,7 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
   }
 
   public static <T> EntityFieldDescriptor<T> customJson(String fieldId, @Nullable String displayName, EntityKey<Entity> key, EntityType<T> type,
-    Function2<Pair<?, String>, String, ?> toJson) {
+                                                        Function<LoadedEntity, ?> toJson) {
     return new EntityFieldDescriptor<T>(fieldId, displayName, key, type, UPLOAD_GENERIC, toJson);
   }
 
@@ -58,35 +60,25 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
    * The field can be updated via edit, but in some cases it cannot be changed. So upload does check that value has been actually changed on server.<br>
    * This is kind of hack. Really such fields should not even try upload if it is not possible. But this method allows to simplify implementation and get rid of deep JIRA investigation.
    */
-  public static <T> EntityFieldDescriptor<T> noConfirm(String fieldId, @Nullable String displayName, EntityKey<Entity> key, EntityType<T> type,
-    Function2<Pair<?, String>, String, ?> toJson) {
-    return new EntityFieldDescriptor<T>(fieldId, displayName, key, type, UPLOAD_NO_CHECK, toJson);
+  public static <T> EntityFieldDescriptor<T> noConfirm(String fieldId, @Nullable String displayName, EntityKey<Entity> key, EntityType<T> type) {
+    return new EntityFieldDescriptor<T>(fieldId, displayName, key, type, UPLOAD_NO_CHECK, EntityType.GENERIC_JSON);
   }
 
   /**
    * The field cannot be updated via edit - the field is read-only or can be changed via special operation only.
    */
-  public static <T> EntityFieldDescriptor<T> special(String fieldId, @Nullable String displayName, EntityKey<Entity> key, EntityType<T> type, Function2<Pair<?, String>, String, ?> toJson) {
+  public static <T> EntityFieldDescriptor<T> special(String fieldId, @Nullable String displayName, EntityKey<Entity> key, EntityType<T> type,
+                                                     Function<LoadedEntity, ?> toJson) {
     return new EntityFieldDescriptor<T>(fieldId, displayName, key, type, UPLOAD_SPECIAL, toJson);
   }
 
   @Nullable
-  public MyValue<T> findValue(Collection<? extends IssueFieldValue> values) {
+  public MyValue findValue(Collection<? extends IssueFieldValue> values) {
     for (IssueFieldValue value : values) {
-      @SuppressWarnings("unchecked") MyValue<T>
-      myValue = Util.castNullable(MyValue.class, value);
+      MyValue myValue = Util.castNullable(MyValue.class, value);
       if (myValue != null && myValue.myDescriptor == this) return myValue;
     }
     return null;
-  }
-
-  @Nullable
-  public T findChangeId(Collection<? extends IssueFieldValue> values) {
-    MyValue<T> value = findValue(values);
-    if (value == null) return null;
-    T changeId = value.getChangeId();
-    LogHelper.assertError(changeId != null, "Missing id", value);
-    return changeId;
   }
 
   @NotNull
@@ -102,35 +94,31 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
 
   @Override
   public IssueFieldValue load(ItemVersion trunk, ItemVersion base) {
-    Pair<T, String> change = readValue(trunk);
-    Pair<T, String> expected = readValue(base);
+    LoadedEntity change = readValue(trunk);
+    LoadedEntity expected = readValue(base);
     if (Util.equals(change, expected)) expected = change;
-    return new MyValue<T>(this, expected, change);
+    return new MyValue(this, expected, change);
   }
 
   @Nullable
-  private Pair<T, String> readValue(ItemVersion issue) {
+  private LoadedEntity readValue(ItemVersion issue) {
     ItemVersion value = issue.readValue(myAttribute);
     return myType.readValue(value);
   }
 
   @Nullable
-  private Pair<T, String> getValue(EntityHolder issue) {
+  private LoadedEntity getValue(EntityHolder issue) {
     if (issue == null) return null;
     EntityHolder value = issue.getReference(myKey);
     return myType.readValue(value);
   }
 
-  private String getConflictMessage(Pair<T, String> expected, Pair<T, String> actual) {
+  private String getConflictMessage(LoadedEntity expected, LoadedEntity actual) {
     return createConflictMessage(getDisplayName(), getDisplayableValue(expected), getDisplayableValue(actual));
   }
 
-  private String getDisplayableValue(Pair<T, String> value) {
-    String name = value != null ? value.getSecond() : null;
-    if (name == null) {
-      T id = value != null ? value.getFirst() : null;
-      name = id != null ? id.toString() : null;
-    }
+  public static String getDisplayableValue(LoadedEntity value) {
+    String name = value != null ? value.getDisplayableText() : null;
     return name != null ? name : M_NO_VALUE.create();
   }
 
@@ -143,18 +131,18 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
     return "Entity("+ myKey + ")";
   }
 
-  private Object createToJson(Pair<T, String> change) {
-    return myToJson.invoke(change, myType.getJsonIdKey());
+  private Object createToJson(LoadedEntity entity) {
+    return myToJson.apply(entity);
   }
 
-  public static class MyValue<T> extends BaseValue {
-    private final EntityFieldDescriptor<T> myDescriptor;
+  public static class MyValue extends BaseValue {
+    private final EntityFieldDescriptor<?> myDescriptor;
     @Nullable
-    private final Pair<T, String> myExpected;
+    private final LoadedEntity myExpected;
     @Nullable
-    private final Pair<T, String> myChange;
+    private final LoadedEntity myChange;
 
-    private MyValue(EntityFieldDescriptor<T> descriptor, Pair<T, String> expected, Pair<T, String> change) {
+    private MyValue(EntityFieldDescriptor<?> descriptor, @Nullable LoadedEntity expected, @Nullable LoadedEntity change) {
       super(descriptor.myUpload == UPLOAD_GENERIC || descriptor.myUpload == UPLOAD_NO_CHECK);
       myDescriptor = descriptor;
       myExpected = expected;
@@ -169,14 +157,13 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
     @NotNull
     @Override
     public String[] getFormValue(RestServerInfo serverInfo) {
-      T id = getChangeId();
-      return id != null ? new String[]{id.toString()} : new String[]{""};
+      return new String[]{myChange != null ? myChange.getFormValueId() : ""};
     }
 
     @Override
     public String checkInitialState(EntityHolder issue) {
-      Pair<T, String> server = myDescriptor.getValue(issue);
-      if (EntityType.equalValue(server, myExpected)) return null;
+      LoadedEntity server = myDescriptor.getValue(issue);
+      if (Objects.equals(server, myExpected)) return null;
       return myDescriptor.getConflictMessage(myExpected, server);
     }
 
@@ -195,18 +182,18 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
     }
 
     @Nullable
-    public Pair<T, String> getChange() {
+    public LoadedEntity getChange() {
       return myChange;
     }
 
     @Nullable
-    public Pair<T, String> getExpected() {
+    public LoadedEntity getExpected() {
       return myExpected;
     }
 
     @Override
     public boolean isChanged() {
-      return !EntityType.equalValue(myExpected, myChange);
+      return !Objects.equals(myExpected, myChange);
     }
 
     @Override
@@ -215,22 +202,10 @@ public class EntityFieldDescriptor<T> extends IssueFieldDescriptor {
         LogHelper.debug("No attempt to upload changed", this);
         return;
       }
-      Pair<T, String> server = myDescriptor.getValue(issue);
-      if (myDescriptor.myUpload == UPLOAD_NO_CHECK || EntityType.equalValue(myChange, server)) context.reportUploaded(issueItem, myDescriptor.getAttribute());
+      LoadedEntity server = myDescriptor.getValue(issue);
+      if (myDescriptor.myUpload == UPLOAD_NO_CHECK || Objects.equals(myChange, server)) context.reportUploaded(issueItem, myDescriptor.getAttribute());
       else if (EntityKeyProperties.isShadowable(myDescriptor.getIssueEntityKey()))
         LogHelper.debug("Not uploaded", issueItem, this, server);
-    }
-
-    @Nullable
-    public T getChangeId() {
-      return getId(myChange);
-    }
-
-    private T getId(Pair<T, String> value) {
-      if (value == null) return null;
-      T id = value.getFirst();
-      LogHelper.assertError(id != null, "No change id", this);
-      return id;
     }
 
     @Override

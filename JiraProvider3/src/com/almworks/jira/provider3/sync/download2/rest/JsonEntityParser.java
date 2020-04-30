@@ -1,68 +1,94 @@
 package com.almworks.jira.provider3.sync.download2.rest;
 
+import com.almworks.items.api.DBAttribute;
+import com.almworks.items.api.DBItemType;
 import com.almworks.items.entities.api.Entity;
 import com.almworks.items.entities.api.EntityKey;
+import com.almworks.items.entities.api.collector.transaction.EntityHolder;
+import com.almworks.items.sync.ItemVersion;
+import com.almworks.jira.provider3.sync.schema.ServerJira;
 import com.almworks.util.LogHelper;
 import com.almworks.util.collections.Convertor;
-import org.jetbrains.annotations.NotNull;
 
-public class JsonEntityParser<I> {
-  private final Entity myType;
-  private final EntityKey<I> myIdKey;
-  private final EntityKey<String> myNameKey;
-  private final EntityParser myParser;
-  private final String myJsonIdKey;
+public interface JsonEntityParser {
 
-  public JsonEntityParser(Entity type, EntityKey<I> idKey, EntityKey<String> nameKey, EntityParser parser, String jsonIdKey) {
-    myType = type;
-    myIdKey = idKey;
-    myNameKey = nameKey;
-    myParser = parser;
-    myJsonIdKey = jsonIdKey;
+  static <I> Impl<I> create(Entity type, EntityKey<I> idKey, EntityKey<String> nameKey, EntityParser parser, String jsonIdKey) {
+    return new Impl<I>(type, idKey, nameKey, parser, jsonIdKey);
   }
 
-  public static <I> JsonEntityParser<I> create(Entity type, EntityKey<I> idKey, EntityKey<String> nameKey, EntityParser parser, String jsonIdKey) {
-    return new JsonEntityParser<I>(type, idKey, nameKey, parser, jsonIdKey);
-  }
+  EntityParser getParser();
 
-  public EntityKey<I> getIdKey() {
-    return myIdKey;
-  }
+  DBItemType getType();
 
-  public EntityKey<String> getNameKey() {
-    return myNameKey;
-  }
+  Convertor<Object, Entity> createConvertor();
 
-  public EntityParser getParser() {
-    return myParser;
-  }
+  JsonEntityParser withParser(EntityParser parser);
 
-  public Entity getType() {
-    return myType;
-  }
+  LoadedEntity readValue(ItemVersion value);
 
-  @NotNull
-  public String getJsonIdKey() {
-    return myJsonIdKey;
-  }
+  LoadedEntity readValue(EntityHolder value);
 
-  public Convertor<Object, Entity> createConvertor() {
-    return new Convertor<Object, Entity>() {
-      @Override
-      public Entity convert(Object value) {
-        Entity entity = new Entity(myType);
-        if (!myParser.fillEntity(value, entity)) return null;
-        return entity;
-      }
-    };
-  }
+  class Impl<I> implements JsonEntityParser {
+    private final Entity myType;
+    private final EntityKey<I> myIdKey;
+    private final EntityKey<String> myNameKey;
+    private final EntityParser myParser;
+    private final String myJsonIdKey;
+    private final DBAttribute<I> myIdAttribute;
+    private final DBAttribute<String> myNameAttribute;
 
-  public JsonEntityParser<I> withType(Entity type) {
-    LogHelper.assertError(myType == null, myType, type);
-    return new JsonEntityParser<I>(type, myIdKey, myNameKey, myParser, myJsonIdKey);
-  }
+    public Impl(Entity type, EntityKey<I> idKey, EntityKey<String> nameKey, EntityParser parser, String jsonIdKey) {
+      myType = type;
+      myIdKey = idKey;
+      myNameKey = nameKey;
+      myParser = parser;
+      myJsonIdKey = jsonIdKey;
+      myIdAttribute = ServerJira.toScalarAttribute(myIdKey);
+      myNameAttribute = ServerJira.toScalarAttribute(myNameKey);
+    }
 
-  public JsonEntityParser<I> withParser(EntityParser parser) {
-    return new JsonEntityParser<I>(myType, myIdKey, myNameKey, parser, myJsonIdKey);
+    @Override
+    public EntityParser getParser() {
+      return myParser;
+    }
+
+    @Override
+    public DBItemType getType() {
+      return ServerJira.toItemType(myType);
+    }
+
+    @Override
+    public Convertor<Object, Entity> createConvertor() {
+      return new Convertor<Object, Entity>() {
+        @Override
+        public Entity convert(Object value) {
+          Entity entity = new Entity(myType);
+          if (!myParser.fillEntity(value, entity)) return null;
+          return entity;
+        }
+      };
+    }
+
+    public Impl<I> withType(Entity type) {
+      LogHelper.assertError(myType == null, myType, type);
+      return new Impl<I>(type, myIdKey, myNameKey, myParser, myJsonIdKey);
+    }
+
+    @Override
+    public Impl<I> withParser(EntityParser parser) {
+      return new Impl<I>(myType, myIdKey, myNameKey, parser, myJsonIdKey);
+    }
+
+    @Override
+    public LoadedEntity readValue(ItemVersion value) {
+      if (value == null || value.getItem() <= 0) return null;
+      return new LoadedEntity.Simple<>(myJsonIdKey, value.getValue(myIdAttribute), value.getValue(myNameAttribute));
+    }
+
+    @Override
+    public LoadedEntity readValue(EntityHolder value) {
+      if (value == null) return null;
+      return new LoadedEntity.Simple<>(myJsonIdKey, value.getScalarValue(myIdKey), value.getScalarValue(myNameKey));
+    }
   }
 }

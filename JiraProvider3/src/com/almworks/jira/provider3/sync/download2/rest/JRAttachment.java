@@ -1,6 +1,7 @@
 package com.almworks.jira.provider3.sync.download2.rest;
 
 import com.almworks.items.entities.api.Entity;
+import com.almworks.jira.provider3.remotedata.issue.fields.JsonUserParser;
 import com.almworks.jira.provider3.sync.schema.ServerAttachment;
 import com.almworks.restconnector.json.JSONKey;
 import com.almworks.util.collections.Convertor;
@@ -9,7 +10,7 @@ import java.util.Date;
 
 public class JRAttachment {
   public static final JSONKey<Integer> ID = JSONKey.integer("id");
-  public static final JSONKey<Entity> AUTHOR = JRUser.jsonKey("author");
+  public static final JSONKey<Entity> AUTHOR = JsonUserParser.jsonKey("author");
   public static final JSONKey<Date> CREATED = JSONKey.dateTime("created");
   public static final JSONKey<String> FILENAME = JSONKey.text("filename");
   public static final JSONKey<String> MIME_TYPE = JSONKey.text("mimeType");

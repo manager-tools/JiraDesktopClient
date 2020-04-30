@@ -11,7 +11,7 @@ public class HttpFailureConnectionException extends ConnectionException {
 
   public HttpFailureConnectionException(String url, int statusCode, String statusText) {
     super(url,
-      "server responded [" + statusCode + " " + statusText + "]",
+      url + " responded [" + statusCode + " " + statusText + "]",
       null,
       L.tooltip("Server HTTP response [" + statusCode + " " + statusText + "]"));
     myStatusCode = statusCode;

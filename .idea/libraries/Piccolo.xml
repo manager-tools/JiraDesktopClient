@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Piccolo">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/piccolo.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/piccolox.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

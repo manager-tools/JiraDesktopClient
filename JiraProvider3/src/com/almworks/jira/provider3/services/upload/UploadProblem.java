@@ -107,7 +107,7 @@ public class UploadProblem {
       String longDescription = myLongDescription;
       if (shortDescription == null) shortDescription = myLongDescription;
       if (longDescription == null) longDescription = myShortDescription;
-      return new GeneralItemProblem(item, displayableItem, myTime, context, config.getCredentials(), shortDescription, longDescription, myCause);
+      return new GeneralItemProblem(item, displayableItem, myTime, context, config.getConnection().getCredentialState(), shortDescription, longDescription, myCause);
     }
     LogHelper.error("Illegal problem", itemInfo);
     return null;

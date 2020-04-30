@@ -26,7 +26,7 @@ class MoveToSubtask extends BaseMoveUnit {
   @Override
   protected Collection<? extends UploadProblem> doPerform(RestSession session, UploadContext context, int issueId)
     throws ConnectorException, UploadProblem.Thrown {
-    Integer newTypeId = IssueFields.ISSUE_TYPE.findChangeId(myValues);
+    Integer newTypeId = CreateIssueUnit.findChangeId(IssueFields.ISSUE_TYPE, myValues);
     if (newTypeId == null) {
       LogHelper.warning("Convertor to subtask missing new type");
       return UploadProblem.internalError().toCollection();

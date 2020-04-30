@@ -9,6 +9,7 @@ import com.almworks.items.sync.ItemVersion;
 import com.almworks.jira.provider3.remotedata.issue.EditIssueRequest;
 import com.almworks.jira.provider3.services.upload.UploadJsonUtil;
 import com.almworks.jira.provider3.sync.download2.details.JsonIssueField;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.jira.provider3.sync.schema.ServerJira;
 import com.almworks.util.LogHelper;
 import com.almworks.util.Pair;
@@ -22,20 +23,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class MultiEntityDescriptor<T> extends IssueFieldDescriptor {
+public class MultiEntityDescriptor extends IssueFieldDescriptor {
   private final EntityKey<Collection<Entity>> myKey;
-  private final EntityType<T> myType;
+  private final EntityType<?> myType;
   private final DBAttribute<Set<Long>> myAttribute;
 
-  public MultiEntityDescriptor(String fieldId, String displayName, EntityKey<Collection<Entity>> key, EntityType<T> type) {
+  public MultiEntityDescriptor(String fieldId, String displayName, EntityKey<Collection<Entity>> key, EntityType<?> type) {
     super(fieldId, displayName);
     myKey = key;
     myType = type;
     myAttribute = ServerJira.toLinkSetAttribute(myKey);
   }
 
-  public static <T> MultiEntityDescriptor<T> create(String fieldId, @Nullable String displayName, EntityKey<Collection<Entity>> key, EntityType<T> type) {
-    return new MultiEntityDescriptor<T>(fieldId, displayName, key, type);
+  public static MultiEntityDescriptor create(String fieldId, @Nullable String displayName, EntityKey<Collection<Entity>> key, EntityType<?> type) {
+    return new MultiEntityDescriptor(fieldId, displayName, key, type);
   }
 
   @NotNull
@@ -52,10 +53,10 @@ public class MultiEntityDescriptor<T> extends IssueFieldDescriptor {
   @Override
   public IssueFieldValue load(ItemVersion trunk, ItemVersion base) {
     Pair<LongSet, LongSet> addRemove = EnumDifferenceValue.readAddRemove(myAttribute, trunk, base);
-    List<Pair<T,String>> toAdd = myType.readValues(trunk.readItems(addRemove.getFirst()));
-    List<Pair<T,String>> toRemove = myType.readValues(trunk.readItems(addRemove.getSecond()));
-    List<Pair<T, String>> newValue = myType.readValues(trunk.readItems(LongArray.create(trunk.getValue(myAttribute))));
-    return new MyValue<T>(this, toAdd, toRemove, newValue);
+    List<LoadedEntity> toAdd = myType.readValues(trunk.readItems(addRemove.getFirst()));
+    List<LoadedEntity> toRemove = myType.readValues(trunk.readItems(addRemove.getSecond()));
+    List<LoadedEntity> newValue = myType.readValues(trunk.readItems(LongArray.create(trunk.getValue(myAttribute))));
+    return new MyValue(this, toAdd, toRemove, newValue);
   }
 
   @Override
@@ -67,14 +68,14 @@ public class MultiEntityDescriptor<T> extends IssueFieldDescriptor {
     return myAttribute;
   }
 
-  private JSONObject createToJson(Pair<T, String> pair) {
-    return EntityType.GENERIC_JSON.invoke(pair, myType.getJsonIdKey());
+  private JSONObject createToJson(LoadedEntity entity) {
+    return entity.toJson();
   }
 
-  private static class MyValue<T> extends EnumDifferenceValue<T> {
-    private final MultiEntityDescriptor<T> myDescriptor;
+  private static class MyValue extends EnumDifferenceValue {
+    private final MultiEntityDescriptor myDescriptor;
 
-    public MyValue(MultiEntityDescriptor<T> descriptor, List<Pair<T, String>> add, List<Pair<T, String>> remove, List<Pair<T, String>> newValue) {
+    public MyValue(MultiEntityDescriptor descriptor, List<LoadedEntity> add, List<LoadedEntity> remove, List<LoadedEntity> newValue) {
       super(add, remove, newValue);
       myDescriptor = descriptor;
     }
@@ -85,13 +86,13 @@ public class MultiEntityDescriptor<T> extends IssueFieldDescriptor {
     }
 
     @Override
-    protected void addChanges(EditIssueRequest edit, JSONArray target, List<Pair<T, String>> change, String operation) {
+    protected void addChanges(EditIssueRequest edit, JSONArray target, List<LoadedEntity> change, String operation) {
       if (change.isEmpty()) return;
       String fieldId = myDescriptor.getFieldId();
       if (!edit.hasOperation(fieldId, operation)) LogHelper.error("Operation not supported:", operation, this);
       else
-        for (Pair<T, String> pair : change) {
-          Object jsonObject = myDescriptor.createToJson(pair);
+        for (LoadedEntity entity : change) {
+          Object jsonObject = myDescriptor.createToJson(entity);
           if (jsonObject != null) //noinspection unchecked
             target.add(UploadJsonUtil.object(operation, jsonObject));
         }
@@ -110,7 +111,7 @@ public class MultiEntityDescriptor<T> extends IssueFieldDescriptor {
       return myDescriptor.getIssueEntityKey();
     }
 
-    protected Pair<T, String> readValue(EntityHolder holder) {
+    protected LoadedEntity readValue(EntityHolder holder) {
       return myDescriptor.myType.readValue(holder);
     }
   }

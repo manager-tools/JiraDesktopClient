@@ -35,6 +35,7 @@ import com.almworks.jira.provider3.sync.jql.JQLConvertor;
 import com.almworks.jira.provider3.sync.jql.JqlEnum;
 import com.almworks.jira.provider3.sync.jql.impl.JqlQueryBuilder;
 import com.almworks.jira.provider3.sync.schema.ServerCustomField;
+import com.almworks.jira.provider3.sync.schema.ServerJira;
 import com.almworks.restconnector.json.ArrayKey;
 import com.almworks.util.LogHelper;
 import com.almworks.util.Pair;
@@ -54,7 +55,7 @@ public class CascadeKind implements FieldKind, OptionsLoader<TLongObjectHashMap<
   public static final FieldType CASCADE_TYPE = new FieldType("cascade") {
     @NotNull
     @Override
-    public FieldKind createKind(Map<TypedKey<?>, ?> map) throws CreateProblem {
+    public FieldKind createKind(Map<TypedKey<?>, ?> map) {
       return new CascadeKind();
     }
   };
@@ -68,10 +69,10 @@ public class CascadeKind implements FieldKind, OptionsLoader<TLongObjectHashMap<
   @Override
   public Field createFieldsDescriptor(String fieldId, String connectionId, String fieldName) {
     Entity entityType = ServerCustomField.createCascadeType(fieldId, connectionId);
-    JsonEntityParser<Integer> parser = CascadeJsonParser.create(entityType);
+    JsonEntityParser parser = CascadeJsonParser.create(entityType);
     String fullId = ServerCustomField.createFullId(connectionId, myPrefix, fieldId);
     final EntityKey<Entity> key = EntityKey.entity(fullId, isEditable() ? EntityKeyProperties.shadowable() : null);
-    return new Field(new CascadeFieldDescriptor(fieldId, fieldName, key, parser), entityType);
+    return new Field(new CascadeFieldDescriptor(fieldId, fieldName, key, parser), ServerJira.toItemType(entityType));
   }
 
   @Override
@@ -80,7 +81,7 @@ public class CascadeKind implements FieldKind, OptionsLoader<TLongObjectHashMap<
     String connectionId = pair.getFirst();
     String fieldId = pair.getSecond();
     Entity enumType = ServerCustomField.createCascadeType(fieldId, connectionId);
-    EnumFieldUtils.migrateField(field, myPrefix, true, enumType);
+    EnumFieldUtils.migrateField(field, myPrefix, true, ServerJira.toItemType(enumType));
   }
 
   @Override
@@ -121,7 +122,7 @@ public class CascadeKind implements FieldKind, OptionsLoader<TLongObjectHashMap<
     JqlSearchInfo<?> info = JqlSearchInfo.load(field);
     if (info == null) return null;
     return new JqlEnum(info.getJqlName(), info.getAttribute(), null, info.getDisplayName()) {
-      protected HashSet<String> loadArguments(JqlQueryBuilder context, Collection<Long> enumItems) {
+      protected Collection<String> loadArguments(JqlQueryBuilder context, Collection<Long> enumItems) {
         HashSet<String> result = Collections15.hashSet();
         for (ItemVersion item : context.readItems(enumItems)) {
           ItemVersion parent = item.readValue(CustomField.ENUM_PARENT);

@@ -8,7 +8,10 @@ import com.almworks.api.gui.WindowController;
 import com.almworks.jira.provider3.app.connection.JiraConfigHolder;
 import com.almworks.jira.provider3.app.connection.JiraConfiguration;
 import com.almworks.jira.provider3.app.connection.JiraConnection3;
+import com.almworks.jira.provider3.remotedata.issue.fields.JsonUserParser;
+import com.almworks.restconnector.JiraCredentials;
 import com.almworks.restconnector.login.JiraAccount;
+import com.almworks.restconnector.operations.LoadUserInfo;
 import com.almworks.util.LocalLog;
 import com.almworks.util.LogHelper;
 import com.almworks.util.Pair;
@@ -21,7 +24,6 @@ import com.almworks.util.ui.UIUtil;
 import org.almworks.util.Collections15;
 import org.almworks.util.Const;
 import org.almworks.util.RuntimeInterruptedException;
-import org.almworks.util.Util;
 import org.apache.commons.httpclient.Cookie;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,7 +65,8 @@ public class ReLogin {
     }
     return myMaster.getConnection().getActor(GlobalLoginController.ROLE).updateLogin(myMaster.getConnection(), () -> {
       log.debug("Maybe ask for relogin");
-      String username = Util.NN(myMaster.getJiraUsername());
+      JiraCredentials credentials = myMaster.getJiraCredentials();
+      assert credentials != null;
       List<Cookie> reuseCookies = findAliveSession();
       if (reuseCookies != null) {
         log.debug("Reusing alive session on second attempt");
@@ -89,7 +92,7 @@ public class ReLogin {
       List<Cookie> cookies;
       long windowClosed = -1;
       AtomicReference<Pair<Boolean, WindowController>> windowRef = new AtomicReference<>(null);
-      openWindow(actualWebLogin, username, update, windowRef::set);
+      openWindow(actualWebLogin, credentials, update, windowRef::set);
       int waitOpenWindowCountDown = 10;
       while (true) {
         cookies = update.get();
@@ -142,18 +145,19 @@ public class ReLogin {
   @Nullable
   private List<Cookie> findAliveSession() {
     String baseUrl = myMaster.getBaseUrl();
-    String username = myMaster.isAuthenticated() ? Util.NN(myMaster.getJiraUsername()) : null;
-    return myMaster.getAuthenticationRegister().suggestCookies(JiraAccount.create(baseUrl, username));
+    JsonUserParser.LoadedUser thisUser = myMaster.getConnectionLoadedUser();
+    String accountId = thisUser != null ? thisUser.getAccountId() : null;
+    return myMaster.getAuthenticationRegister().suggestCookies(JiraAccount.create(baseUrl, accountId));
   }
 
   /**
-   * @param username expected JIRA account. Not-null.
+   * @param credentials expected JIRA account. Not-null.
    *                 Empty string for anonymous, not-empty for authenticated account
    * @param windowConsumer called on AWT thread.
    *                       First: false if user has rejected to login (second is null in the case). true means the login is required.
    *                       Second: Contains open window controller or null if something went wrong
    */
-  private void openWindow(WebLoginConfig actualWebLogin, @NotNull String username, Synchronized<List<Cookie>> update,
+  private void openWindow(WebLoginConfig actualWebLogin, @NotNull JiraCredentials credentials, Synchronized<List<Cookie>> update,
                                       Consumer<Pair<Boolean, WindowController>> windowConsumer) {
     JiraConnection3 connection = myMaster.getConnection();
     WebLoginParams.Dependencies dependencies = WebLoginParams.Dependencies.fromContainer(connection.getContainer());
@@ -168,8 +172,8 @@ public class ReLogin {
     if (!needsLogin) return;
     ServerFilter serverFilter = new ServerFilter()
       .checkUrl(JiraConfiguration.getBaseUrl(myConfig), WRONG_JIRA);
-    if (username.isEmpty()) serverFilter.checkAccount(null, I18N.getString("relogin.filter.expectedAnonymous"));
-    else serverFilter.checkAccount(username, I18N.messageStr("relogin.filter.wrongAccount").formatMessage(username));
+    if (credentials.isAnonymous()) serverFilter.checkAccount(null, I18N.getString("relogin.filter.expectedAnonymous"));
+    else serverFilter.checkAccount(credentials.getAccountId(), I18N.messageStr("relogin.filter.wrongAccount").formatMessage(credentials.getDisplayName()));
     new WebLoginParams(dependencies, JiraConfiguration.isIgnoreProxy(myConfig),
       "Restore connection " + connection.getName())
       .setWindowTitle(I18N.getString("relogin.window.title"))
@@ -178,15 +182,17 @@ public class ReLogin {
       .setConnectHint(I18N.getString("relogin.connectPopup"))
       .setConnectPopup(server -> serverFilter.apply(server) == null)
       .config(actualWebLogin)
-      .showBrowser(window -> windowConsumer.accept(Pair.create(true, window)), login -> onConnect(update, login, username));
+      .showBrowser(window -> windowConsumer.accept(Pair.create(true, window)), login -> onConnect(update, login, credentials.getAccountId()));
   }
 
-  private void onConnect(Synchronized<List<Cookie>> update, WebLoginWindow login, String expectedUsername) {
+  private void onConnect(Synchronized<List<Cookie>> update, WebLoginWindow login, String expectedAccountId) {
     List<Cookie> p = CANCELLED;
     try {
       DetectedJiraServer server = login != null ? login.getDetectedServer() : null;
       if (server != null) {
-        if (!Objects.equals(expectedUsername, server.getUsername())) log.error("Username has been changed. Ignoring cookies.");
+        LoadUserInfo myself = server.getMyself();
+        String accountId = myself != null ? myself.getAccountId() : null;
+        if (!Objects.equals(expectedAccountId, accountId)) log.error("Username has been changed. Ignoring cookies.");
         else p = server.getCookies();
       }
     } finally {
@@ -203,8 +209,8 @@ public class ReLogin {
     public CantLoginForm(ReadonlyConfiguration config) {
       setConnection(JiraConfiguration.getConnectionName(config), JiraConfiguration.getBaseUrl(config));
       myDescription.setText(I18N.getString("relogin.description.text"));
-      String username = JiraConfiguration.getJiraUsername(config);
-      myAccount.setText(username != null ? username : "<Anonymous>");
+      String displayName = JiraConfiguration.getDisplayName(config);
+      myAccount.setText(displayName != null ? displayName : "<Anonymous>");
       Aqua.disableMnemonics(myWholePanel);
       UIUtil.setDefaultLabelAlignment(myWholePanel);
     }

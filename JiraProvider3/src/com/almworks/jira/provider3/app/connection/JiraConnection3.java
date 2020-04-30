@@ -32,7 +32,6 @@ import com.almworks.items.sync.ItemVersion;
 import com.almworks.items.sync.util.BranchSource;
 import com.almworks.items.sync.util.SyncUtils;
 import com.almworks.items.util.BadUtil;
-import com.almworks.jira.provider3.app.remotequeries.JiraRemoteQueries;
 import com.almworks.jira.provider3.app.sync.JiraSynchronizer;
 import com.almworks.jira.provider3.app.sync.QueryIssuesUtil;
 import com.almworks.jira.provider3.custom.impl.CustomFieldsComponent;
@@ -45,6 +44,7 @@ import com.almworks.jira.provider3.services.upload.queue.UploadQueue;
 import com.almworks.jira.provider3.sync.ConnectorManager;
 import com.almworks.jira.provider3.sync.ServerInfo;
 import com.almworks.jira.provider3.sync.jql.impl.JqlQueryBuilder;
+import com.almworks.restconnector.JiraCredentials;
 import com.almworks.spi.provider.AbstractConnection2;
 import com.almworks.spi.provider.AbstractConnectionInitializer;
 import com.almworks.spi.provider.DefaultConnectionInitializer;
@@ -78,8 +78,8 @@ import java.util.Set;
 
 public class JiraConnection3 extends AbstractConnection2<JiraProvider3> implements Connection {
   public static final Role<JiraConnection3> ROLE = Role.role(JiraConnection3.class);
+  @NotNull
   private final JiraConfigHolder myConfigHolder;
-  private final JiraRemoteQueries myRemoteQueriesHolder;
   private final DetachComposite myLife = new DetachComposite();
   private final ConnectionModels myModels;
   private final Lazy<UIComponentWrapper> myInformationPanel = new Lazy<UIComponentWrapper>() {
@@ -112,16 +112,11 @@ public class JiraConnection3 extends AbstractConnection2<JiraProvider3> implemen
     myConfigHolder = JiraConfigHolder.create(this, configuration);
     myConnectors = new ConnectorManager(this);
     myConnectors.addServerCheck(new ServerVersionCheck(store.getSubStore("vs")));
-    myRemoteQueriesHolder = new JiraRemoteQueries(this, store);
     myModels = ConnectionModels.create(myLife, getGuiFeatures(), getConnectionObj(), Jira.JIRA_PROVIDER_ID, TagsComponentImpl.OWNER);
     myUploadQueue = new UploadQueue(this);
     myUrlsSupport = new JiraUrlsSupport(this);
     myReorders = new MyReordersModel(this);
     myDownloadOwner = new JiraDownloadOwner(this);
-  }
-
-  public Lifespan getConnectionLife() {
-    return myLife;
   }
 
   public ServerInfo getServerInfo() {
@@ -154,7 +149,7 @@ public class JiraConnection3 extends AbstractConnection2<JiraProvider3> implemen
   }
 
   @Override
-  public QueryUrlInfo getQueryURL(Constraint constraint, DBReader reader) throws InterruptedException {
+  public QueryUrlInfo getQueryURL(Constraint constraint, DBReader reader) {
     return JqlQueryBuilder.buildQueryInfo(reader, constraint, this);
   }
 
@@ -186,6 +181,7 @@ public class JiraConnection3 extends AbstractConnection2<JiraProvider3> implemen
     return configuration;
   }
 
+  @NotNull
   public JiraConfigHolder getConfigHolder() {
     return myConfigHolder;
   }
@@ -340,11 +336,9 @@ public class JiraConnection3 extends AbstractConnection2<JiraProvider3> implemen
   }
 
   public void reloadMetaInfo() {
-    ThreadGate.LONG(this).execute(new Runnable() {
-      public void run() {
-        SyncParameters parameters = SyncParameters.initializeConnection(JiraConnection3.this);
-        getConnectionSynchronizer().synchronize(parameters);
-      }
+    ThreadGate.LONG(this).execute(() -> {
+      SyncParameters parameters = SyncParameters.initializeConnection(JiraConnection3.this);
+      getConnectionSynchronizer().synchronize(parameters);
     });
   }
 
@@ -359,9 +353,10 @@ public class JiraConnection3 extends AbstractConnection2<JiraProvider3> implemen
   }
 
   public Pair<String, Boolean> getCredentialState() {
-    String username = myConfigHolder.getJiraUsername();
-    boolean hasAuth = username != null && myConfigHolder.isAuthenticated();
-    return Pair.create(username, hasAuth);
+    JiraCredentials credentials = myConfigHolder.getJiraCredentials();
+    if (credentials == null || credentials.isAnonymous()) return Pair.create(null, false);
+    String displayName = credentials.getDisplayName();
+    return Pair.create(displayName, true);
   }
 
   public ServerSyncPoint getSyncState() {
@@ -378,10 +373,6 @@ public class JiraConnection3 extends AbstractConnection2<JiraProvider3> implemen
 
   public void updateSyncState(ServerSyncPoint syncPoint) {
     myConfigHolder.setSyncState(syncPoint);
-  }
-
-  public JiraRemoteQueries getRemoteQueriesHolder() {
-    return myRemoteQueriesHolder;
   }
 
   public void doStop() {

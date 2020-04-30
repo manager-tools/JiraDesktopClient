@@ -33,7 +33,7 @@ class MoveFromSubtask extends BaseMoveUnit {
       LogHelper.warning("Start move from subtask problem", e.getMessage());
       return cantStartProblem().toCollection();
     }
-    Integer typeId = IssueFields.ISSUE_TYPE.findChangeId(myValues);
+    Integer typeId = CreateIssueUnit.findChangeId(IssueFields.ISSUE_TYPE, myValues);
     if (typeId == null) {
       LogHelper.warning("No type change");
       markSuccess();

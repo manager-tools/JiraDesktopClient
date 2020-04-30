@@ -7,12 +7,15 @@ import com.almworks.items.entities.api.collector.transaction.EntityTransaction;
 import com.almworks.items.sync.ItemVersion;
 import com.almworks.items.sync.impl.SyncSchema;
 import com.almworks.jira.provider3.app.connection.JiraConnection3;
+import com.almworks.jira.provider3.remotedata.issue.fields.EntityFieldDescriptor;
+import com.almworks.jira.provider3.remotedata.issue.fields.IssueFieldValue;
 import com.almworks.jira.provider3.schema.Issue;
 import com.almworks.jira.provider3.services.upload.LoadUploadContext;
 import com.almworks.jira.provider3.services.upload.UploadContext;
 import com.almworks.jira.provider3.services.upload.UploadUnit;
 import com.almworks.jira.provider3.sync.download2.details.LoadDetails;
 import com.almworks.jira.provider3.sync.download2.process.util.ProgressInfo;
+import com.almworks.jira.provider3.sync.download2.rest.LoadedEntity;
 import com.almworks.jira.provider3.sync.schema.ServerIssue;
 import com.almworks.restconnector.RestSession;
 import com.almworks.util.LogHelper;
@@ -21,6 +24,7 @@ import com.almworks.util.collections.ByteArray;
 import com.almworks.util.collections.UserDataHolder;
 import com.almworks.util.i18n.text.LocalizedAccessor;
 import org.almworks.util.TypedKey;
+import org.almworks.util.Util;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -74,6 +78,28 @@ public abstract class CreateIssueUnit implements UploadUnit {
       return null;
     }
     return new Date(time);
+  }
+
+  public static LoadedEntity.Simple<Integer> findChange(EntityFieldDescriptor<Integer> field, Collection<? extends IssueFieldValue> values) {
+    EntityFieldDescriptor.MyValue value = field.findValue(values);
+    if (value == null) return null;
+    LoadedEntity change = value.getChange();
+    if (change == null) return null;
+    //noinspection unchecked
+    LoadedEntity.Simple<Integer> intIdChange = (LoadedEntity.Simple<Integer>) Util.castNullable(LoadedEntity.Simple.class, change);
+    if (intIdChange == null) {
+      LogHelper.error("Unexpected change class. Field:", field, "change:", change);
+      return null;
+    }
+    return intIdChange;
+  }
+
+  public static Integer findChangeId(EntityFieldDescriptor<Integer> field, Collection<? extends IssueFieldValue> values) {
+    LoadedEntity.Simple<Integer> change = findChange(field, values);
+    if (change == null) return null;
+    Integer changeId = change.getId();
+    LogHelper.assertError(changeId != null, "Missing id. Field:", field, "value:", change);
+    return changeId;
   }
 
   @Nullable

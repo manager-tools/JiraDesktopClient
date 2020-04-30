@@ -1,15 +1,11 @@
 package com.almworks.jira.provider3.app.connection.setup.serverpage;
 
 import com.almworks.api.engine.Connection;
-import com.almworks.api.engine.GlobalLoginController;
 import com.almworks.api.http.HttpUtils;
 import com.almworks.jira.provider3.app.connection.setup.JiraConnectionWizard;
 import com.almworks.jira.provider3.app.connection.setup.ServerConfig;
-import com.almworks.jira.provider3.sync.JiraLoginController;
 import com.almworks.restconnector.BasicAuthCredentials;
 import com.almworks.restconnector.JiraCredentials;
-import com.almworks.restconnector.login.LoginController;
-import com.almworks.restconnector.login.LoginJiraCredentials;
 import com.almworks.util.LogHelper;
 import com.almworks.util.advmodel.SelectionInListModel;
 import com.almworks.util.commons.Factory;
@@ -20,7 +16,6 @@ import com.almworks.util.config.ReadonlyConfiguration;
 import com.almworks.util.ui.UIUtil;
 import org.almworks.util.Util;
 import org.almworks.util.detach.Lifespan;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
@@ -31,14 +26,12 @@ class CredentialsPanelController implements UrlPage.PagePanel {
   private static final Factory<String> MESSAGE_MISSING_CREDENTIALS_ANONYMOUS = JiraConnectionWizard.LOCAL.getFactory("wizard.message.missingCredentials.anonymous.short");
 
   private final CredentialsPanel myForm;
-  private final GlobalLoginController myLoginController;
   private final UrlPage myUrlPage;
 
   private boolean myUpdatingForm = false;
 
-  public CredentialsPanelController(UrlPage urlPage, GlobalLoginController loginController) {
+  public CredentialsPanelController(UrlPage urlPage) {
     myUrlPage = urlPage;
-    myLoginController = loginController;
 
     myForm = new CredentialsPanel(urlPage.isNewConnection());
     final NotifingComboBoxEditor<String> editor = myForm.getUrl().getController().getEditor();
@@ -76,27 +69,18 @@ class CredentialsPanelController implements UrlPage.PagePanel {
     if (myForm.hasError()) serverConfig = null;
     else {
       String baseUrl = getUrl();
-      JiraCredentials credentials = collectCredentials(baseUrl);
+      JiraCredentials credentials = collectCredentials();
       serverConfig = new ServerConfig(baseUrl, credentials, myUrlPage.getWizard().isIgnoreProxy(), false);
     }
     myUrlPage.setServerConfig(serverConfig, UrlPage.M_CREDENTIALS);
   }
 
-  private JiraCredentials collectCredentials(String baseUrl) {
-    if (isCredentialsUpdated()) myLoginController.clearFailureFlag(JiraLoginController.getSite(baseUrl));
+  private JiraCredentials collectCredentials() {
     myForm.getCredentialsTracker().reset(isAnonymous(), getUserName());
+    if (isAnonymous()) return JiraCredentials.ANONYMOUS;
     String login = getUserName();
     String password = getPassword();
-    if (isBasicAuth()) {
-      return BasicAuthCredentials.establishConnection(login, password);
-    } else {
-      boolean anonymous = isAnonymous();
-      String loginToken = JiraLoginController.getLoginToken(baseUrl, login, password);
-      LoginController loginController = new MyLoginController(loginToken, myLoginController);
-
-      if (anonymous) return LoginJiraCredentials.anonymous(loginController);
-      return LoginJiraCredentials.authenticated(login, password, null, loginController);
-    }
+    return BasicAuthCredentials.establishConnection(login, password);
   }
 
   public JPanel getWholePanel() {
@@ -114,10 +98,6 @@ class CredentialsPanelController implements UrlPage.PagePanel {
   public String getPassword() {
     //noinspection deprecation
     return isAnonymous() ? null : myForm.getPassword().getText();
-  }
-
-  public boolean isBasicAuth() {
-    return myForm.isBasicAuth();
   }
 
   private boolean myFirstCall = true;
@@ -183,31 +163,5 @@ class CredentialsPanelController implements UrlPage.PagePanel {
 
   public void updateUrl(String newUrl) {
     updateForm(() -> myForm.getUrl().setSelectedItem(newUrl));
-  }
-
-
-  public boolean isCredentialsUpdated() {
-    String loginName = getUserName();
-    return isAnonymous() || myForm.getCredentialsTracker().isUpdated(loginName);
-  }
-
-  private static class MyLoginController implements LoginController {
-    private final String mySite;
-    private final GlobalLoginController myGlobalLogin;
-
-    public MyLoginController(String site, GlobalLoginController globalLogin) {
-      mySite = site;
-      myGlobalLogin = globalLogin;
-    }
-
-    @Override
-    public String getInvalidLoginMessage(String login) {
-      return JiraLoginController.getInvalidLoginMessage(myGlobalLogin, mySite);
-    }
-
-    @Override
-    public JiraCredentials loginInvalid(@NotNull LoginJiraCredentials credentials, String message) {
-      return null;
-    }
   }
 }

@@ -10,7 +10,9 @@ import org.almworks.util.Collections15;
 import org.almworks.util.RuntimeInterruptedException;
 import org.picocontainer.Startable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class GlobalLoginController implements Startable {
   public static final Role<GlobalLoginController> ROLE = Role.role("loginController", GlobalLoginController.class);
@@ -23,47 +25,6 @@ public class GlobalLoginController implements Startable {
 
   public GlobalLoginController(Configuration config) {
     myConfig = config;
-  }
-
-  public boolean isLoginFailed(String site) {
-    if (site == null) return false;
-    synchronized (myFailedSites) {
-      return myFailedSites.contains(site);
-    }
-  }
-
-  public void setFailureFlag(String token) {
-    if (token == null) return;
-    String[] allFailures;
-    synchronized (myFailedSites) {
-      if (!myFailedSites.add(token)) return;
-      allFailures = myFailedSites.toArray(new String[myFailedSites.size()]);
-    }
-    Arrays.sort(allFailures);
-    myConfig.setSettings(FAILED_SITES, allFailures);
-    log.warning("Connection login failed",token, new Throwable());
-    myModifiable.fireChanged();
-  }
-
-  public void clearFailureFlag(String tokenPrefix) {
-    if (tokenPrefix == null) return;
-    String[] allFailures;
-    synchronized (myFailedSites) {
-      boolean changed = false;
-      for (Iterator<String> it = myFailedSites.iterator(); it.hasNext(); ) {
-        String token = it.next();
-        if (token.startsWith(tokenPrefix)) {
-          it.remove();
-          changed = true;
-        }
-      }
-      if (!changed) return;
-      allFailures = myFailedSites.toArray(new String[myFailedSites.size()]);
-    }
-    Arrays.sort(allFailures);
-    myConfig.setSettings(FAILED_SITES, allFailures);
-    log.warning("Connection login failure reset", tokenPrefix, new Throwable());
-    myModifiable.fireChanged();
   }
 
   public SimpleModifiable getModifiable() {

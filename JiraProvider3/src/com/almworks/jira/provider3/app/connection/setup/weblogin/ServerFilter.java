@@ -34,15 +34,14 @@ public class ServerFilter implements Function<DetectedJiraServer, String> {
     });
   }
 
-  public ServerFilter checkAccount(String username, String reason) {
+  public ServerFilter checkAccount(String accountId, String reason) {
     return addFilter(server -> {
-      if (Util.NN(username).trim().isEmpty()) {
-        if (server.getUsername() == null) return null;
+      if (Util.NN(accountId).trim().isEmpty()) {
+        if (server.getAccountId() == null) return null;
         return reason;
       }
-      if (username.equalsIgnoreCase(server.getUsername())) return null;
+      if (accountId.equalsIgnoreCase(server.getAccountId())) return null;
       return reason;
-
     });
   }
 

@@ -86,7 +86,7 @@ public class RemoteIconManagerImpl implements RemoteIconManager, FileDownloadLis
     throws MalformedURLException, InterruptedException
   {
     Pair<DownloadOwner, String> pair = Pair.create(downloadOwner, downloadArgument);
-    return getRemoteIcon(url, ThreadGate.STRAIGHT, new Factory.Const<Pair<DownloadOwner, String>>(pair));
+    return getRemoteIcon(url, ThreadGate.STRAIGHT, new Factory.Const<>(pair));
   }
 
   @NotNull

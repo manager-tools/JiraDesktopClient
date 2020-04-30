@@ -2,9 +2,10 @@ package com.almworks.jira.provider3.remotedata.issue.edit;
 
 import com.almworks.api.connector.ConnectorException;
 import com.almworks.api.constraint.CompositeConstraint;
+import com.almworks.api.engine.Connection;
 import com.almworks.items.entities.api.collector.transaction.EntityTransaction;
 import com.almworks.items.sync.ItemVersion;
-import com.almworks.jira.provider3.schema.User;
+import com.almworks.jira.provider3.remotedata.issue.fields.JsonUserParser;
 import com.almworks.jira.provider3.services.upload.LoadUploadContext;
 import com.almworks.jira.provider3.services.upload.UploadContext;
 import com.almworks.jira.provider3.services.upload.UploadUnit;
@@ -38,9 +39,9 @@ class NotConfirmedSubmits {
   private final Date myLastCreation;
   private final List<NewIssue> mySubmits = Collections15.arrayList();
   private boolean myPrevSubmitsChecked = false;
-  private final String myThisUser;
+  private final JsonUserParser.LoadedUser myThisUser;
 
-  private NotConfirmedSubmits(Date lastCreation, String thisUser) {
+  private NotConfirmedSubmits(Date lastCreation, JsonUserParser.LoadedUser thisUser) {
     myLastCreation = lastCreation;
     myThisUser = thisUser;
   }
@@ -76,9 +77,9 @@ class NotConfirmedSubmits {
   @Nullable
   private static NotConfirmedSubmits create(LoadUploadContext context) {
     ItemVersion connection = context.getTrunk().forItem(context.getConnection().getConnectionItem());
-    String thisUser = User.getConnectionUserId(connection);
+    JsonUserParser.LoadedUser thisUser = JsonUserParser.INSTANCE.readValue(connection.readValue(Connection.USER));
     if (thisUser == null) {
-      LogHelper.error("No userName", connection);
+      LogHelper.error("No connection user", connection);
       return null;
     }
     ServerSyncPoint syncPoint = ServerSyncPoint.loadSyncPoint(connection);
@@ -109,9 +110,9 @@ class NotConfirmedSubmits {
       myFailed = Collections15.arrayList(failed);
     }
 
-    public static FindMatch perform(RestSession session, String thisUser, Date earliestFailure, List<NewIssue> failed) throws ConnectorException {
+    public static FindMatch perform(RestSession session, JsonUserParser.LoadedUser thisUser, Date earliestFailure, List<NewIssue> failed) throws ConnectorException {
       RestQueryPager pager = new RestQueryPager(new JqlQuery(CompositeConstraint.Simple.and(
-              JQLCompareConstraint.equal("reporter", thisUser),
+              JQLCompareConstraint.equal("reporter", thisUser.getAccountId()),
               new JQLCompareConstraint.Single("created", String.valueOf(earliestFailure.getTime()), ">=", null))));
       pager.setFields(ServerFields.CREATED, ServerFields.SUMMARY, ServerFields.ISSUE_TYPE, ServerFields.PROJECT, ServerFields.PARENT);
       FindMatch find = new FindMatch(failed);

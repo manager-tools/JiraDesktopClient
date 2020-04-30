@@ -46,7 +46,6 @@ public class EnumDescriptor {
    */
   public static final TypedKey<String> LOAD_FULL_SET = TypedKey.create("loadFullSet", String.class);
 
-  @SuppressWarnings("unchecked")
   public static final List<TypedKey<?>> KEYS = Collections15.<TypedKey<?>>unmodifiableListCopy(STATIC, REMOTE_SEARCH, XML_DISPLAY_NAME, EnumKind.JSON_ENUM_PARSER, LOAD_FULL_SET);
 
   private static final Map<String, EnumDescriptor> STATIC_ENUMS;
@@ -58,7 +57,7 @@ public class EnumDescriptor {
     map.put("version", new EnumDescriptor("singleVersion", "multiVersion", Version.ENUM_TYPE, IssueFields.P_VERSION, Version.NULL_CONSTRAINT_ID,
       Version.NULL_CONSTRAINT_NAME, new EnumConstraintFactory(Version.ID), "comboLegal", "subset", null));
     map.put("user", new EnumDescriptor("singleUser", "multiUser", User.ENUM_TYPE, IssueFields.P_USER,
-      User.NULL_CONSTRAINT_ID, "None", new EnumConstraintFactory(User.ID), "combo", "subset", User.CREATOR));
+      User.NULL_CONSTRAINT_ID, "None", ConvertorFactory.USER, "combo", "subset", User.CREATOR));
     map.put("group", new EnumDescriptor("singleGroup", "multiGroup",
       Group.ENUM_TYPE, IssueFields.P_GROUP, Group.NULL_CONSTRAINT_ID, "None", new EnumConstraintFactory(Group.ID), "combo", "subset", Group.CREATOR));
     STATIC_ENUMS = map;
@@ -75,9 +74,9 @@ public class EnumDescriptor {
   private final EnumItemCreator myCreator;
 
   private EnumDescriptor(String singlePrefix, String multiPrefix,
-    DBStaticObject enumType, JsonEntityParser<?> parser, String noneId, String noneName,
+    DBStaticObject enumType, JsonEntityParser parser, String noneId, String noneName,
     ConvertorFactory constraintFactory, String singleEditor, String multiEditor, EnumItemCreator creator) {
-    this(singlePrefix, multiPrefix, new EnumKind(new EnumTypeKind.StaticEnumType(parser.getType(), enumType), parser), noneId, noneName, constraintFactory, singleEditor, multiEditor, creator);
+    this(singlePrefix, multiPrefix, EnumKind.withType(new EnumTypeKind.StaticEnumType(parser.getType(), enumType), parser), noneId, noneName, constraintFactory, singleEditor, multiEditor, creator);
   }
 
   private EnumDescriptor(String singlePrefix, String multiPrefix, EnumKind enumKind, String noneId, String noneName, ConvertorFactory constraintFactory, String singleEditor,
@@ -110,8 +109,8 @@ public class EnumDescriptor {
 
     EntityParser parser = Util.NN(EnumKind.getEntityParser(map), DEFAULT_ENTITY_PARSER);
 
-    JsonEntityParser<String> jsonParser = JsonEntityParser.create(null, ServerCustomField.ENUM_STRING_ID, ServerCustomField.ENUM_DISPLAY_NAME, parser, "id");
-    EnumKind enumInfo = new EnumKind(fromLoadFullSetting(LOAD_FULL_SET.getFrom(map)), jsonParser);
+    JsonEntityParser.Impl<?> jsonParser = JsonEntityParser.create(null, ServerCustomField.ENUM_STRING_ID, ServerCustomField.ENUM_DISPLAY_NAME, parser, "id");
+    EnumKind enumInfo = EnumKind.withoutType(fromLoadFullSetting(LOAD_FULL_SET.getFrom(map)), jsonParser);
 
     EnumConstraintFactory constraintFactory = new EnumConstraintFactory(CustomField.ENUM_DISPLAY_NAME);
     return new EnumDescriptor("singleEnum", "multiEnum", enumInfo, "_no_option_", "None", constraintFactory, "combo", "subset", null);
