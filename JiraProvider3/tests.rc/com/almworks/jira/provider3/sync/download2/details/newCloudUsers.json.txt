@@ -1,0 +1,136 @@
+  TYPE: Entity[TYPE:'types.attach']
+EntityKey[attach.author:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[attach.date:Date]=21 Dec 2019 11:15:05.970 GMT
+EntityKey[attach.fileName:String]=attachment.txt
+EntityKey[attach.fileUrl:String]=https://pdyoma.atlassian.net/secure/attachment/10000/attachment.txt
+EntityKey[attach.id:Int]=10000
+EntityKey[attach.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+EntityKey[attach.mime:String]=text/plain
+EntityKey[attach.sizeStr:String]=10
+EntityKey[sys.api.key.type:Entity HINT]=Entity[TYPE:'types.attach']<no resolution>
+  TYPE: Entity[TYPE:'types.comment']
+EntityKey[comment.author:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[comment.created:Date]=21 Dec 2019 11:15:06.646 GMT
+EntityKey[comment.editor:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[comment.id:Int]=10105
+EntityKey[comment.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+EntityKey[comment.security:Entity]=<null>
+EntityKey[comment.text:String]=comment
+EntityKey[comment.updated:Date]=21 Dec 2019 11:15:06.646 GMT
+EntityKey[sys.api.key.type:Entity HINT]=Entity[TYPE:'types.comment']<no resolution>
+  TYPE: Entity[TYPE:'types.issue']
+EntityKey[cf.CONN-ECTI-ON_I-D.editableDay.customfield_10211:Int]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.editableDecimal.customfield_10129:Decimal]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.multiEnum.customfield_10215:Entity COLLECTION]={}
+EntityKey[cf.CONN-ECTI-ON_I-D.multiEnumRO.customfield_10127:Entity COLLECTION]={Entity[type.CONN-ECTI-ON_I-D.customfield_10127](customField.enum.idString=1)}
+EntityKey[cf.CONN-ECTI-ON_I-D.multiLabels.labels:Entity COLLECTION]={Entity[type.CONN-ECTI-ON_I-D.labels](customField.enum.idString=label1)}
+EntityKey[cf.CONN-ECTI-ON_I-D.readonlyDateTime.customfield_10100:Date]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.singleEnum.customfield_10213:Entity]=Entity[type.CONN-ECTI-ON_I-D.customfield_10213](customField.enum.idString=10100)
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10000:String]={}
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10102:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10103:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10104:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10105:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10106:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10107:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10108:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10122:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10123:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10128:String]=0|hzzzzz:
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10212:String]=<null>
+EntityKey[cf.CONN-ECTI-ON_I-D.unknownKind.customfield_10214:String]=<null>
+EntityKey[issue.affectedVersions:Entity COLLECTION]={}
+EntityKey[issue.assignee:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[issue.components:Entity COLLECTION]={}
+EntityKey[issue.created:Date]=12 Nov 2016 12:34:12.742 GMT
+EntityKey[issue.description:String]=descr
+EntityKey[issue.due:Int]=<null>
+EntityKey[issue.environment:String]=<null>
+EntityKey[issue.fixVersions:Entity COLLECTION]={}
+EntityKey[issue.id:Int]=10000
+EntityKey[issue.key:String]=TP-1
+EntityKey[issue.originalEstimate:Int]=<null>
+EntityKey[issue.parent:Entity]=<null>
+EntityKey[issue.priority:Entity]=Entity[types.priority](entity.id=4)
+EntityKey[issue.project:Entity]=Entity[types.project](entity.id=10000, project.key=TP)
+EntityKey[issue.remainEstimate:Int]=3600
+EntityKey[issue.reporter:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[issue.resolution:Entity]=Entity[types.resolution](entity.id=10000)
+EntityKey[issue.resolved:Date]=21 Dec 2019 11:23:40.193 GMT
+EntityKey[issue.security:Entity]=<null>
+EntityKey[issue.status:Entity]=Entity[types.status](entity.id=10001)
+EntityKey[issue.summary:String]=Ensure setup is complete 1122win
+EntityKey[issue.timeSpent:Int]=1920300
+EntityKey[issue.type:Entity]=Entity[types.issueType](entity.id=10000)
+EntityKey[issue.updated:Date]=25 Feb 2020 13:34:51.706 GMT
+EntityKey[issue.watchCount:Int]=1
+EntityKey[issue.watching:bool]=true
+EntityKey[sys.api.key.type:Entity HINT]=Entity[TYPE:'types.issue']<no resolution>
+EntityKey[sys.store.downloadStage.mark:com.almworks.items.entities.dbwrite.downloadstage.DownloadStageMark HINT]=DownloadStage[FULL]
+  TYPE: Entity[TYPE:'types.link']
+  TYPE: Entity[TYPE:'types.linkType']
+  TYPE: Entity[TYPE:'types.worklog']
+EntityKey[sys.api.key.type:Entity HINT]=Entity[TYPE:'types.worklog']<no resolution>
+EntityKey[worklog.author:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[worklog.comment:String]=<null>
+EntityKey[worklog.created:Date]=31 Oct 2017 13:08:29.334 GMT
+EntityKey[worklog.editor:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[worklog.id:Int]=10001
+EntityKey[worklog.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+EntityKey[worklog.security:Entity]=<null>
+EntityKey[worklog.started:Date]=05 Sep 2017 10:34:00.0 GMT
+EntityKey[worklog.timeSeconds:Int]=1900860
+EntityKey[worklog.updated:Date]=31 Oct 2017 13:08:29.334 GMT
+------------------------------
+EntityKey[sys.api.key.type:Entity HINT]=Entity[TYPE:'types.worklog']<no resolution>
+EntityKey[worklog.author:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[worklog.comment:String]=<null>
+EntityKey[worklog.created:Date]=31 Oct 2017 13:08:30.418 GMT
+EntityKey[worklog.editor:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[worklog.id:Int]=10002
+EntityKey[worklog.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+EntityKey[worklog.security:Entity]=<null>
+EntityKey[worklog.started:Date]=27 Sep 2017 05:25:00.0 GMT
+EntityKey[worklog.timeSeconds:Int]=18240
+EntityKey[worklog.updated:Date]=31 Oct 2017 13:08:30.418 GMT
+------------------------------
+EntityKey[sys.api.key.type:Entity HINT]=Entity[TYPE:'types.worklog']<no resolution>
+EntityKey[worklog.author:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[worklog.comment:String]=prev
+EntityKey[worklog.created:Date]=31 Oct 2017 13:08:31.276 GMT
+EntityKey[worklog.editor:Entity]=Entity[types.user](user.accountId=557058:f7042e9f-c74c-416a-9b75-f08f781eda42)
+EntityKey[worklog.id:Int]=10003
+EntityKey[worklog.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+EntityKey[worklog.security:Entity]=<null>
+EntityKey[worklog.started:Date]=27 Sep 2017 10:10:17.0 GMT
+EntityKey[worklog.timeSeconds:Int]=1200
+EntityKey[worklog.updated:Date]=31 Oct 2017 13:08:31.276 GMT
+  ***  BAGS ***
+Entity[TYPE:'types.attach']<no resolution>
+EntityKey[attach.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+DELETE
+Entity[types.attach](attach.fileUrl=https://pdyoma.atlassian.net/secure/attachment/10000/attachment.txt, attach.issue=Entity[types.issue])
+------------------------------
+Entity[TYPE:'types.comment']<no resolution>
+EntityKey[comment.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+DELETE
+Entity[types.comment](comment.id=10105, comment.issue=Entity[types.issue])
+------------------------------
+Entity[TYPE:'types.issue']<no resolution>
+EntityKey[issue.parent:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+CHANGE: EntityKey[issue.parent:Entity]=<null>
+------------------------------
+Entity[TYPE:'types.link']<no resolution>
+EntityKey[link.source:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+DELETE
+------------------------------
+Entity[TYPE:'types.link']<no resolution>
+EntityKey[link.target:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+DELETE
+------------------------------
+Entity[TYPE:'types.worklog']<no resolution>
+EntityKey[worklog.issue:Entity]=Entity[types.issue](issue.id=10000, issue.key=TP-1)
+DELETE
+Entity[types.worklog](worklog.id=10001, worklog.issue=Entity[types.issue])
+Entity[types.worklog](worklog.id=10002, worklog.issue=Entity[types.issue])
+Entity[types.worklog](worklog.id=10003, worklog.issue=Entity[types.issue])
